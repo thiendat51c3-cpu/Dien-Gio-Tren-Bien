@@ -29,7 +29,7 @@
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
   background: var(--bg); color: var(--ink); font: 15px/1.55 var(--body);
-  padding-inline: 16px; padding-block: 0 56px; -webkit-text-size-adjust: 100%;
+  padding-inline: 16px; margin: 0; padding-block: 0 0; display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; -webkit-text-size-adjust: 100%;
 }
 body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; height: env(safe-area-inset-top, 0px); background: var(--bg); z-index: 40; }
 h1, h2, h3, h4 { margin: 0; }
@@ -57,7 +57,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); margin-right: 8px; flex: none; }
 .brand { display: flex; align-items: center; }
 
-main { padding-block: 12px 0; }
+main { padding-block: 12px 14px; flex: 1 0 auto; }
 .hero h1 { font: 700 30px/1.05 var(--disp); text-transform: uppercase; letter-spacing: .02em; text-wrap: balance; }
 .hero p { margin: 8px 0 0; color: var(--muted); max-width: 62ch; }
 .hero .big { font: 700 56px/1 var(--disp); color: var(--accent); }
@@ -187,7 +187,7 @@ p.bad { color: var(--bad); margin: 4px 0; } p.good { color: var(--ok); margin: 4
 
 /* Thanh tab */
 #nav {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(6, 1fr);
+  position: sticky; bottom: 0; margin-inline: -16px; z-index: 30; display: grid; grid-template-columns: repeat(6, 1fr);
   background: var(--panel); border-top: 1px solid var(--line); padding: 1px 4px max(1px, calc(env(safe-area-inset-bottom, 0px) - 22px));
 }
 #nav button { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 3px 0; color: var(--muted); font: 500 10px/1.2 var(--body); }
@@ -198,7 +198,7 @@ input.kq { width: 100%; box-sizing: border-box; padding: 11px 14px; margin: 0 0 
 #nav button { min-width: 0; white-space: nowrap; letter-spacing: -.01em; }
 #nav button span { overflow: hidden; text-overflow: clip; max-width: 100%; }
 #nav button.on { color: var(--accent); }
-@media (min-width: 640px) { body { max-width: 640px; margin-inline: auto; } #nav { max-width: 640px; margin-inline: auto; } }
+@media (min-width: 640px) { body { max-width: 640px; margin-inline: auto; }  }
 @media (prefers-reduced-motion: no-preference) { .flash, .opt { transition: background .15s, border-color .15s; } }
 .eq { font-family: var(--mono); font-size: 12.5px; background: var(--bg2, rgba(127,127,127,.12)); padding: 1px 5px; border-radius: 3px; overflow-wrap: anywhere; }
 .ex { border-left: 3px solid var(--accent); background: rgba(127,127,127,.08); padding: 8px 12px; margin: 10px 0; font-size: 14px; border-radius: 0 4px 4px 0; }
