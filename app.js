@@ -1,6 +1,6 @@
 /* ===== Giao diện ứng dụng (phiên bản 2) ===== */
 const LS = 'mdgb.v1';
-const store = { tab: 'hoc', calc: 'chung', vals: {}, known: {}, best: 0, dir: 'en', fcg: 'all', qch: 'all', qlv: 0, qn: 10, tcsec: 'topic' };
+const store = { tab: 'hoc', calc: 'chung', vals: {}, known: {}, best: 0, dir: 'en', fcg: 'all', kng: 'all', qch: 'all', qlv: 0, qn: 10, tcsec: 'topic' };
 function load() {
   try { const s = localStorage.getItem(LS); if (s) Object.assign(store, JSON.parse(s)); } catch (e) { /* bỏ qua */ }
 }
@@ -1139,9 +1139,10 @@ const ICONS = {
   tinh: '<rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 12h2M12 12h2M16 12h0M8 16h2M12 16h2M16 16h0"/>',
   tu: '<rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 0 1 2 2v10"/>',
   quiz: '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h0"/>',
+  kn: '<circle cx="12" cy="10" r="6"/><path d="M9.5 21h5M10 17.5h4M12 7v3.5M12 13h0"/>',
   tcvn: '<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/>',
 };
-const TABS = [['hoc', 'Học'], ['tinh', 'Tính toán'], ['tu', 'Thuật ngữ'], ['quiz', 'Trắc nghiệm'], ['tcvn', 'TCVN']];
+const TABS = [['hoc', 'Học'], ['kn', 'Khái niệm'], ['tinh', 'Tính toán'], ['tu', 'Thuật ngữ'], ['quiz', 'Trắc nghiệm'], ['tcvn', 'TCVN']];
 
 function renderNav() {
   nav.innerHTML = TABS.map(([id, lb]) =>
@@ -1379,9 +1380,37 @@ ${chips}${body}
 }
 
 /* ---------- Điều phối ---------- */
+
+/* ----- Khái niệm tiếng Việt ----- */
+let knQ = '';
+function knNorm(x) { return String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd'); }
+function renderKn() {
+  const grp = `<div class="chips">${KN_GROUPS.map(([id, l]) => `<button data-kng="${id}" class="${store.kng === id ? 'on' : ''}">${l}</button>`).join('')}</div>`;
+  const gl = Object.fromEntries(KN_GROUPS);
+  const list = CONCEPTS.filter((c) => store.kng === 'all' || c.g === store.kng);
+  const items = list.map((c, i) => {
+    const body = `<p>${c.d}</p>` + (c.e ? `<div class="ex"><b>Ví dụ đời thường.</b> ${c.e}</div>` : '') + (c.a ? `<p class="note"><b>Trong app:</b> ${c.a}</p>` : '');
+    const key = knNorm(c.t.replace(/<[^>]+>/g, '') + ' ' + c.d.replace(/<[^>]+>/g, ''));
+    return `<details class="acc kn" data-k="${esc(key)}"><summary><em>${gl[c.g]}</em><span>${c.t}</span></summary><div class="accb">${body}</div></details>`;
+  }).join('');
+  main.innerHTML = `<section class="hero"><h1>Giải thích khái niệm</h1><p>Các khái niệm khó, giải thích bằng tiếng Việt dễ hiểu kèm ví dụ đời thường và số trong ví dụ của app. Chạm vào từng mục để mở.</p></section>` +
+    `<input type="search" class="kq" data-kq="1" placeholder="Tìm khái niệm (ví dụ: rối, mỏi, ngàm)" value="${esc(knQ)}" aria-label="Tìm khái niệm">` + grp +
+    `<p class="muted" id="knc">${list.length} khái niệm</p>` + items + `<p class="foot">Giải thích mang tính trực quan. Công thức và điều kiện chi tiết xem ở tab Học và tiêu chuẩn gốc.</p>`;
+  knFilter();
+}
+function knFilter() {
+  const q = knNorm(knQ.trim());
+  let n = 0;
+  document.querySelectorAll('.acc.kn').forEach((el) => {
+    const ok = !q || el.dataset.k.includes(q);
+    el.hidden = !ok; if (ok) n++;
+  });
+  const c = document.querySelector('#knc'); if (c) c.textContent = n + ' khái niệm' + (q ? ' phù hợp' : '');
+}
+
 function render() {
   renderNav();
-  ({ hoc: renderHoc, tinh: renderTinh, tu: renderTu, quiz: renderQuiz, tcvn: renderTcvn })[store.tab]();
+  ({ hoc: renderHoc, kn: renderKn, tinh: renderTinh, tu: renderTu, quiz: renderQuiz, tcvn: renderTcvn })[store.tab]();
 }
 
 document.addEventListener('click', (e) => {
@@ -1438,12 +1467,15 @@ document.addEventListener('click', (e) => {
       if (qz.order.length >= 10 && pct > store.best) { store.best = pct; save(); }
     }
     renderQuiz(); window.scrollTo(0, 0);
+  } else if (d.kng) {
+    store.kng = d.kng; save(); renderKn(); window.scrollTo(0, 0);
   } else if (d.tcs) {
     store.tcsec = d.tcs; save(); renderTcvn(); window.scrollTo(0, 0);
   }
 });
 
 document.addEventListener('input', (e) => {
+  if (e.target && e.target.dataset && e.target.dataset.kq) { knQ = e.target.value; knFilter(); return; }
   const id = e.target && e.target.dataset && e.target.dataset.f;
   if (!id) return;
   store.vals[id] = e.target.value;
@@ -1456,4 +1488,5 @@ load();
 if (!TABS.some((t) => t[0] === store.tab)) store.tab = 'hoc';
 if (!MODS.some((m) => m.id === store.calc)) store.calc = 'chung';
 if (!GROUPS.some((g) => g[0] === store.fcg)) store.fcg = 'all';
+if (!KN_GROUPS.some((g) => g[0] === store.kng)) store.kng = 'all';
 render();

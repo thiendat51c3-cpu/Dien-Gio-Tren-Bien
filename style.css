@@ -185,11 +185,14 @@ p.bad { color: var(--bad); margin: 4px 0; } p.good { color: var(--ok); margin: 4
 
 /* Thanh tab */
 #nav {
-  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(5, 1fr);
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; display: grid; grid-template-columns: repeat(6, 1fr);
   background: var(--panel); border-top: 1px solid var(--line); padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
 }
-#nav button { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 5px 0; color: var(--muted); font: 500 11px var(--body); }
+#nav button { border: 0; background: none; display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 5px 0; color: var(--muted); font: 500 10.5px var(--body); }
 #nav svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+input.kq { width: 100%; box-sizing: border-box; padding: 11px 14px; margin: 0 0 10px; font: 400 16px var(--body); color: var(--ink); background: var(--panel); border: 1px solid var(--line); border-radius: 6px; }
+.muted { font-size: 13px; color: var(--muted); margin: 4px 0 10px; }
+.acc[hidden] { display: none; }
 #nav button.on { color: var(--accent); font-weight: 600; }
 @media (min-width: 640px) { body { max-width: 640px; margin-inline: auto; } #nav { max-width: 640px; margin-inline: auto; } }
 @media (prefers-reduced-motion: no-preference) { .flash, .opt { transition: background .15s, border-color .15s; } }
