@@ -192,7 +192,8 @@
       num += el[k].m * uk; den += el[k].m * uk * uk; mTot += el[k].m;
     }
     const w2 = num / den;
-    return { f: Math.sqrt(w2) / (2 * Math.PI), mStruct: mTot, uTop: u[nEl] };
+    const shape = { z: el.map((e) => e.z), m: el.map((e) => e.m), u: el.map((_, k) => (u[k] + u[k + 1]) / 2), wTop, uTop: u[nEl], zTop };
+    return { f: Math.sqrt(w2) / (2 * Math.PI), mStruct: mTot, uTop: u[nEl], shape };
   };
 
   /* ---------- Mỏi: đường cong S-N loại D (DNV-RP-C203) và cộng Miner ---------- */
@@ -243,5 +244,160 @@
     const Tpitch = 2 * Math.PI * Math.sqrt((Icyl + A55) / (C55 * 1000));
     const Tsurge = Kmoor > 0 ? 2 * Math.PI * Math.sqrt((m + A11) / (Kmoor * 1000)) : NaN;
     return { Icyl, A55, A11, Tpitch, Tsurge, m };
+  };
+
+  /* ---------- Gió theo IEC 61400-3-1 ---------- */
+  C.IEC_CLASS = { I: { Vref: 50, Vave: 10 }, II: { Vref: 42.5, Vave: 8.5 }, III: { Vref: 37.5, Vave: 7.5 }, T: { Vref: 57, Vave: NaN } };
+  C.IEC_IREF = { 'A+': 0.18, A: 0.16, B: 0.14, C: 0.12 };
+  /* Quy đổi 3 s <-> 10 phút theo IEC: V_e50 = gf · V_ref (gf = 1,4), cùng độ cao */
+  C.iecConvert = function ({ v, z1, t1, z2, t2, alpha, gf }) {
+    const isoTo600 = (val, z, t) => (t === 600 ? val : t === 3 ? val / gf : C.windConvert({ v: val, z1: z, t1: t, z2: z, t2: 600 }).out);
+    const v10 = isoTo600(v, z1, t1) * Math.pow(z2 / z1, alpha);
+    const out = (t) => (t === 600 ? v10 : t === 3 ? gf * v10 : C.windConvert({ v: v10, z1: z2, t1: 600, z2: z2, t2: t }).out);
+    return { v10, out };
+  };
+  C.iecWindAt = function ({ Vref, z, zhub, alphaE, k1 = 0.8, gf = 1.4 }) {
+    const V50 = Vref * Math.pow(z / zhub, alphaE);
+    return { V50, V1: k1 * V50, Ve50: gf * V50, Ve1: k1 * gf * V50 };
+  };
+  C.iecSigma1 = (Iref, Vhub) => Iref * (0.75 * Vhub + 5.6);
+  C.kaimalS1 = function ({ f, sigma1, z, Vhub }) {
+    const L1 = z <= 60 ? 0.7 * z : 42;
+    return 0.05 * sigma1 * sigma1 * Math.pow(L1 / Vhub, -2 / 3) * Math.pow(f, -5 / 3);
+  };
+  C.rayleighCdf = (V, Vave) => 1 - Math.exp(-Math.PI * Math.pow(V / (2 * Vave), 2));
+  C.weibullCdf = (V, A, k) => 1 - Math.exp(-Math.pow(V / A, k));
+
+  /* ---------- Thống kê sóng (Rayleigh) ---------- */
+  C.waveStats = function ({ Hs, Tp, hours = 3 }) {
+    const Tz = Tp / 1.28;
+    const N = (hours * 3600) / Tz;
+    return { Tz, N, Hmax: Hs * Math.sqrt(0.5 * Math.log(N)), Hmean: 0.627 * Hs };
+  };
+  /* Giới hạn vỡ theo Goda: Hb = 0,17 L0 {1 - exp[-1,5π d/L0 (1 + 15 tan^(4/3)α)]} */
+  C.godaHb = function ({ T, d, slope }) {
+    const L0 = (G * T * T) / (2 * Math.PI);
+    return 0.17 * L0 * (1 - Math.exp(-1.5 * Math.PI * (d / L0) * (1 + 15 * Math.pow(slope, 4 / 3))));
+  };
+  /* Lực xung kích sóng vỡ: F = ½ Cs ρ D c² · λ η_b */
+  C.slamming = function ({ D, c, Cs, lam, etaB }) {
+    const q = 0.5 * Cs * RHO_W * D * c * c / 1000; // kN/m
+    return { q, h: lam * etaB, F: q * lam * etaB };
+  };
+  /* Số Reynolds rút gọn và thông số ổn định VIV */
+  C.viv = function ({ U, fn, D, me, delta }) {
+    const Ur = fn > 0 && D > 0 ? U / (fn * D) : 0;
+    const ks = (2 * me * delta) / (RHO_W * D * D);
+    return { Ur, ks };
+  };
+
+  /* ---------- Phổ phản ứng gia tốc nền theo API RP 2A (5% cản) ---------- */
+  C.apiSpectrum = function (T, soil) {
+    const kk = { A: 1.8, B: 1.2, C: 0.8 }[soil] || 1.2;
+    if (T <= 0.05) return 1;
+    if (T <= 0.125) return 20 * T;
+    return Math.min(2.5, kk / T);
+  };
+
+  /* ---------- Dạng dao động bằng phần tử dầm (Euler-Bernoulli, khối lượng nhất quán) ---------- */
+  function choleskyL(M) {
+    const n = M.length;
+    const L = Array.from({ length: n }, () => new Float64Array(n));
+    for (let i = 0; i < n; i++) {
+      for (let j = 0; j <= i; j++) {
+        let s = M[i][j];
+        for (let k = 0; k < j; k++) s -= L[i][k] * L[j][k];
+        L[i][j] = i === j ? Math.sqrt(s) : s / L[j][j];
+      }
+    }
+    return L;
+  }
+  function jacobiEig(A, sweeps = 30) {
+    const n = A.length;
+    for (let sw = 0; sw < sweeps; sw++) {
+      let off = 0;
+      for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) off += A[i][j] * A[i][j];
+      if (off < 1e-18) break;
+      for (let p = 0; p < n - 1; p++) {
+        for (let q = p + 1; q < n; q++) {
+          const apq = A[p][q];
+          if (Math.abs(apq) < 1e-300) continue;
+          const th = (A[q][q] - A[p][p]) / (2 * apq);
+          const t = Math.sign(th || 1) / (Math.abs(th) + Math.sqrt(th * th + 1));
+          const c = 1 / Math.sqrt(t * t + 1), sn = t * c;
+          for (let k = 0; k < n; k++) {
+            const akp = A[k][p], akq = A[k][q];
+            A[k][p] = c * akp - sn * akq; A[k][q] = sn * akp + c * akq;
+          }
+          for (let k = 0; k < n; k++) {
+            const apk = A[p][k], aqk = A[q][k];
+            A[p][k] = c * apk - sn * aqk; A[q][k] = sn * apk + c * aqk;
+          }
+        }
+      }
+    }
+    return Array.from({ length: n }, (_, i) => A[i][i]).sort((a, b) => a - b);
+  }
+  /* secs như rayleighFreq. Trả về f1, f2 (Hz). Ngàm tại z = 0. */
+  C.beamModes = function ({ secs, zSeabed, zMSL, zTop, Mrna, mg = 0, secondary = 0, E = 2.1e11, rho = 7850, nEl = 36 }) {
+    const L = zTop / nEl;
+    const N = nEl + 1;
+    const nd = 2 * N;
+    const K = Array.from({ length: nd }, () => new Float64Array(nd));
+    const M = Array.from({ length: nd }, () => new Float64Array(nd));
+    for (let e = 0; e < nEl; e++) {
+      const z = (e + 0.5) * L;
+      const s = secs.find((q) => z >= q.z0 && z <= q.z1) || secs[secs.length - 1];
+      const D = s.D0 + ((s.D1 - s.D0) * (z - s.z0)) / (s.z1 - s.z0);
+      const di = D - 2 * s.t;
+      const A = (Math.PI / 4) * (D * D - di * di);
+      const I = (Math.PI / 64) * (Math.pow(D, 4) - Math.pow(di, 4));
+      let mm = rho * A * (1 + secondary);
+      if (z >= zSeabed && z <= zMSL) mm += RHO_W * (Math.PI / 4) * Math.pow(D + 2 * mg, 2);
+      const k0 = (E * I) / Math.pow(L, 3), m0 = (mm * L) / 420;
+      const ke = [[12, 6 * L, -12, 6 * L], [6 * L, 4 * L * L, -6 * L, 2 * L * L], [-12, -6 * L, 12, -6 * L], [6 * L, 2 * L * L, -6 * L, 4 * L * L]];
+      const me = [[156, 22 * L, 54, -13 * L], [22 * L, 4 * L * L, 13 * L, -3 * L * L], [54, 13 * L, 156, -22 * L], [-13 * L, -3 * L * L, -22 * L, 4 * L * L]];
+      const idx = [2 * e, 2 * e + 1, 2 * e + 2, 2 * e + 3];
+      for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { K[idx[i]][idx[j]] += k0 * ke[i][j]; M[idx[i]][idx[j]] += m0 * me[i][j]; }
+    }
+    M[2 * nEl][2 * nEl] += Mrna * 1000;
+    // bỏ hai bậc tự do tại ngàm (nút 0)
+    const n = nd - 2;
+    const Kr = K.slice(2).map((r) => Array.from(r.slice(2)));
+    const Mr = M.slice(2).map((r) => Array.from(r.slice(2)));
+    const Lc = choleskyL(Mr);
+    const fwd = (B) => { // giải L X = B (theo cột)
+      const X = Array.from({ length: n }, () => new Float64Array(n));
+      for (let c = 0; c < n; c++) {
+        for (let i = 0; i < n; i++) {
+          let s = B[i][c];
+          for (let k = 0; k < i; k++) s -= Lc[i][k] * X[k][c];
+          X[i][c] = s / Lc[i][i];
+        }
+      }
+      return X;
+    };
+    const Y = fwd(Kr);
+    const Yt = Array.from({ length: n }, (_, i) => Array.from({ length: n }, (_, j) => Y[j][i]));
+    const A = fwd(Yt).map((r) => Array.from(r));
+    for (let i = 0; i < n; i++) for (let j = i + 1; j < n; j++) { const m = 0.5 * (A[i][j] + A[j][i]); A[i][j] = m; A[j][i] = m; }
+    const ev = jacobiEig(A);
+    return { f: ev.slice(0, 3).map((x) => Math.sqrt(Math.max(x, 0)) / (2 * Math.PI)) };
+  };
+
+  /* ---------- Động đất: đóng góp dạng dao động thứ nhất, từ kết quả Rayleigh ---------- */
+  C.seismicMode1 = function ({ shape, zSeabed, Sa }) {
+    const { z, m, u, wTop, uTop, zTop } = shape;
+    let num = wTop * uTop, den = wTop * uTop * uTop;
+    for (let k = 0; k < z.length; k++) { num += m[k] * u[k]; den += m[k] * u[k] * u[k]; }
+    const gam = num / den;
+    const Ft = gam * wTop * uTop * Sa;
+    let Vb = Ft, Mb = Ft * (zTop - zSeabed);
+    for (let k = 0; k < z.length; k++) {
+      if (z[k] < zSeabed) continue;
+      const F = gam * m[k] * u[k] * Sa;
+      Vb += F; Mb += F * (z[k] - zSeabed);
+    }
+    return { gam, V: Vb / 1000, M: Mb / 1000 };
   };
 })(typeof globalThis !== 'undefined' ? globalThis : this);

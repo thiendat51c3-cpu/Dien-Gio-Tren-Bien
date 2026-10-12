@@ -25,19 +25,27 @@ const MODS = [
     id: 'chung', nm: 'Chung và sóng',
     intro: 'Điều kiện địa điểm, tua bin, tháp và hệ số thủy động dùng chung cho mọi mô-đun. Nhập một lần ở đây.',
     groups: [
-      { h: 'Địa điểm', f: [
+      { h: 'Địa điểm và sóng', f: [
         fd('d', 'Độ sâu nước tại mực nước tĩnh', 'm', 25),
-        fd('Hs', 'H_s chu kỳ lặp 50 năm', 'm', 6),
-        fd('kH', 'Tỷ số H_max / H_s', '', 1.86, 'IEC: 1,86'),
-        fd('Tp', 'Chu kỳ sóng T_p', 's', 12),
+        fd('Hs', 'H_s chu kỳ lặp 50 năm', 'm', 6.26, 'dự án mẫu (bài giảng, slide 29)'),
+        fd('kH', 'Tỷ số H_max / H_s', '', 1.647, 'dự án mẫu 10,31 / 6,26. IEC: 1,86'),
+        fd('Tp', 'Chu kỳ sóng đi kèm H_max', 's', 9.44, 'dự án mẫu: 9,44 s'),
+        fd('Tpk', 'Chu kỳ đỉnh phổ T_p', 's', 11.03, 'dự án mẫu; để so với tần số riêng'),
+        fd('slope', 'Độ dốc đáy biển tan α', '', 0.01, 'dùng cho giới hạn vỡ Goda'),
         fd('mg', 'Chiều dày sinh vật bám', 'mm', 50, 'cộng vào đường kính thủy động'),
+      ] },
+      { h: 'Dòng chảy (DnV)', f: [
+        fd('c_vT', 'Dòng chảy thủy triều ở mặt nước', 'm/s', 0.6, 'giả định, lấy từ khảo sát hải văn'),
+        fd('c_vW', 'Dòng chảy do gió ở mặt nước', 'm/s', 0.4, 'giả định'),
+        fd('c_h0', 'Chiều sâu chịu dòng chảy do gió h₀', 'm', 50, 'DnV: 50 m'),
       ] },
       { h: 'Tua bin và gió', f: [
         fd('hHub', 'Cao độ trục rotor so với MSL', 'm', 110),
         fd('Dr', 'Đường kính rotor', 'm', 200),
         fd('Vw', 'Tốc độ gió tại trục rotor', 'm/s', 11, 'trung bình 10 phút'),
         fd('Ct', 'Hệ số lực đẩy C_t', '', 0.8, 'khoảng 0,8 ở định mức'),
-        fd('alpha', 'Hệ số mũ profile gió α', '', 0.14, 'ngoài khơi: 0,14'),
+        fd('alpha', 'Hệ số mũ profile gió α (thường)', '', 0.151, 'dự án mẫu 0,151. IEC NWP ngoài khơi: 0,14'),
+        fd('alphaE', 'Hệ số mũ profile gió cực hạn', '', 0.11, 'IEC EWM: 0,11'),
       ] },
       { h: 'Tháp', f: [
         fd('tw_h0', 'Cao độ chân tháp so với MSL', 'm', 20),
@@ -46,34 +54,68 @@ const MODS = [
         fd('tw_Cd', 'Hệ số cản gió của tháp', '', 0.7),
       ] },
       { h: 'Hệ số thủy động (Morison)', f: [
-        fd('CD', 'Hệ số cản C_D', '', 1.05, 'trụ nhám'),
-        fd('CM', 'Hệ số quán tính C_M', '', 1.8),
+        fd('CD', 'Hệ số cản C_D', '', 1.05, 'trụ nhám (API); trụ nhẵn 0,65'),
+        fd('CM', 'Hệ số quán tính C_M', '', 1.2, 'trụ nhám (API); trụ nhẵn 1,6'),
+      ] },
+      { h: 'Sóng vỡ (tải xung kích)', f: [
+        fd('sl_Cs', 'Hệ số xung kích C_s', '', 5, 'bài giảng: 3 đến 7'),
+        fd('sl_lam', 'Hệ số cuộn sóng λ', '', 0.46, 'theo IEC, kiểm tra bản gốc'),
+        fd('sl_eta', 'η_b / H_b', '', 0.7, 'cao đỉnh sóng vỡ, theo IEC'),
       ] },
     ],
     formulas: `<p>Bước sóng từ phương trình tán sắc: <span class="eq">ω² = g·k·tanh(k·d)</span>, <span class="eq">L = 2π/k</span>, <span class="eq">c = L/T</span>.</p>
 <p>Giới hạn vỡ: <span class="eq">H_b ≈ 0,78·d</span>. Độ dốc giới hạn Miche: <span class="eq">(H/L)_max = 0,142·tanh(k·d)</span>.</p>
-<p>Số Ursell: <span class="eq">U_r = H·L²/d³</span>. Dùng để chọn lý thuyết sóng.</p>
+<p>Số Ursell: <span class="eq">U_r = H·L²/d³</span>. Dùng để chọn lý thuyết sóng. Tọa độ H/(g·T²) và d/(g·T²) dùng để tra đồ thị API (bài giảng, slide 14).</p>
+<p>Thống kê sóng: <span class="eq">H_max = H_s·√(0,5·ln N)</span>, <span class="eq">N = τ/T_z</span>, <span class="eq">T_p = 1,28·T_z</span>.</p>
+<p>Giới hạn vỡ Goda: <span class="eq">H_b = 0,17·L₀·{1 − exp[−1,5π·(d/L₀)·(1 + 15·tan^(4/3)α)]}</span>.</p>
+<p>Dòng chảy (DnV): <span class="eq">v_c(z) = v_T·((h − z)/h)^(1/7) + v_W·((h₀ − z)/h₀)</span>, z là độ sâu dưới mặt nước. Morison có dòng chảy: <span class="eq">q = ½·ρ·C_D·D·|u + v_c|·(u + v_c) + ρ·C_M·(π·D²/4)·a</span>.</p>
+<p>Xung kích sóng vỡ: <span class="eq">F_s = ½·C_s·ρ·D·c²·λ·η_b</span>, với c là vận tốc truyền sóng.</p>
 <p>Lực đẩy rotor: <span class="eq">T = ½·ρ_a·(π·D_r²/4)·C_t·V²</span>, ρ_a = 1,225 kg/m³.</p>
 <p>Lực gió lên tháp: <span class="eq">dF = ½·ρ_a·C_d·D(z)·V(z)²·dz</span>, <span class="eq">V(z) = V_hub·(z/z_hub)^α</span>.</p>`,
   },
   {
     id: 'gio', nm: 'Quy đổi gió',
-    intro: 'Đổi tốc độ gió giữa các thời gian lấy trung bình và độ cao khác nhau (ISO 19901-1, API RP 2MET). Hữu ích khi số liệu Việt Nam là gió giật 3 giây ở độ cao 10 m.',
+    intro: 'Đổi tốc độ gió giữa gió giật 3 giây và trung bình 10 phút, và giữa các độ cao, theo IEC 61400-3-1 (gió giật 3 giây = 1,4 × trung bình 10 phút). Có bảng đối chiếu ISO 19901-1.',
     groups: [
       { h: 'Số liệu đã có', f: [
-        fd('gv_v', 'Tốc độ gió', 'm/s', 45),
-        fd('gv_z1', 'Độ cao đo', 'm', 10),
+        fd('gv_v', 'Tốc độ gió', 'm/s', 75.05, 'dự án mẫu: giật 3 giây, 50 năm'),
+        fd('gv_z1', 'Độ cao đo', 'm', 110),
         fsel('gv_t1', 'Thời gian lấy trung bình', [['3', 'Giật 3 giây'], ['60', '1 phút'], ['120', '2 phút'], ['600', '10 phút'], ['3600', '1 giờ']], '3'),
       ] },
       { h: 'Cần quy đổi về', f: [
         fd('gv_z2', 'Độ cao cần', 'm', 110, 'trục rotor'),
         fsel('gv_t2', 'Thời gian lấy trung bình', [['3', 'Giật 3 giây'], ['60', '1 phút'], ['120', '2 phút'], ['600', '10 phút'], ['3600', '1 giờ']], '600'),
       ] },
+      { h: 'Tham số', f: [
+        fd('gv_g', 'Hệ số giật 3 giây / 10 phút', '', 1.4, 'IEC: 1,4'),
+        fd('gv_a', 'Hệ số mũ profile gió', '', 0.11, 'cực hạn IEC: 0,11'),
+      ] },
     ],
-    formulas: `<p>Trung bình 1 giờ theo độ cao: <span class="eq">U(z) = U₀·[1 + C·ln(z/10)]</span>, <span class="eq">C = 0,0573·√(1 + 0,15·U₀)</span>.</p>
-<p>Cường độ rối: <span class="eq">I_u(z) = 0,06·(1 + 0,043·U₀)·(z/10)^(−0,22)</span>.</p>
-<p>Theo thời gian lấy trung bình t (giây): <span class="eq">u(z,t) = U(z)·[1 − 0,41·I_u·ln(t/3600)]</span>.</p>
-<p>Giải ngược U₀ từ số liệu đã có, rồi tính giá trị cần. Đây là profile dạng ISO. IEC 61400-3-1 dùng α = 0,14 cho NWP. Hai cách khác nhau nhẹ, hãy chọn một cách nhất quán.</p>`,
+    formulas: `<p>IEC 61400-3-1: <span class="eq">V_e50(z) = 1,4·V_ref·(z/z_hub)^0,11</span>, <span class="eq">V_e1 = 0,8·V_e50</span>. Hệ số 1,4 nối gió giật 3 giây với trung bình 10 phút tại cùng độ cao.</p>
+<p>Đổi độ cao: <span class="eq">V(z₂) = V(z₁)·(z₂/z₁)^α</span>.</p>
+<p>Với thời gian khác (1 phút, 2 phút, 1 giờ), IEC không đưa hệ số. Ứng dụng dùng quan hệ ISO 19901-1 để đổi từ hoặc về 10 phút: <span class="eq">U(z) = U₀·[1 + C·ln(z/10)]</span>, <span class="eq">C = 0,0573·√(1 + 0,15·U₀)</span>, <span class="eq">I_u = 0,06·(1 + 0,043·U₀)·(z/10)^(−0,22)</span>, <span class="eq">u(z,t) = U(z)·[1 − 0,41·I_u·ln(t/3600)]</span>.</p>`,
+  },
+  {
+    id: 'iec', nm: 'Gió IEC',
+    intro: 'Hạng tua bin IEC, V_ref, gió cực hạn V_e50 và V_e1 theo độ cao, cường độ rối, phổ Kaimal và xác suất theo phân bố Weibull hoặc Rayleigh.',
+    groups: [
+      { h: 'Hạng tua bin', f: [
+        fsel('iec_cls', 'Hạng tua bin', [['I', 'I (V_ref 50 m/s)'], ['II', 'II (V_ref 42,5 m/s)'], ['III', 'III (V_ref 37,5 m/s)'], ['T', 'T, bão nhiệt đới (V_ref 57 m/s)'], ['S', 'S, nhà thiết kế quy định']], 'S'),
+        fd('iec_Vs', 'V_ref hạng S', 'm/s', 53.62, 'dự án mẫu: trung bình 10 phút, 50 năm'),
+        fsel('iec_I', 'Hạng rối I_ref', [['A+', 'A+ (0,18)'], ['A', 'A (0,16)'], ['B', 'B (0,14)'], ['C', 'C (0,12)']], 'B'),
+      ] },
+      { h: 'Phân bố gió dài hạn', f: [
+        fd('iec_A', 'Weibull A', 'm/s', 5.87, 'dự án mẫu'),
+        fd('iec_k', 'Weibull k', '', 1.709, 'dự án mẫu'),
+        fd('iec_Vave', 'V_ave (cho Rayleigh)', 'm/s', 5.8, 'trung bình năm tại trục'),
+        fd('iec_Vin', 'Gió khởi động V_in', 'm/s', 3),
+        fd('iec_Vout', 'Gió dừng V_out', 'm/s', 25),
+      ] },
+    ],
+    formulas: `<p>Hạng tua bin (IEC 61400-1, dẫn lại trong bài giảng): I, II, III có V_ref = 50; 42,5; 37,5 m/s và V_ave = 10; 8,5; 7,5 m/s. Hạng T dùng V_ref = 57 m/s cho vùng bão nhiệt đới.</p>
+<p>Gió cực hạn: <span class="eq">V_50(z) = V_ref·(z/z_hub)^0,11</span> (10 phút), <span class="eq">V_e50(z) = 1,4·V_50(z)</span> (3 giây), <span class="eq">V_1 = 0,8·V_50</span>, <span class="eq">V_e1 = 0,8·V_e50</span>.</p>
+<p>Rối thường: <span class="eq">σ₁ = I_ref·(0,75·V_hub + b)</span>, b = 5,6 m/s. Phổ Kaimal: <span class="eq">S₁(f) = 0,05·σ₁²·(Λ₁/V_hub)^(−2/3)·f^(−5/3)</span>, Λ₁ = 0,7·z nếu z ≤ 60 m, bằng 42 m nếu z ≥ 60 m.</p>
+<p>Phân bố: Rayleigh <span class="eq">P(V) = 1 − exp[−π·(V/(2·V_ave))²]</span>; Weibull <span class="eq">P(V) = 1 − exp[−(V/A)^k]</span>.</p>`,
   },
   {
     id: 'dlc', nm: 'DLC',
@@ -93,11 +135,12 @@ const MODS = [
         fd('dl_TpS', 'T_p trạng thái biển mạnh', 's', 10),
       ] },
       { h: 'Đỗ trong bão (DLC 6.1 và 7.1)', f: [
-        fd('dl_Ve50', 'Gió cực hạn 50 năm tại trục', 'm/s', 50, 'trung bình 10 phút'),
+        fd('dl_Ve50', 'V_ref (10 phút, 50 năm) tại trục', 'm/s', 53.62, 'dự án mẫu (slide 29)'),
         fd('dl_k1', 'Tỷ số gió 1 năm / 50 năm', '', 0.8, 'IEC: 0,8'),
+        fd('dl_kc1', 'Tỷ số dòng chảy 1 năm / 50 năm', '', 0.8, 'giả định'),
         fd('dl_Ctp', 'C_t rotor đỗ, cánh vê', '', 0.04, 'giả định, hỏi nhà chế tạo'),
-        fd('dl_Hs1', 'H_s chu kỳ lặp 1 năm', 'm', 4.8),
-        fd('dl_Tp1', 'T_p chu kỳ lặp 1 năm', 's', 11),
+        fd('dl_Hs1', 'H_s chu kỳ lặp 1 năm', 'm', 4.8, 'giả định'),
+        fd('dl_Tp1', 'T chu kỳ lặp 1 năm', 's', 9, 'giả định'),
       ] },
       { h: 'Hệ số tải', f: [
         fd('dl_g', 'γ_f thông thường', '', 1.35),
@@ -147,11 +190,13 @@ const MODS = [
       { h: 'Móng và tháp', f: [
         fd('fq_Dp', 'Đường kính móng (đến chân tháp)', 'm', 8),
         fd('fq_tp', 'Chiều dày móng', 'mm', 80),
-        fd('fq_Ld', 'Độ sâu ngàm tương đương trong đất', 'm', 30, 'khoảng 4–6 D'),
+        fsel('fq_soil', 'Cách chọn độ sâu ngàm giả định', [['man', 'Nhập tay'], ['clay', 'Sét: 4,0 D (3,5 đến 4,5)'], ['soft', 'Đất mềm, cát rời: 7,75 D (7,0 đến 8,5)'], ['nodata', 'Không có số liệu: 6,0 D']], 'man'),
+        fd('fq_Ld', 'Độ sâu ngàm tương đương (khi nhập tay)', 'm', 30, 'khoảng 3,5–8,5 D tùy đất'),
         fd('fq_tt', 'Chiều dày tháp', 'mm', 35, 'đường kính lấy ở mô-đun Chung'),
         fd('fq_M', 'Khối lượng RNA', 't', 600, 'rotor + nacelle'),
         fd('fq_sec', 'Thép phụ (mặt bích, thang, sàn)', '%', 15),
         fd('fq_f1', 'f₁ nhập tay (0 để dùng ước tính)', 'Hz', 0, 'từ mô hình chi tiết'),
+        fd('fq_delta', 'Giảm lượng loga δ (cho VIV)', '', 0.05, 'giả định'),
       ] },
       { h: 'Rotor', f: [
         fd('fq_rmin', 'Tốc độ quay nhỏ nhất', 'v/ph', 5),
@@ -159,7 +204,9 @@ const MODS = [
         fd('fq_mg', 'Biên an toàn', '%', 10),
       ] },
     ],
-    formulas: `<p>Rayleigh: <span class="eq">ω² = Σ m·u / Σ m·u²</span>, với u là độ võng tĩnh khi tải ngang tỷ lệ với khối lượng.</p>
+    formulas: `<p>Các tần số f₁, f₂ giải bằng phần tử dầm Euler–Bernoulli với khối lượng nhất quán: <span class="eq">det[K − ω²·M] = 0</span>. Rayleigh dùng làm đối chiếu: <span class="eq">ω² = Σ m·u / Σ m·u²</span>, với u là độ võng tĩnh khi tải ngang tỷ lệ với khối lượng.</p>
+<p>Độ sâu ngàm giả định theo bài giảng (slide 32): sét 3,5–4,5 D; đất mềm, cát rời 7,0–8,5 D; không có số liệu 6,0 D. Đây là quy ước cho cọc nhỏ và vừa, cần cẩn thận với monopile đường kính lớn.</p>
+<p>Cộng hưởng xoáy: <span class="eq">U_r = U/(f_n·D)</span>, <span class="eq">k_s = 2·m_e·δ/(ρ·D²)</span>.</p>
 <p>Mô men cắt công-xon từ ngàm: <span class="eq">M(z) = Σ w_j·(z_j − z)</span>, <span class="eq">κ = M/EI</span>, tích phân hai lần ra độ võng.</p>
 <p>Khối lượng nước nâng thêm cho đoạn ngập: <span class="eq">m_a = ρ_w·π·(D + 2·t_mg)²/4</span>.</p>
 <p>Dải tránh: <span class="eq">1P ± biên</span> và <span class="eq">3P ± biên</span>, 1P = vòng/phút/60.</p>`,
@@ -269,6 +316,18 @@ const MODS = [
 <p>Nhún: <span class="eq">T_h = 2π·√((m + A₃₃)/(ρ·g·A_wp))</span>, <span class="eq">A₃₃ = ρ·D³/3</span>. Với trụ tròn T_h ≈ 2π·√(T/g).</p>
 <p>Lắc dọc: <span class="eq">T_p = 2π·√((I₅₅ + A₅₅)/C₅₅)</span>. Trôi dạt: <span class="eq">T_s = 2π·√((m + A₁₁)/K_neo)</span>.</p>`,
   },
+  {
+    id: 'dd', nm: 'Động đất',
+    intro: 'Phổ phản ứng gia tốc nền theo API RP 2A (cản 5%), tải động đất theo dạng dao động thứ nhất của tháp và móng monopile, so với mô men do gió và sóng.',
+    groups: [
+      { h: 'Điều kiện động đất', f: [
+        fsel('dd_soil', 'Loại đất nền (API)', [['A', 'A, đá hoặc đất rất cứng'], ['B', 'B, đất cứng'], ['C', 'C, đất mềm']], 'B'),
+        fd('dd_ag', 'Gia tốc nền hiệu dụng a_g', 'g', 0.1, 'giả định, lấy theo nghiên cứu địa chấn dự án và TCVN 9386:2012'),
+      ] },
+    ],
+    formulas: `<p>Phổ API: <span class="eq">S_A/a_g = 1</span> khi T ≤ 0,05 s; <span class="eq">20·T</span> đến 2,5 tại T = 0,125 s; giữ 2,5 trên đoạn phẳng; sau đó giảm theo <span class="eq">1,8/T</span> (đất A), <span class="eq">1,2/T</span> (đất B), <span class="eq">0,8/T</span> (đất C).</p>
+<p>Dạng dao động thứ nhất lấy từ độ võng tĩnh: lực quán tính <span class="eq">F_j = Γ·m_j·u_j·S_A</span>, hệ số tham gia <span class="eq">Γ = Σ m·u / Σ m·u²</span>. Lực cắt đáy là tổng F_j, mô men đáy là tổng F_j nhân độ cao so với đáy biển.</p>`,
+  },
 ];
 
 function V(id) {
@@ -286,14 +345,15 @@ function base() {
   if (!(d > 0) || !(Tp > 0) || !(Hs > 0)) return { err: 'Độ sâu, H_s và T_p phải lớn hơn 0.' };
   if (V('hHub') <= V('tw_h0')) return { err: 'Cao độ trục rotor phải lớn hơn cao độ chân tháp.' };
   return {
-    d, Hs, Tp, kH: V('kH'), hHub: V('hHub'), Dr: V('Dr'), Vw: V('Vw'), Ct: V('Ct'), alpha: V('alpha'),
+    d, Hs, Tp, kH: V('kH'), hHub: V('hHub'), Dr: V('Dr'), Vw: V('Vw'), Ct: V('Ct'), alpha: V('alpha'), alphaE: V('alphaE'),
+    Tpk: V('Tpk'), slope: V('slope'), curr: { vT: V('c_vT'), vW: V('c_vW'), h0: V('c_h0') },
     mg: V('mg') / 1000,
     tw: { h0: V('tw_h0'), Db: V('tw_Db'), Dt: V('tw_Dt'), Cd: V('tw_Cd') },
   };
 }
 
-function windFor(b, Vv, Ct, k) {
-  return CALC.windLoads({ V: Vv, Dr: b.Dr, Ct, k: k || 1, hHub: b.hHub, d: b.d, alpha: b.alpha, Db: b.tw.Db, Dt: b.tw.Dt, h0: b.tw.h0, Cd: b.tw.Cd });
+function windFor(b, Vv, Ct, k, al) {
+  return CALC.windLoads({ V: Vv, Dr: b.Dr, Ct, k: k || 1, hHub: b.hHub, d: b.d, alpha: al !== undefined ? al : b.alpha, Db: b.tw.Db, Dt: b.tw.Dt, h0: b.tw.h0, Cd: b.tw.Cd });
 }
 
 function foundation(type, b) {
@@ -312,17 +372,17 @@ function dlcCases(type, b) {
   const geo = foundation(type, b);
   const Ve50 = V('dl_Ve50');
   const defs = [
-    { id: '1.3', nm: 'DLC 1.3 · ETM + NSS', V: V('dl_Vr'), Ct: b.Ct, k: V('dl_k13'), Hs: V('dl_HsN'), Tp: V('dl_TpN'), gf: V('dl_g') },
-    { id: '1.6', nm: 'DLC 1.6 · NTM + SSS', V: V('dl_Vr'), Ct: b.Ct, k: V('dl_k16'), Hs: V('dl_HsS'), Tp: V('dl_TpS'), gf: V('dl_g') },
-    { id: '6.1', nm: 'DLC 6.1 · EWM 50 năm + ESS 50 năm', V: Ve50, Ct: V('dl_Ctp'), k: 1, Hs: b.Hs, Tp: b.Tp, gf: V('dl_g') },
-    { id: '7.1', nm: 'DLC 7.1 · EWM 1 năm + ESS 1 năm, sự cố', V: Ve50 * V('dl_k1'), Ct: V('dl_Ctp'), k: 1, Hs: V('dl_Hs1'), Tp: V('dl_Tp1'), gf: V('dl_ga') },
+    { id: '1.3', nm: 'DLC 1.3 · ETM + NSS', V: V('dl_Vr'), Ct: b.Ct, k: V('dl_k13'), Hs: V('dl_HsN'), Tp: V('dl_TpN'), gf: V('dl_g'), al: b.alpha, curr: { vT: b.curr.vT, vW: 0, h0: b.curr.h0 } },
+    { id: '1.6', nm: 'DLC 1.6 · NTM + SSS', V: V('dl_Vr'), Ct: b.Ct, k: V('dl_k16'), Hs: V('dl_HsS'), Tp: V('dl_TpS'), gf: V('dl_g'), al: b.alpha, curr: { vT: b.curr.vT, vW: 0, h0: b.curr.h0 } },
+    { id: '6.1', nm: 'DLC 6.1 · EWM 50 năm + ESS 50 năm', V: Ve50, Ct: V('dl_Ctp'), k: 1, Hs: b.Hs, Tp: b.Tp, gf: V('dl_g'), al: b.alphaE, curr: b.curr, hmax: true },
+    { id: '7.1', nm: 'DLC 7.1 · EWM 1 năm + ESS 1 năm, sự cố', V: Ve50 * V('dl_k1'), Ct: V('dl_Ctp'), k: 1, Hs: V('dl_Hs1'), Tp: V('dl_Tp1'), gf: V('dl_ga'), al: b.alphaE, curr: { vT: b.curr.vT * V('dl_kc1'), vW: b.curr.vW * V('dl_kc1'), h0: b.curr.h0 } },
   ];
   let gov = null;
   const cases = defs.map((c) => {
-    const wl = windFor(b, c.V, c.Ct, c.k);
-    const Hmax = b.kH * c.Hs;
+    const wl = windFor(b, c.V, c.Ct, c.k, c.al);
+    const Hmax = (c.hmax ? b.kH : 1.86) * c.Hs;
     const Hd = Math.min(Hmax, 0.78 * b.d);
-    const env = CALC.envLoads({ d: b.d, H: Hd, T: c.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: geo.kb });
+    const env = CALC.envLoads({ d: b.d, H: Hd, T: c.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: geo.kb, curr: c.curr });
     const out = Object.assign({}, c, {
       T: wl.T, Ft: wl.Ft, Fwind: wl.F, Mwind: wl.M, Hd, limited: Hmax > 0.78 * b.d,
       Fw: env.Fmax, Mw: env.Mmax,
@@ -346,7 +406,7 @@ function site(type) {
     const r = dlcCases(type, b);
     if (r.gov) {
       const g = r.gov;
-      Object.assign(s, { Hd: g.Hd, Tp: g.Tp, Fwind: g.Fwind, Mwind: g.Mwind, gf: g.gf, caseId: g.id, thrust: g.T, limited: g.limited });
+      Object.assign(s, { Hd: g.Hd, Tp: g.Tp, Fwind: g.Fwind, Mwind: g.Mwind, gf: g.gf, caseId: g.id, thrust: g.T, limited: g.limited, curr: g.curr });
     }
   }
   s.w = CALC.waveProps(s.Hd, s.Tp, s.d);
@@ -390,7 +450,7 @@ ${ticks}
 </svg>`;
 }
 
-function svgFreq(res, f1) {
+function svgFreq(res, f1, f2) {
   const W = 340, H = 118, pl = 12, pr = 12, pt = 18, pb = 26;
   const xmax = Math.max(0.6, res.p3[1] * 1.12, f1 * 1.25);
   const sx = (f) => pl + ((W - pl - pr) * f) / xmax;
@@ -400,6 +460,12 @@ function svgFreq(res, f1) {
     ticks += `<line class="ax" x1="${sx(f)}" x2="${sx(f)}" y1="${H - pb}" y2="${H - pb + 4}"/><text class="tx" x="${sx(f)}" y="${H - 8}" text-anchor="middle">${nf(f, 1)}</text>`;
   }
   const mid = (b) => (sx(b[0]) + sx(b[1])) / 2;
+  const my = pt + (H - pt - pb) / 2;
+  let f2s = '';
+  if (f2 > 0) {
+    if (f2 <= xmax) f2s = `<line class="mk" x1="${sx(f2)}" x2="${sx(f2)}" y1="${pt - 2}" y2="${H - pb}"/><circle class="mk2" cx="${sx(f2)}" cy="${my}" r="4"/><text class="tx2" x="${Math.min(sx(f2) + 7, W - 70)}" y="${my + 16}">f₂ = ${nf(f2, 3)} Hz</text>`;
+    else f2s = `<text class="tx2" x="${W - pr}" y="${my + 16}" text-anchor="end">f₂ = ${nf(f2, 3)} Hz ▸</text>`;
+  }
   return `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Cửa sổ tần số 1P, 3P và tần số riêng">
 ${band(res.p1, 'b1')}${band(res.p3, 'b3')}
 <line class="ax" x1="${pl}" x2="${W - pr}" y1="${H - pb}" y2="${H - pb}"/>
@@ -407,8 +473,9 @@ ${ticks}
 <text class="tx" x="${mid(res.p1)}" y="${pt - 5}" text-anchor="middle">1P</text>
 <text class="tx" x="${mid(res.p3)}" y="${pt - 5}" text-anchor="middle">3P</text>
 <line class="mk" x1="${sx(f1)}" x2="${sx(f1)}" y1="${pt - 2}" y2="${H - pb}"/>
-<circle class="mk2" cx="${sx(f1)}" cy="${pt + (H - pt - pb) / 2}" r="4"/>
-<text class="tx2" x="${Math.min(sx(f1) + 7, W - 70)}" y="${pt + (H - pt - pb) / 2 - 8}">f₁ = ${nf(f1, 3)} Hz</text>
+<circle class="mk2" cx="${sx(f1)}" cy="${my}" r="4"/>
+<text class="tx2" x="${Math.min(sx(f1) + 7, W - 70)}" y="${my - 8}">f₁ = ${nf(f1, 3)} Hz</text>
+${f2s}
 <text class="tx" x="${W - pr}" y="${H - 8}" text-anchor="end">Hz</text>
 </svg>`;
 }
@@ -453,6 +520,25 @@ function svgPile(res, L) {
   return s;
 }
 
+/* ---------- Mô hình tần số dùng chung ---------- */
+function fixityLd() {
+  const sel = V('fq_soil'), D = V('fq_Dp');
+  if (sel === 'clay') return 4 * D;
+  if (sel === 'soft') return 7.75 * D;
+  if (sel === 'nodata') return 6 * D;
+  return V('fq_Ld');
+}
+function freqModel(s, Ld, mgx) {
+  const Dp = V('fq_Dp'), tp = V('fq_tp') / 1000, tt = V('fq_tt') / 1000;
+  const zTP = Ld + s.d + s.tw.h0, zTop = Ld + s.d + s.hHub;
+  const secs = [
+    { z0: 0, z1: zTP, D0: Dp, D1: Dp, t: tp },
+    { z0: zTP, z1: zTop, D0: s.tw.Db, D1: s.tw.Dt, t: tt },
+  ];
+  const p = { secs, zSeabed: Ld, zMSL: Ld + s.d, zTop, Mrna: V('fq_M'), mg: mgx, secondary: V('fq_sec') / 100 };
+  return { ray: CALC.rayleighFreq(p), fe: CALC.beamModes(p), zSeabed: Ld };
+}
+
 /* ---------- Tính toán từng mô-đun ---------- */
 const COMPUTE = {
   chung() {
@@ -464,6 +550,17 @@ const COMPUTE = {
     const Vtip = CALC.windAt(s.Vw, s.hHub, s.hHub + s.Dr / 2, s.alpha);
     const wl = windFor(s, s.Vw, s.Ct, 1);
     const steepSt = w.steep <= w.steepMax ? 'ok' : 'bad';
+    const st = CALC.waveStats({ Hs: s.Hs, Tp: s.Tpk, hours: 3 });
+    const hbG = CALC.godaHb({ T: s.Tp, d: s.d, slope: s.slope });
+    const gT2 = 9.81 * s.Tp * s.Tp;
+    const cu = s.curr;
+    const cuAt = (dep) => cu.vT * Math.pow(Math.max(s.d - dep, 0) / s.d, 1 / 7) + (cu.h0 > 0 ? cu.vW * Math.max(0, (cu.h0 - dep) / cu.h0) : 0);
+    const geo = foundation('mono', s);
+    const e0 = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: 0 });
+    const e1 = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: 0, curr: cu });
+    const etaB = V('sl_eta') * s.Hb;
+    const sl = CALC.slamming({ D: geo.legs[0].D, c: w.c, Cs: V('sl_Cs'), lam: V('sl_lam'), etaB });
+    const nearBreak = s.Hd >= 0.9 * Math.min(s.Hb, hbG);
     const sum = [R('H thiết kế', nf(s.Hd, 2), 'm'), R('Bước sóng L', nf(w.L, 0), 'm'), R('Lực gió tại đáy', nf(wl.F, 0), 'kN')];
     const det = [
       { h: 'Sóng', rows: [
@@ -478,7 +575,39 @@ const COMPUTE = {
         R('Số Ursell U_r', nf(th.Ur, 1)),
         R('H/d', nf(th.Hd, 2)),
       ] },
-      { h: 'Lý thuyết sóng đề xuất', rows: [R('Gợi ý', th.th)] },
+      { h: 'Thống kê sóng (Rayleigh, cơn biển 3 giờ)', rows: [
+        R('T_z = T_p / 1,28', nf(st.Tz, 2), 's'),
+        R('Số sóng N = 3 giờ / T_z', nf(st.N, 0)),
+        R('H_max = H_s·√(0,5·ln N)', nf(st.Hmax, 2), 'm'),
+        R('H_max dùng trong tính toán', nf(s.Hmax, 2), 'm'),
+        R('Chiều cao trung bình 0,627·H_s', nf(st.Hmean, 2), 'm'),
+      ] },
+      { h: 'Lý thuyết sóng đề xuất', rows: [
+        R('Gợi ý', th.th),
+        R('H / (g·T²)', nf(s.Hd / gT2, 4)),
+        R('d / (g·T²)', nf(s.d / gT2, 4)),
+      ] },
+      { h: 'Giới hạn vỡ', rows: [
+        R('0,78 · d', nf(s.Hb, 2), 'm'),
+        R('Goda, độ dốc đáy ' + nf(s.slope, 3), nf(hbG, 2), 'm'),
+        R('H thiết kế / giới hạn nhỏ hơn', nf(s.Hd / Math.min(s.Hb, hbG), 2), '', nearBreak ? 'warn' : 'ok', nearBreak ? 'gần vỡ' : 'không vỡ'),
+      ] },
+      { h: 'Dòng chảy (DnV)', rows: [
+        R('Ở mặt nước', nf(cuAt(0), 2), 'm/s'),
+        R('Ở nửa độ sâu', nf(cuAt(s.d / 2), 2), 'm/s'),
+        R('Gần đáy (0,9 d)', nf(cuAt(0.9 * s.d), 2), 'm/s'),
+        R('Lực sóng lớn nhất, không dòng chảy', nf(e0.Fmax, 0), 'kN'),
+        R('Lực sóng lớn nhất, có dòng chảy', nf(e1.Fmax, 0), 'kN', '', '+' + nf((e1.Fmax / e0.Fmax - 1) * 100, 0) + '%'),
+        R('Mô men sóng lớn nhất, có dòng chảy', nf(e1.Mmax, 0), 'kN·m'),
+      ] },
+      { h: 'Xung kích sóng vỡ (nếu sóng vỡ ở giới hạn)', rows: [
+        R('Vận tốc truyền sóng c', nf(w.c, 2), 'm/s'),
+        R('Chiều cao đỉnh sóng vỡ η_b', nf(etaB, 2), 'm'),
+        R('Lực trên mét dài ½·C_s·ρ·D·c²', nf(sl.q, 0), 'kN/m'),
+        R('Chiều cao tác dụng λ·η_b', nf(sl.h, 2), 'm'),
+        R('Lực xung kích F_s', nf(sl.F, 0), 'kN', nearBreak ? 'warn' : '', nearBreak ? 'cần xét' : 'không vỡ ở H này'),
+        R('So với lực Morison', nf(sl.F / e1.Fmax, 1), 'lần'),
+      ] },
       { h: 'Gió tại đáy biển', rows: [
         R('Lực đẩy rotor T', nf(wl.T, 0), 'kN'),
         R('Lực gió lên tháp', nf(wl.Ft, 0), 'kN'),
@@ -494,31 +623,74 @@ const COMPUTE = {
       ] },
     ];
     const notes = [];
-    if (s.limited) notes.push('Sóng bị khống chế bởi độ sâu. Nên xét tải xung kích do sóng vỡ trên trụ (slamming), ứng dụng này chưa tính.');
+    if (s.limited || nearBreak) notes.push('Sóng bị khống chế hoặc gần vỡ: lực xung kích ở trên chưa cộng vào tổng tải, cần xét riêng theo IEC 61400-3-1 và DNV-RP-C205.');
+    notes.push('Dòng chảy được cộng vector với vận tốc hạt sóng theo cùng một hướng, thiên về an toàn. Giá trị mặc định 0,6 và 0,4 m/s là giả định.');
     notes.push('Số Ursell lớn cho thấy sóng tuyến tính (Airy) kém chính xác. Ứng dụng vẫn dùng Airy với kéo dãn Wheeler, kết quả mang tính ước lượng.');
     return { sum, det, notes };
   },
 
   gio() {
-    const v = V('gv_v'), z1 = V('gv_z1'), z2 = V('gv_z2');
+    const v = V('gv_v'), z1 = V('gv_z1'), z2 = V('gv_z2'), gf = V('gv_g'), al = V('gv_a');
     const t1 = parseFloat(V('gv_t1')), t2 = parseFloat(V('gv_t2'));
-    if (!(v > 0) || !(z1 > 0) || !(z2 > 0)) return { err: 'Tốc độ gió và độ cao phải lớn hơn 0.' };
-    const r = CALC.windConvert({ v, z1, t1, z2, t2 });
+    if (!(v > 0) || !(z1 > 0) || !(z2 > 0) || !(gf > 0) || !(al >= 0)) return { err: 'Tốc độ gió, độ cao và hệ số phải hợp lệ (lớn hơn 0).' };
+    const r = CALC.iecConvert({ v, z1, t1, z2, t2, alpha: al, gf });
+    let iso = null;
+    try { iso = CALC.windConvert({ v, z1, t1, z2, t2: 600 }); } catch (e) { iso = null; }
     const lbl = { 3: '3 giây', 60: '1 phút', 120: '2 phút', 600: '10 phút', 3600: '1 giờ' };
     const rows = [3, 60, 120, 600, 3600].map((t) => {
-      const u = CALC.isoU3600(r.U0, z2, t);
-      return [lbl[t], nf(u, 1) + ' m/s', nf(u / r.out, 2)];
+      const u = r.out(t);
+      const isoU = iso ? CALC.isoU3600(iso.U0, z2, t) : NaN;
+      return [lbl[t] + (t === t2 ? ' (cần)' : ''), nf(u, 1) + ' m/s', nf(u / r.out(t2), 2), isFinite(isoU) ? nf(isoU, 1) + ' m/s' : '–'];
     });
-    const sum = [R('Kết quả', nf(r.out, 1), 'm/s'), R('U₀ (1 giờ, 10 m)', nf(r.U0, 1), 'm/s'), R('Rối I_u', nf(r.Iu * 100, 1), '%')];
+    const sum = [R('Kết quả', nf(r.out(t2), 1), 'm/s'), R('Trung bình 10 phút tại ' + nf(z2, 0) + ' m', nf(r.v10, 1), 'm/s'), R('Hệ số giật', nf(gf, 2))];
     const det = [
-      { h: 'Kết quả theo độ cao ' + nf(z2, 0) + ' m', tbl: { head: ['Thời gian', 'Tốc độ', 'Tỷ lệ so với kết quả'], rows } },
+      { h: 'Kết quả theo độ cao ' + nf(z2, 0) + ' m', tbl: { head: ['Thời gian', 'IEC', 'Tỷ lệ so với kết quả', 'ISO 19901-1'], rows } },
       { h: 'Cơ sở', rows: [
         R('Số liệu đầu vào', nf(v, 1) + ' m/s', 'tại ' + nf(z1, 0) + ' m, ' + lbl[t1]),
-        R('U₀ giải ngược', nf(r.U0, 2), 'm/s'),
-        R('Cường độ rối tại ' + nf(z2, 0) + ' m', nf(r.Iu, 3)),
+        R('Trung bình 10 phút tại độ cao đo', nf(r.v10 / Math.pow(z2 / z1, al), 1), 'm/s'),
+        R('Đổi độ cao (z₂/z₁)^α', nf(Math.pow(z2 / z1, al), 3)),
       ] },
     ];
-    return { sum, det, notes: ['Profile ISO chỉ có giá trị khi gió là gió bão trên biển. Với gió cực hạn nhiệt đới, hãy đối chiếu hệ số giật với tài liệu khí tượng của dự án.'] };
+    return { sum, det, notes: [
+      'IEC 61400-3-1 chỉ nối gió giật 3 giây với trung bình 10 phút bằng hệ số 1,4 (V_e50 = 1,4·V_ref). Các thời gian khác trong bảng IEC suy từ quan hệ ISO để tham khảo.',
+      'Cột ISO 19901-1 dùng profile loga và hệ số giật theo cường độ rối, cho tỷ lệ 3 giây / 10 phút nhỏ hơn 1,4 ở độ cao trục rotor. Hai cách khác nhau rõ, hãy ghi rõ cách dùng trong cơ sở thiết kế.',
+    ] };
+  },
+
+  iec() {
+    const cls = V('iec_cls');
+    const Vref = cls === 'S' ? V('iec_Vs') : CALC.IEC_CLASS[cls].Vref;
+    const Iref = CALC.IEC_IREF[V('iec_I')];
+    const zhub = V('hHub'), aE = V('alphaE'), gf = V('gv_g'), k1 = V('dl_k1');
+    const Vr = V('dl_Vr');
+    if (!(Vref > 0) || !(zhub > 0)) return { err: 'V_ref và cao độ trục rotor phải lớn hơn 0.' };
+    const ord = [['III', 37.5], ['II', 42.5], ['I', 50], ['T', 57]];
+    const fit = ord.find((o) => o[1] >= Vref - 1e-9);
+    const zs = [10, 30, 60, zhub, zhub + V('Dr') / 2];
+    const lw = zs.map((z) => { const w = CALC.iecWindAt({ Vref, z, zhub, alphaE: aE, k1, gf }); return [nf(z, 0) + ' m', nf(w.V50, 1), nf(w.V1, 1), nf(w.Ve50, 1), nf(w.Ve1, 1)]; });
+    const sig = CALC.iecSigma1(Iref, Vr);
+    const ks = [0.01, 0.03, 0.1, 0.3, 1].map((f) => [nf(f, 2) + ' Hz', nf(CALC.kaimalS1({ f, sigma1: sig, z: zhub, Vhub: Vr }), 3)]);
+    const A = V('iec_A'), kk = V('iec_k'), Va = V('iec_Vave'), Vin = V('iec_Vin'), Vout = V('iec_Vout');
+    const pr = [[Vin, 'V_in'], [Vr, 'V_r'], [Vout, 'V_out']].map(([x, n]) => [n + ' = ' + nf(x, 1) + ' m/s', nf(CALC.weibullCdf(x, A, kk) * 100, 1) + '%', nf(CALC.rayleighCdf(x, Va) * 100, 1) + '%']);
+    const sum = [R('V_ref', nf(Vref, 2), 'm/s'), R('V_e50 tại trục', nf(CALC.iecWindAt({ Vref, z: zhub, zhub, alphaE: aE, k1, gf }).Ve50, 1), 'm/s'), R('Hạng phù hợp', fit ? fit[0] : 'S', '', fit && fit[0] !== 'T' ? 'ok' : 'warn', fit && fit[0] === 'T' ? 'bão' : '')];
+    const det = [
+      { h: 'Gió cực hạn theo độ cao', tbl: { head: ['Độ cao', 'V_50 (10 phút)', 'V_1', 'V_e50 (3 giây)', 'V_e1'], rows: lw } },
+      { h: 'Rối thường (NTM)', rows: [
+        R('I_ref', nf(Iref, 2)),
+        R('V_hub dùng tính', nf(Vr, 1), 'm/s'),
+        R('σ₁ = I_ref·(0,75·V_hub + 5,6)', nf(sig, 2), 'm/s'),
+        R('Cường độ rối σ₁/V_hub', nf(sig / Vr, 3)),
+        R('Λ₁ tại trục rotor', nf(zhub <= 60 ? 0.7 * zhub : 42, 1), 'm'),
+      ] },
+      { h: 'Phổ Kaimal S₁(f)', tbl: { head: ['Tần số', 'S₁ (m²/s²/Hz)'], rows: ks } },
+      { h: 'Xác suất V ≤ giá trị', tbl: { head: ['Tốc độ gió', 'Weibull', 'Rayleigh'], rows: pr } },
+    ];
+    const notes = [
+      fit && fit[0] === 'T' ? 'V_ref lớn hơn hạng I (50 m/s) nên cần hạng T cho bão nhiệt đới hoặc hạng S do nhà thiết kế quy định.' : 'V_ref nằm trong phạm vi hạng ' + (fit ? fit[0] : 'S') + '.',
+      'Giá trị V_e50 dùng hệ số 1,4 cho gió giật 3 giây. Nếu bạn muốn cách khác, đổi hệ số trong mô-đun Quy đổi gió.',
+      'Phổ Kaimal chỉ áp dụng cho vùng quán tính của phổ, dùng để tham khảo bậc độ lớn.',
+    ];
+    return { sum, det, notes };
   },
 
   dlc() {
@@ -546,7 +718,8 @@ const COMPUTE = {
     const chart = { h: 'Mô men tính toán γ_f · M (MN·m)', svg: svgBars(r.cases.map((c) => ({ l: 'DLC ' + c.id, v: c.Md / 1000, hi: c.id === g.id, d: 1 })), '') };
     const notes = [
       'Hệ số khuếch đại lực đẩy (1,3 và 1,1) và C_t khi đỗ (0,04) là giả định để minh họa. Hãy thay bằng số liệu từ nhà chế tạo hoặc mô phỏng khí động đàn hồi.',
-      'Sóng trong các DLC vận hành lấy H_max = 1,86 · H_s như một cách thiên về an toàn. IEC cho phép dùng mô phỏng sóng ngẫu nhiên.',
+      'DLC 6.1 dùng H_max = k · H_s theo mô-đun Chung. Các DLC còn lại lấy H_max = 1,86 · H_s như một cách thiên về an toàn. IEC cho phép dùng mô phỏng sóng ngẫu nhiên.',
+      'Gió cực hạn (6.1, 7.1) dùng profile α cực hạn 0,11. Dòng chảy: DLC 1.3 và 1.6 chỉ tính phần thủy triều, 6.1 tính đủ, 7.1 nhân tỷ số dòng chảy 1 năm / 50 năm. Các tỷ số này là giả định.',
       V('dl_use') === 'on' ? 'Đang bật: các mô-đun Monopile, Jacket, Trọng lực dùng DLC ' + g.id + '.' : 'Đang tắt: các mô-đun khác dùng điều kiện ở mô-đun Chung.',
     ];
     return { sum, det, notes, chart };
@@ -560,7 +733,7 @@ const COMPUTE = {
     if (!(D > 0) || !(t > 0) || te <= 0 || t * 2 >= D) return { err: 'Đường kính và chiều dày chưa hợp lệ.' };
     if (!(L > 1)) return { err: 'Chiều sâu ngàm phải lớn hơn 1 m.' };
     const geo = foundation('mono', s);
-    const env = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: 0 });
+    const env = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: 0, curr: s.curr });
     const Hc = env.Fmax + s.Fwind;
     const Mc = env.Mmax + s.Mwind;
     const gf = s.gf !== null ? s.gf : V('mp_gf');
@@ -643,49 +816,63 @@ const COMPUTE = {
   tan() {
     const s = site();
     if (s.err) return { err: s.err };
-    const Dp = V('fq_Dp'), tp = V('fq_tp') / 1000, tt = V('fq_tt') / 1000, Ld = V('fq_Ld');
+    const Dp = V('fq_Dp'), tp = V('fq_tp') / 1000, tt = V('fq_tt') / 1000, Ld = fixityLd();
     if (!(Dp > 0) || !(tp > 0) || !(tt > 0) || tp * 2 >= Dp || tt * 2 >= Math.min(s.tw.Db, s.tw.Dt) || !(Ld > 0)) return { err: 'Kích thước móng, tháp hoặc độ sâu ngàm chưa hợp lệ.' };
     const rmin = V('fq_rmin'), rmax = V('fq_rmax');
     if (!(rmin > 0) || rmax < rmin) return { err: 'Tốc độ quay chưa hợp lệ (nhỏ nhất > 0 và không vượt lớn nhất).' };
-    const calcF = (Ldx, mgx) => {
-      const zTP = Ldx + s.d + s.tw.h0, zTop = Ldx + s.d + s.hHub;
-      const secs = [
-        { z0: 0, z1: zTP, D0: Dp, D1: Dp, t: tp },
-        { z0: zTP, z1: zTop, D0: s.tw.Db, D1: s.tw.Dt, t: tt },
-      ];
-      return CALC.rayleighFreq({ secs, zSeabed: Ldx, zMSL: Ldx + s.d, zTop, Mrna: V('fq_M'), mg: mgx, secondary: V('fq_sec') / 100 });
-    };
-    const est = calcF(Ld, s.mg);
+    const fm = freqModel(s, Ld, s.mg);
+    const est = fm.ray, fe = fm.fe.f;
     const manual = V('fq_f1');
-    const f1 = manual > 0 ? manual : est.f;
+    const f1 = manual > 0 ? manual : fe[0];
+    const f2 = fe[1];
     const wp = { rpmMin: rmin, rpmMax: rmax, margin: V('fq_mg') / 100 };
     const win = CALC.freqWindow(Object.assign({ f1 }, wp));
+    const f2in = f2 >= win.p3[0] && f2 <= win.p3[1];
     const sens = [
-      ['Ngàm −30%', calcF(Ld * 0.7, s.mg).f],
-      ['Ngàm +30%', calcF(Ld * 1.3, s.mg).f],
-      ['Sinh vật bám +100 mm', calcF(Ld, s.mg + 0.1).f],
+      ['Ngàm −30%', freqModel(s, Ld * 0.7, s.mg).fe.f[0]],
+      ['Ngàm +30%', freqModel(s, Ld * 1.3, s.mg).fe.f[0]],
+      ['Sinh vật bám +100 mm', freqModel(s, Ld, s.mg + 0.1).fe.f[0]],
     ].map(([l, f]) => { const w2 = CALC.freqWindow(Object.assign({ f1: f }, wp)); return [l, nf(f, 3) + ' Hz', w2.zone.split(' (')[0], chip(w2.ok ? 'ok' : 'bad', w2.ok ? 'tránh được' : 'cộng hưởng')]; });
-    const sum = [R('f₁', nf(f1, 3), 'Hz'), R('Vùng', win.zone.split(' (')[0]), R('Đánh giá', win.ok ? 'Tránh được' : 'Cộng hưởng', '', win.ok ? 'ok' : 'bad')];
+    const Dw = Dp + 2 * s.mg;
+    const Ucur = V('c_vT') + V('c_vW');
+    const secArea = CALC.tube(Dp, tp).A;
+    const me = 7850 * secArea * (1 + V('fq_sec') / 100) + 1025 * Math.PI * Dw * Dw / 4;
+    const vv = CALC.viv({ U: Ucur, fn: f1, D: Dw, me, delta: V('fq_delta') });
+    const vivSt = vv.Ur >= 4 && vv.Ur <= 10 ? 'warn' : 'ok';
+    const fp = 1 / s.Tpk;
+    const sum = [R('f₁', nf(f1, 3), 'Hz'), R('f₂', nf(f2, 3), 'Hz', f2in ? 'bad' : 'ok', f2in ? 'trong dải 3P' : ''), R('Đánh giá f₁', win.ok ? 'Tránh được' : 'Cộng hưởng', '', win.ok ? 'ok' : 'bad')];
     const det = [
       { h: 'Tần số riêng', rows: [
+        R('Độ sâu ngàm giả định', nf(Ld, 1), 'm', '', nf(Ld / Dp, 1) + ' D'),
         R('Khối lượng kết cấu (không kể RNA)', nf(est.mStruct / 1000, 0), 't'),
-        R('Chuyển vị đỉnh trên đơn vị gia tốc', nf(est.uTop * 1000, 3), 'mm/(m/s²)'),
-        R('f₁ ước tính (Rayleigh)', nf(est.f, 3), 'Hz'),
+        R('f₁ phần tử dầm', nf(fe[0], 3), 'Hz'),
+        R('f₁ Rayleigh (cận trên)', nf(est.f, 3), 'Hz'),
+        R('f₂ phần tử dầm', nf(f2, 3), 'Hz'),
+        R('f₃ phần tử dầm', nf(fm.fe.f[2], 3), 'Hz'),
         R('f₁ dùng để đánh giá', nf(f1, 3), 'Hz'),
       ] },
       { h: 'Dải tần số tránh', rows: [
         R('Dải 1P', nf(win.p1[0], 3) + ' – ' + nf(win.p1[1], 3), 'Hz'),
         R('Dải 3P', nf(win.p3[0], 3) + ' – ' + nf(win.p3[1], 3), 'Hz'),
-        R('Kết luận', win.zone, '', win.ok ? 'ok' : 'bad'),
+        R('Kết luận f₁', win.zone, '', win.ok ? 'ok' : 'bad'),
+        R('f₂ so với dải 3P', f2in ? 'Rơi vào dải 3P' : f2 < win.p3[0] ? 'Dưới dải 3P' : 'Trên dải 3P', '', f2in ? 'bad' : 'ok'),
+        R('Đỉnh phổ sóng 1/T_p', nf(fp, 3), 'Hz', f1 > 2 * fp || f1 < 0.5 * fp ? 'ok' : 'warn', f1 > 2 * fp ? 'xa phổ sóng' : f1 < 0.5 * fp ? 'xa phổ sóng' : 'gần phổ sóng'),
+      ] },
+      { h: 'Cộng hưởng xoáy (VIV)', rows: [
+        R('Vận tốc dòng chảy lớn nhất ở mặt', nf(Ucur, 2), 'm/s'),
+        R('Đường kính thủy động', nf(Dw, 2), 'm'),
+        R('U_r = U / (f₁·D)', nf(vv.Ur, 2), '', vivSt, vv.Ur < 4 ? 'dưới vùng nguy cơ' : vv.Ur <= 10 ? 'trong vùng nguy cơ' : 'trên vùng nguy cơ'),
+        R('Thông số ổn định k_s', nf(vv.ks, 2)),
       ] },
       { h: 'Độ nhạy', tbl: { head: ['Thay đổi', 'f₁', 'Vùng', 'Đánh giá'], rows: sens } },
     ];
     const notes = [
-      'Rayleigh cho giá trị cận trên của f₁. Đất mềm, độ đàn hồi quay ở ngàm và xói đều làm giảm f₁.',
-      'Khi f₁ nằm sát biên dải 3P, nên kiểm tra độ nhạy như bảng trên và xét tần số riêng của tổ hợp có xói.',
-      'Có thể nhập f₁ từ mô hình phần tử hữu hạn để đánh giá chính xác hơn.',
+      'Phần tử dầm cho f₁ và f₂ với ngàm tại độ sâu giả định. Đất mềm, độ đàn hồi quay ở ngàm và xói đều làm giảm tần số. Bài giảng quy ước độ sâu ngàm 3,5–4,5 D (sét) đến 7,0–8,5 D (đất mềm).',
+      'Bài giảng nhấn mạnh cần kiểm tra cả tần số riêng thứ nhất và thứ hai, vì với tua bin lớn dải 3P có thể trải đến khoảng 0,5 đến 0,65 Hz.',
+      'Khi f₁ nằm sát biên dải 3P, hãy kiểm tra độ nhạy như bảng trên và xét tổ hợp có xói.',
+      'Dải nguy cơ VIV U_r từ 4 đến 10 lấy theo đồ thị trong bài giảng (slide 25), chỉ là mức tham khảo. Giảm lượng loga δ là giả định.',
     ];
-    return { sum, det, notes, chart: { h: 'Cửa sổ tần số', svg: svgFreq(win, f1) } };
+    return { sum, det, notes, chart: { h: 'Cửa sổ tần số', svg: svgFreq(win, f1, f2) } };
   },
 
   moi() {
@@ -727,7 +914,7 @@ const COMPUTE = {
     if (!(Dl > 0) || !(B > 0) || !(tl > 0) || tl * 2 >= Dl || !(Db > 0) || !(tb > 0) || tb * 2 >= Db || !(hb > 0)) return { err: 'Kích thước chân, thanh giằng hoặc khoảng cách chưa hợp lệ.' };
     const dir = V('jk_dir');
     const geo = foundation('jac', s);
-    const env = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: geo.kb });
+    const env = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: geo.kb, curr: s.curr });
     const Hc = env.Fmax + s.Fwind;
     const Mc = env.Mmax + s.Mwind;
     const gf = s.gf !== null ? s.gf : V('jk_gf');
@@ -798,7 +985,7 @@ const COMPUTE = {
     const Dc = V('gb_Dc'), Db = V('gb_Db'), Vg = V('gb_V');
     if (!(Dc > 0) || !(Db > 0) || !(Vg > 0)) return { err: 'Kích thước và tải đứng phải lớn hơn 0.' };
     const geo = foundation('gbs', s);
-    const env = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: 0 });
+    const env = CALC.envLoads({ d: s.d, H: s.Hd, T: s.Tp, legs: geo.legs, CD: geo.CD, CM: geo.CM, kb: 0, curr: s.curr });
     const Hc = env.Fmax + s.Fwind;
     const Mc = env.Mmax + s.Mwind;
     const g = CALC.gbs({ Db, V: Vg, H: Hc, M: Mc, soil: V('gb_soil'), phi: V('gb_phi'), su: V('gb_su'), gp: V('gb_gp'), Df: V('gb_Df') });
@@ -849,6 +1036,48 @@ const COMPUTE = {
     return { sum, det, notes, chart: { h: 'Lực sóng lên thân móng theo pha (kN)', svg: svgForce(env.curve) } };
   },
 
+  dd() {
+    const s = site();
+    if (s.err) return { err: s.err };
+    const Dp = V('fq_Dp');
+    const Ld = fixityLd();
+    const fm = freqModel(s, Ld, s.mg);
+    const manual = V('fq_f1');
+    const f1 = manual > 0 ? manual : fm.fe.f[0];
+    const T1 = 1 / f1;
+    const soil = V('dd_soil'), agg = V('dd_ag');
+    if (!(agg > 0)) return { err: 'Gia tốc nền phải lớn hơn 0.' };
+    const rat = CALC.apiSpectrum(T1, soil);
+    const Sa = rat * agg * 9.81;
+    const r = CALC.seismicMode1({ shape: fm.ray.shape, zSeabed: Ld, Sa });
+    const dl = dlcCases('mono', s);
+    const Mg = dl.gov.M;
+    const spec = [0.1, 0.2, 0.5, 1, 2, 5].map((T) => [nf(T, 1) + ' s', nf(CALC.apiSpectrum(T, soil), 2), nf(CALC.apiSpectrum(T, soil) * agg, 3) + ' g']);
+    const sum = [R('T₁', nf(T1, 2), 's'), R('Lực cắt đáy biển', nf(r.V, 0), 'kN'), R('Mô men đáy biển', nf(r.M / 1000, 1), 'MN·m')];
+    const det = [
+      { h: 'Phản ứng phổ', rows: [
+        R('Chu kỳ riêng T₁ = 1/f₁', nf(T1, 2), 's', '', 'f₁ = ' + nf(f1, 3) + ' Hz'),
+        R('S_A / a_g (đất ' + soil + ')', nf(rat, 2)),
+        R('Gia tốc nền a_g', nf(agg, 3), 'g'),
+        R('Gia tốc phổ S_A', nf(rat * agg, 3), 'g'),
+        R('Hệ số tham gia Γ', nf(r.gam, 2)),
+      ] },
+      { h: 'Tải động đất tại đáy biển', rows: [
+        R('Lực cắt đáy V', nf(r.V, 0), 'kN'),
+        R('Mô men đáy M', nf(r.M, 0), 'kN·m'),
+        R('Mô men chi phối từ gió và sóng (DLC)', nf(Mg, 0), 'kN·m', '', 'DLC ' + dl.gov.id),
+        R('Tỷ số M động đất / M gió-sóng', nf((r.M / Mg) * 100, 1), '%', r.M / Mg < 0.5 ? 'ok' : 'warn', r.M / Mg < 0.5 ? 'không chi phối' : 'cần xét'),
+      ] },
+      { h: 'Phổ phản ứng theo chu kỳ', tbl: { head: ['Chu kỳ T', 'S_A / a_g', 'S_A'], rows: spec } },
+    ];
+    const notes = [
+      'Phản ứng đàn hồi theo dạng dao động thứ nhất, cản 5%, chưa chia cho hệ số ứng xử. Tính chất đàn hồi dẻo, tương tác đất–kết cấu và các dạng dao động cao hơn chưa kể.',
+      'Tua bin gió có chu kỳ riêng dài (cỡ vài giây) nên gia tốc phổ nhỏ. Động đất thường không chi phối so với gió và sóng, nhưng cần kiểm tra thêm hóa lỏng nền và tải đồng thời với tua bin.',
+      'Hồ sơ thật dùng phổ riêng của địa điểm theo ISO 19901-2 và đối chiếu TCVN 9386:2012.',
+    ];
+    return { sum, det, notes };
+  },
+
   flo() {
     const s = site();
     if (s.err) return { err: s.err };
@@ -862,7 +1091,7 @@ const COMPUTE = {
     const sum = [
       R('GM', nf(sp.GM, 2), 'm', sp.GM > 0 ? 'ok' : 'bad'),
       R('Nghiêng tĩnh', isFinite(sp.heel) ? nf(sp.heel, 1) : '–', '°', heelSt),
-      R('T riêng nhún', nf(sp.Th, 1), 's', perSt(sp.Th, s.Tp)),
+      R('T riêng nhún', nf(sp.Th, 1), 's', perSt(sp.Th, s.Tpk)),
     ];
     const det = [
       { h: 'Thủy tĩnh', rows: [
@@ -881,10 +1110,10 @@ const COMPUTE = {
         R('Trôi dạt ngang tĩnh', Km > 0 ? nf(s.thrust / Km, 1) : '–', 'm'),
       ] },
       { h: 'Chu kỳ riêng và cộng hưởng với sóng', rows: [
-        R('Chu kỳ sóng T_p', nf(s.Tp, 1), 's'),
-        R('Nhún T_h', nf(sp.Th, 1), 's', perSt(sp.Th, s.Tp), sp.Th / s.Tp >= 1.5 ? 'xa cộng hưởng' : sp.Th / s.Tp >= 0.8 ? 'gần cộng hưởng' : ''),
-        R('Lắc dọc T_p', nf(pr.Tpitch, 1), 's', perSt(pr.Tpitch, s.Tp), pr.Tpitch / s.Tp >= 1.5 ? 'xa cộng hưởng' : pr.Tpitch / s.Tp >= 0.8 ? 'gần cộng hưởng' : ''),
-        R('Trôi dạt T_s', isFinite(pr.Tsurge) ? nf(pr.Tsurge, 1) : '–', 's', isFinite(pr.Tsurge) ? perSt(pr.Tsurge, s.Tp) : ''),
+        R('Chu kỳ sóng T_p', nf(s.Tpk, 1), 's'),
+        R('Nhún T_h', nf(sp.Th, 1), 's', perSt(sp.Th, s.Tpk), sp.Th / s.Tpk >= 1.5 ? 'xa cộng hưởng' : sp.Th / s.Tpk >= 0.8 ? 'gần cộng hưởng' : ''),
+        R('Lắc dọc T_p', nf(pr.Tpitch, 1), 's', perSt(pr.Tpitch, s.Tpk), pr.Tpitch / s.Tpk >= 1.5 ? 'xa cộng hưởng' : pr.Tpitch / s.Tpk >= 0.8 ? 'gần cộng hưởng' : ''),
+        R('Trôi dạt T_s', isFinite(pr.Tsurge) ? nf(pr.Tsurge, 1) : '–', 's', isFinite(pr.Tsurge) ? perSt(pr.Tsurge, s.Tpk) : ''),
       ] },
       { h: 'Khối lượng và quán tính', rows: [
         R('Khối lượng khô + dằn', nf(sp.disp, 0), 't'),

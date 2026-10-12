@@ -3,113 +3,139 @@ const THEORY = [
   {
     id: 'tong-quan',
     tag: 'Tổng quan',
-    title: 'IEC 61400-3-1:2019 là gì?',
+    title: 'Hệ thống tiêu chuẩn IEC 61400 và IEC 61400-3-1:2019',
     body: `
+<p><b>IEC 61400</b> là hệ thống tiêu chuẩn của Ủy ban Kỹ thuật điện Quốc tế (IEC) cho tua bin gió và hệ thống phát điện gió, cả trên bờ lẫn ngoài khơi, với mọi kích cỡ. Theo bài giảng, hệ thống này được áp dụng thành bộ <b>TCVN 10687</b> (ban hành 2019–2025). Nội dung bao gồm thiết kế kết cấu và quản lý vòng đời, thiết kế các bộ phận của tua bin, giám sát và điều khiển nhà máy, đánh giá rủi ro và an toàn, đo lường và đánh giá hiệu suất điện năng, và đo gió.</p>
+<h4>Các tiêu chuẩn liên quan đến kết cấu đỡ</h4>
+<ul>
+<li><b>IEC 61400-1:</b> yêu cầu thiết kế chung, xác định điều kiện môi trường và tính toàn vẹn kết cấu.</li>
+<li><b>IEC 61400-2:</b> tua bin gió nhỏ.</li>
+<li><b>IEC 61400-3:</b> tua bin gió ngoài khơi. Phần 3-1 (2019) cho kết cấu cố định, phần 3-2 (TS) cho móng nổi.</li>
+<li><b>IEC 61400-6:2020:</b> thiết kế tháp và móng.</li>
+<li><b>IEC 61400-8:2024:</b> thiết kế các cấu kiện kết cấu của tua bin.</li>
+<li><b>IEC 61400-9:2025:</b> thiết kế tua bin theo phương pháp xác suất.</li>
+<li><b>IEC TS 61400-28:2025:</b> quản lý vòng đời và kéo dài tuổi thọ công trình điện gió.</li>
+</ul>
+<h4>IEC 61400-3-1:2019</h4>
 <p>Tên đầy đủ: <b>Wind energy generation systems – Part 3-1: Design requirements for fixed offshore wind turbines</b> (Hệ thống phát điện gió – Phần 3-1: Yêu cầu thiết kế cho tua bin gió biển cố định). Ấn bản 1 ra đời tháng 4/2019, thay cho IEC 61400-3:2009.</p>
 <ul>
-<li><b>Phạm vi:</b> tua bin gió đặt trên kết cấu đỡ cố định đáy biển (monopile, jacket, trọng lực...). Móng nổi thuộc <b>IEC TS 61400-3-2:2019</b>.</li>
-<li><b>Nền tảng:</b> dựa trên IEC 61400-1 (tua bin trên bờ), bổ sung điều kiện sóng, mực nước, dòng chảy, băng, sinh vật bám, xói lở.</li>
-<li><b>Phối hợp với:</b> ISO 19900 / 19901 / 19902 / 19903 (công trình biển), DNV-ST-0126 (kết cấu đỡ), DNV-ST-0437 (tải trọng và điều kiện địa điểm), API RP 2GEO (địa kỹ thuật).</li>
-<li><b>Điểm cốt lõi:</b> bắt buộc phân tích tải <b>tích hợp</b> (khí động – thủy động – điều khiển – đàn hồi) cho các trường hợp tải thiết kế (DLC), kiểm tra trạng thái giới hạn cực hạn (ULS), mỏi (FLS), sử dụng (SLS) và sự cố (ALS).</li>
+<li><b>Phạm vi:</b> tua bin đặt trên nền đáy biển (monopile, jacket, trọng lực...). Tập trung vào kết cấu công trình, đề cập thêm cơ chế điều khiển, hệ thống điện nội bộ và cơ khí. Dùng cùng các tiêu chuẩn IEC, ISO khác.</li>
+<li><b>Trọng tâm:</b> chủ yếu các kết cấu chân đế cố định bằng thép.</li>
+<li><b>Tiêu chuẩn viện dẫn:</b> ISO 19900, 19901-4, 19902, 19903 và các hệ tiêu chuẩn DNV, API.</li>
 </ul>
+<h4>Cấu trúc nội dung (theo bài giảng)</h4>
+<ol class="steps">
+<li>Nguyên lý thiết kế.</li>
+<li>Định nghĩa và đánh giá các điều kiện môi trường.</li>
+<li>Thiết kế kết cấu.</li>
+<li>Hệ thống điều khiển.</li>
+<li>Cơ điện.</li>
+<li>Thiết kế móng và khối đế.</li>
+<li>Thi công chế tạo, lắp đặt.</li>
+<li>Vận hành và bảo dưỡng.</li>
+</ol>
 <h4>Phân chia trách nhiệm</h4>
 <ul>
 <li><b>Nhà chế tạo tua bin:</b> cung cấp mô hình tua bin, điều khiển, giới hạn tải giao diện tại chân tháp.</li>
 <li><b>Nhà thiết kế kết cấu đỡ:</b> thiết kế móng và tháp dưới giao diện, phân tích tích hợp với mô hình tua bin.</li>
 <li><b>Chủ đầu tư và tổ chức chứng nhận:</b> xác nhận điều kiện địa điểm, thẩm tra thiết kế độc lập.</li>
 </ul>
-<h4>Cấu trúc các điều khoản chính</h4>
-<div class="tw"><table>
-<tr><th>Điều</th><th>Nội dung</th></tr>
-<tr><td>5</td><td>Các yếu tố chính, phương pháp thiết kế, đánh giá an toàn</td></tr>
-<tr><td>6</td><td>Điều kiện ngoài (gió, sóng, mực nước, dòng chảy, băng, địa chấn...)</td></tr>
-<tr><td>7</td><td>Thiết kế kết cấu: DLC, hệ số an toàn, xói, ăn mòn, mỏi</td></tr>
-<tr><td>8–10</td><td>Hệ điều khiển - bảo vệ, cơ khí, điện</td></tr>
-<tr><td>11</td><td>Đánh giá điều kiện ngoài tại địa điểm</td></tr>
-<tr><td>12–13</td><td>Lắp đặt, nghiệm thu, vận hành, bảo trì</td></tr>
-</table></div>
-<p class="note">Số điều khoản ghi theo trí nhớ về cấu trúc chung của bộ tiêu chuẩn. Khi làm hồ sơ thật, hãy đối chiếu với bản gốc đang có hiệu lực.</p>`
+<p class="note">Số hiệu và năm ban hành các phần IEC lấy theo bài giảng. Hãy đối chiếu với bản đang có hiệu lực trước khi trích dẫn.</p>`
   },
   {
     id: 'dieu-kien-ngoai',
     tag: 'Điều kiện ngoài',
-    title: 'Gió, sóng, mực nước và các tác động khác',
+    title: 'Gió, sóng, dòng chảy và các tác động khác',
     body: `
-<h4>Mô hình gió (nối từ IEC 61400-1)</h4>
+<h4>Chu kỳ lặp</h4>
+<p><span class="eq">T = 1/P<sub>e</sub></span>, với P<sub>e</sub> là xác suất vượt trong một năm. Chu kỳ lặp 10, 20, 50, 100 năm ứng với xác suất 10%, 5%, 2%, 1% mỗi năm.</p>
+<h4>Gió</h4>
+<ul>
+<li>Phân bố tốc độ gió trung bình 10 phút theo <b>Rayleigh</b>: P(V) = 1 − exp[−π·(V/2V<sub>ave</sub>)²]. Dữ liệu thực thường dùng Weibull.</li>
+<li>Profile trung bình: V(z) = V<sub>hub</sub>·(z/z<sub>hub</sub>)<sup>α</sup>. NWP ngoài khơi α = 0,14.</li>
+<li>Thành phần mạch động: σ<sub>1</sub> = I<sub>ref</sub>·(0,75·V<sub>hub</sub> + b), b = 5,6 m/s. Phổ Kaimal.</li>
+<li>Gió cực hạn: V<sub>e50</sub>(z) = 1,4·V<sub>ref</sub>·(z/z<sub>hub</sub>)<sup>0,11</sup>, V<sub>e1</sub> = 0,8·V<sub>e50</sub>. Có kể mạch động (10 phút): V<sub>50</sub> = V<sub>ref</sub>·(z/z<sub>hub</sub>)<sup>0,11</sup>, V<sub>1</sub> = 0,8·V<sub>50</sub>.</li>
+<li>Thời gian đo gió quyết định ý nghĩa của số liệu: gió giật 3 giây khác xa trung bình 10 phút hoặc 1 giờ.</li>
+</ul>
 <div class="tw"><table>
-<tr><th>Ký hiệu</th><th>Tên</th><th>Dùng cho</th></tr>
-<tr><td>NWP</td><td>Normal wind profile</td><td>Profile gió chuẩn, lũy thừa với α = 0,14 ngoài khơi</td></tr>
-<tr><td>NTM</td><td>Normal turbulence model</td><td>Mỏi, vận hành thường</td></tr>
-<tr><td>ETM</td><td>Extreme turbulence model</td><td>Cực hạn khi vận hành</td></tr>
-<tr><td>EWM</td><td>Extreme wind speed model</td><td>Gió cực hạn 50 năm và 1 năm (bão)</td></tr>
-<tr><td>EOG / EDC / ECD / EWS</td><td>Gió giật, đổi hướng, giật có đổi hướng, cắt gió</td><td>Các sự kiện cực hạn khi vận hành</td></tr>
+<tr><th>Hạng</th><th>I</th><th>II</th><th>III</th><th>S</th></tr>
+<tr><td>V<sub>ave</sub> (m/s)</td><td>10</td><td>8,5</td><td>7,5</td><td rowspan="3">Nhà thiết kế quy định</td></tr>
+<tr><td>V<sub>ref</sub> (m/s)</td><td>50</td><td>42,5</td><td>37,5</td></tr>
+<tr><td>V<sub>ref,T</sub> vùng bão (m/s)</td><td>57</td><td>57</td><td>57</td></tr>
 </table></div>
-<p>Thời gian lấy trung bình của gió là <b>10 phút</b> tại trục rotor. Sóng được mô tả trong cơn biển <b>3 giờ</b> dừng. Hai thời gian này khác nhau nên phải nhớ khi ghép gió và sóng.</p>
-<h4>Mô hình sóng</h4>
+<p>Cường độ rối I<sub>ref</sub>: A+ 0,18; A 0,16; B 0,14; C 0,12. Các giá trị áp dụng tại độ cao trục rotor. V<sub>ref</sub> là vận tốc gió tham chiếu trung bình 10 phút, V<sub>50</sub> là vận tốc chu kỳ lặp 50 năm.</p>
+<h4>Sóng</h4>
 <ul>
-<li><b>NSS</b> (normal sea state): trạng thái biển thường, dùng cho mỏi và vận hành.</li>
-<li><b>SSS</b> (severe sea state): biển động mạnh, kết hợp gió vận hành (DLC 1.6).</li>
-<li><b>ESS</b> (extreme sea state): biển cực hạn chu kỳ lặp 50 năm hoặc 1 năm.</li>
-<li><b>NWH / SWH / EWH / RWH:</b> chiều cao sóng thường, mạnh, cực hạn và sóng giảm.</li>
-<li>Sóng đơn cực hạn lấy xấp xỉ <b>H<sub>max</sub> ≈ 1,86 · H<sub>s</sub></b> (trong cơn biển 3 giờ).</li>
-<li>Độ sâu hạn chế chiều cao sóng: <b>H<sub>b</sub> ≈ 0,78 d</b>. Sóng vỡ tác động xung kích (slamming) lên trụ cần phân tích riêng.</li>
-<li>Trụ nhỏ (D/L &lt; 0,2) dùng <b>phương trình Morison</b>; trụ lớn dùng nhiễu xạ (MacCamy–Fuchs hoặc phần mềm 3D).</li>
-<li>Phổ sóng thường dùng: <b>JONSWAP</b> (biển đang phát triển) hoặc Pierson–Moskowitz (biển phát triển đầy đủ).</li>
+<li>Trạng thái biển (sea-state) đặc trưng bởi phổ sóng với H<sub>s</sub>, T<sub>p</sub> và hướng, ghi trong 3 giờ hoặc 6 giờ. Có hai dạng: ngắn hạn và dài hạn.</li>
+<li><b>NSS</b> (thường), <b>SSS</b> (mạnh), <b>ESS</b> (cực hạn) và các sóng đơn NWH, SWH, EWH, RWH.</li>
+<li>Sóng lý thuyết: Airy, Stokes (kể ảnh hưởng đáy), cnoidal (nước nông), hàm dòng. Dùng đồ thị API tra theo H/(g·T²) và d/(g·T²).</li>
+<li>Giới hạn vỡ: H<sub>b</sub> ≈ 0,78·d trong nước nông, độ dốc H/L ≤ 0,14 ở nước sâu.</li>
+<li>Thống kê: H<sub>s</sub> = 4σ<sub>η</sub>, H<sub>max</sub> = H<sub>s</sub>·√(0,5·ln N), N = τ/T<sub>m</sub>. Với cơn biển 3 giờ, H<sub>max</sub> ≈ 1,86·H<sub>s</sub> là xấp xỉ thường dùng.</li>
+<li>Trụ nhỏ (D/L &lt; 0,2) dùng <b>Morison</b>, trụ lớn dùng nhiễu xạ (MacCamy–Fuchs).</li>
+<li>Phổ sóng: <b>JONSWAP</b> (biển đang phát triển) hoặc Pierson–Moskowitz.</li>
 </ul>
-<h4>Phân bố đồng thời gió và sóng</h4>
+<h4>Dòng chảy</h4>
 <ul>
-<li>Gió và sóng có tương quan, nhưng không hoàn toàn. Phân tích dùng phân bố chung của V<sub>hub</sub>, H<sub>s</sub>, T<sub>p</sub>, hướng.</li>
-<li>Lệch hướng gió–sóng và tính đa hướng của sóng làm giảm tải so với giả thiết cùng hướng.</li>
-<li>Với tải cực hạn, cần ngoại suy dài hạn hoặc dùng giá trị 50 năm của từng yếu tố có kết hợp xác suất theo tiêu chuẩn.</li>
+<li>Do thủy triều và do gió. DnV: v<sub>c</sub>(z) = v<sub>T</sub>·((h − z)/h)<sup>1/7</sup> + v<sub>W</sub>·((h<sub>0</sub> − z)/h<sub>0</sub>), z là độ sâu dưới mặt nước.</li>
+<li>Cộng vector với vận tốc hạt nước do sóng trong Morison.</li>
 </ul>
-<h4>Mực nước và dòng chảy</h4>
+<h4>Mực nước</h4>
+<p>Mực nước thiết kế = thủy triều thiên văn (LAT đến HAT) + nước dâng do bão và áp suất. Bảng DLC của IEC dùng MSL, NWLR (dải mực nước thường) và EWLR (dải mực nước cực hạn). Cần thống nhất cao độ chuẩn trong toàn hồ sơ.</p>
+<h4>Sinh vật bám và ăn mòn</h4>
 <ul>
-<li>Mực nước thiết kế = thủy triều thiên văn (LAT đến HAT) + nước dâng do bão và áp suất.</li>
-<li>Đo độ sâu từ <b>LAT</b> hoặc <b>MSL</b>: phải thống nhất cao độ chuẩn trong toàn hồ sơ.</li>
-<li>Dòng chảy gồm thủy triều, gió, dòng gần bờ; cộng vector với vận tốc hạt nước do sóng.</li>
+<li>Sinh vật bám làm tăng đường kính, độ nhám (tăng C<sub>D</sub>) và khối lượng. Hà bám dày nhất gần mặt nước.</li>
+<li>Ăn mòn: chiều dày thép còn lại thay đổi theo cao độ và hướng.</li>
 </ul>
-<h4>Tác động khác</h4>
+<h4>Địa hình, địa chất và động đất</h4>
 <ul>
-<li><b>Sinh vật bám (marine growth):</b> làm tăng đường kính, độ nhám (tăng C<sub>D</sub>) và khối lượng.</li>
-<li><b>Băng:</b> chỉ xét ở vùng lạnh, ít liên quan Việt Nam.</li>
-<li><b>Động đất:</b> kiểm tra theo ISO 19901-2; ở Việt Nam đối chiếu TCVN 9386:2012.</li>
-<li><b>Xói lở đáy biển</b> quanh móng và ảnh hưởng đến tần số riêng.</li>
-</ul>`
+<li>Khảo sát địa hình đáy biển: ghi nhận các phiến đá lớn, sóng cát, chướng ngại vật.</li>
+<li>Địa chất theo ISO 19901-4: phân loại đất, cường độ cắt (kể suy giảm), biến dạng và cố kết, hệ số thấm, độ cứng và cản để dự đoán đặc tính động.</li>
+<li>Động đất: dùng phổ gia tốc nền (miền tần số) hoặc biểu đồ gia tốc nền (miền thời gian), xem chuyên đề Động đất.</li>
+</ul>
+<p>Số liệu minh họa cho một dự án và các công thức chi tiết nằm trong chuyên đề "Thống kê gió, sóng và số liệu môi trường".</p>`
   },
   {
     id: 'dlc',
     tag: 'Tổ hợp tải',
-    title: 'Trường hợp tải thiết kế (DLC) và hệ số an toàn',
+    title: 'Trường hợp tải thiết kế (DLC), hệ số an toàn và trạng thái giới hạn',
     body: `
 <p>Mỗi <b>DLC</b> là tổ hợp của một tình huống thiết kế của tua bin với một điều kiện ngoài. Tiêu chuẩn chia 8 nhóm tình huống:</p>
 <div class="tw"><table>
 <tr><th>Nhóm</th><th>Tình huống</th><th>Ví dụ điển hình</th></tr>
-<tr><td>1</td><td>Phát điện</td><td>1.2 (mỏi, NTM + NSS), 1.6 (NTM + SSS, cực hạn)</td></tr>
+<tr><td>1</td><td>Phát điện</td><td>1.2 (mỏi, NTM + NSS), 1.3 (ETM), 1.6 (NTM + SSS)</td></tr>
 <tr><td>2</td><td>Phát điện + sự cố</td><td>Lỗi hệ điều khiển, lỗi lưới</td></tr>
-<tr><td>3</td><td>Khởi động</td><td>Đóng máy dưới gió và sóng thường</td></tr>
+<tr><td>3</td><td>Khởi động</td><td>NWP, EOG, EDC</td></tr>
 <tr><td>4</td><td>Dừng bình thường</td><td>Tải tăng tạm thời khi hãm</td></tr>
 <tr><td>5</td><td>Dừng khẩn cấp</td><td>Hãm tức thời</td></tr>
 <tr><td>6</td><td>Đỗ (parked)</td><td>6.1 (EWM 50 năm + ESS 50 năm), 6.4 (mỏi khi đỗ)</td></tr>
-<tr><td>7</td><td>Đỗ + sự cố</td><td>7.1 (mất lưới, lỗi hệ thống kèm EWM 1 năm)</td></tr>
+<tr><td>7</td><td>Đỗ + sự cố</td><td>7.1 (EWM 1 năm + ESS 1 năm)</td></tr>
 <tr><td>8</td><td>Vận chuyển, lắp dựng, sửa chữa</td><td>Điều kiện thi công do chủ đầu tư quy định</td></tr>
 </table></div>
 <h4>Hệ số an toàn riêng cho tải (γ<sub>f</sub>)</h4>
 <div class="tw"><table>
 <tr><th>Loại tải</th><th>Hệ số</th></tr>
-<tr><td>Tải thông thường, bất lợi</td><td>1,35</td></tr>
-<tr><td>Tải bất thường (sự cố)</td><td>1,10</td></tr>
+<tr><td>Tải thông thường (N), bất lợi</td><td>1,35 (DLC 1.1 để ngoại suy tải: 1,25)</td></tr>
+<tr><td>Tải bất thường (A)</td><td>1,10</td></tr>
 <tr><td>Vận chuyển, lắp dựng</td><td>1,50</td></tr>
 <tr><td>Tải có lợi</td><td>0,90</td></tr>
-<tr><td>Mỏi (FLS)</td><td>1,00 (đã gồm trong hệ số hư hỏng DFF)</td></tr>
+<tr><td>Mỏi (F)</td><td>1,00, kèm hệ số hư hỏng DFF</td></tr>
 </table></div>
-<p>Hệ số vật liệu γ<sub>m</sub> lấy theo tiêu chuẩn vật liệu và kết cấu (ISO 19902, DNV-ST-0126...) hoặc TCVN tương ứng khi hồ sơ yêu cầu.</p>
-<h4>Bốn trạng thái giới hạn</h4>
+<h4>Nguyên lý tính toán</h4>
 <ul>
-<li><b>ULS</b> (cực hạn): chảy dẻo, mất ổn định, phá hoại nền.</li>
-<li><b>FLS</b> (mỏi): cộng dồn hư hỏng Miner, đường cong S–N, DFF theo khả năng kiểm tra.</li>
-<li><b>SLS</b> (sử dụng): độ nghiêng cuối cùng sau lắp đặt và vận hành (thường vài phần mười độ), chuyển vị, tần số.</li>
-<li><b>ALS</b> (sự cố): va tàu, mất một neo, ngập khoang.</li>
-</ul>`
+<li>Phương pháp hệ số cường độ tải trọng (<b>LRFD</b>): <span class="eq">S(Σγ<sub>i</sub>·F<sub>i</sub>) ≤ m·R<sub>k</sub>/γ<sub>m</sub></span>. Tải tính toán <span class="eq">F<sub>d</sub> = γ<sub>f</sub>·F<sub>k</sub></span>, tổ hợp <span class="eq">S<sub>d</sub> = q(F<sub>d1</sub>, ..., F<sub>dn</sub>)</span>.</li>
+<li><b>WSD</b> dùng ứng suất cho phép cơ bản 0,6·F<sub>y</sub>. Quan hệ gần đúng với LRFD: hệ số tải 1,45 và hệ số vật liệu 1,15 (1/(1,45·1,15) ≈ 0,6).</li>
+<li>Hai cách phân tích: <b>Cách 1</b> phân tích động lực học với tải tiêu chuẩn rồi nhân hệ số; <b>Cách 2</b> nhân hệ số lên tải trước rồi phân tích. Cách 2 hợp với phân tích phi tuyến.</li>
+<li>Phân tích tựa tĩnh với tải trọng tương đương quy về chân tháp, dùng ma trận tải (F<sub>x</sub>, F<sub>y</sub>, F<sub>z</sub>, M<sub>x</sub>, M<sub>y</sub>, M<sub>z</sub>...) với giá trị lớn nhất và nhỏ nhất.</li>
+</ul>
+<h4>Các trạng thái giới hạn</h4>
+<ul>
+<li><b>ULS</b> (cực hạn): chảy dẻo và mất ổn định, phá hoại giòn, mất cân bằng tĩnh (lật, lật úp), phá hoại thành phần, biến thành cơ cấu.</li>
+<li><b>FLS</b> (mỏi): hư hỏng cộng dồn do tải lặp.</li>
+<li><b>SLS</b> (sử dụng): độ võng, rung động quá mức, biến dạng vượt giới hạn thiết bị, độ bền lâu, lún lệch gây nghiêng tua bin, biến dạng nhiệt.</li>
+<li><b>ALS</b> (sự cố): hư hỏng do tải sự cố, sức kháng cực hạn của kết cấu đã hư hỏng, mất toàn vẹn sau hư hỏng cục bộ.</li>
+<li><b>PLS</b> (phá hủy lũy tiến): sụp đổ dây chuyền, xét khi hư hỏng cục bộ lan rộng.</li>
+</ul>
+<p class="note">Bảng DLC chi tiết nằm ở chuyên đề "Bảng DLC chi tiết và tổ hợp tải".</p>`
   },
   {
     id: 'loai-mong',
@@ -137,14 +163,27 @@ const THEORY = [
   {
     id: 'quy-trinh',
     tag: 'Quy trình',
-    title: 'Quy trình thiết kế sơ bộ',
+    title: 'Quy trình thiết kế',
     body: `
+<h4>Sơ đồ thiết kế theo IEC 61400-3-1</h4>
+<ol class="steps">
+<li><b>Khởi tạo thiết kế.</b></li>
+<li><b>Điều kiện ngoài đặc thù địa điểm</b> (điều 6) và <b>thiết kế RNA</b> (theo IEC 61400-1, hạng tua bin tiêu chuẩn).</li>
+<li><b>Cơ sở thiết kế</b> cho tua bin gió biển.</li>
+<li>Hai nhánh song song: <b>thiết kế kết cấu đỡ</b> và <b>thiết kế RNA</b>.</li>
+<li><b>Tình huống thiết kế và các trường hợp tải</b> (điều 7.4).</li>
+<li><b>Tính tải và hiệu ứng tải</b> (điều 7.5).</li>
+<li><b>Phân tích trạng thái giới hạn</b> (điều 7.6).</li>
+<li><b>Kiểm tra toàn vẹn kết cấu.</b> Nếu không đạt, quay lại điều chỉnh thiết kế. Nếu đạt, hoàn thành thiết kế.</li>
+</ol>
+<p>Các điều khoản trong dấu ngoặc ghi theo sơ đồ ở bài giảng.</p>
+<h4>Thiết kế sơ bộ</h4>
 <ol class="steps">
 <li><b>Thu thập số liệu địa điểm:</b> độ sâu, thủy triều, H<sub>s</sub> và T<sub>p</sub> theo chu kỳ lặp, gió cực hạn, dòng chảy, địa chất (khoan, CPT).</li>
 <li><b>Chọn loại móng</b> theo độ sâu, đất nền, năng lực chế tạo và thi công.</li>
 <li><b>Ước tính tải sơ bộ:</b> lực đẩy gió, tải sóng (Morison), mô men tại đáy cho các DLC chính.</li>
 <li><b>Chọn kích thước ban đầu:</b> đường kính, chiều dày, chiều sâu ngàm.</li>
-<li><b>Kiểm tra tần số riêng</b> so với dải 1P và 3P. Đây thường là điều kiện quyết định kích thước.</li>
+<li><b>Kiểm tra tần số riêng</b> thứ nhất và thứ hai so với dải 1P và 3P. Đây thường là điều kiện quyết định kích thước.</li>
 <li><b>Phân tích tải tích hợp</b> các DLC bằng phần mềm chuyên dụng (OpenFAST, Bladed, SIMA...).</li>
 <li><b>Kiểm tra ULS, FLS, SLS, ALS</b> cho kết cấu thép hoặc bê tông và nền móng.</li>
 <li><b>Chống ăn mòn, xói và thi công:</b> lớp phủ, anốt, bảo vệ chống xói, quy trình lắp đặt.</li>
@@ -157,45 +196,84 @@ const THEORY = [
 <li>Hạn chế thi công: tàu, bến cảng, cửa sổ thời tiết.</li>
 </ul>
 <h4>Sản phẩm thiết kế cơ sở</h4>
-<p>Báo cáo cơ sở thiết kế (design basis), bảng DLC, kích thước sơ bộ, tần số riêng, khối lượng thép, và danh mục rủi ro. Mô-đun DLC và các mô-đun móng trong ứng dụng này mô phỏng đúng thứ tự công việc đó ở mức đơn giản.</p>
-<p class="note">Các máy tính trong ứng dụng này chỉ phục vụ bước 3 đến 5, và một phần bước 7, để hiểu bậc độ lớn. Chúng không thay thế phân tích tích hợp.</p>`
+<p>Báo cáo cơ sở thiết kế (design basis), bảng DLC, kích thước sơ bộ, tần số riêng, khối lượng thép và danh mục rủi ro. Các mô-đun trong ứng dụng mô phỏng đúng thứ tự công việc đó ở mức đơn giản.</p>
+<p class="note">Các máy tính trong ứng dụng chỉ phục vụ bậc độ lớn và kiểm tra nhanh. Chúng không thay thế phân tích tải tích hợp.</p>`
   },
   {
     id: 'dia-ky-thuat',
     tag: 'Nền móng',
-    title: 'Địa kỹ thuật, xói lở và ăn mòn',
+    title: 'Địa kỹ thuật, tương tác đất–kết cấu, xói lở và ăn mòn',
     body: `
+<h4>Ba mức mô hình hóa nền</h4>
+<ul>
+<li><b>Mô hình ngàm giả định:</b> cọc ngàm cứng ở độ sâu Δ dưới đáy biển. Δ = 3,5–4,5 D (sét), 7,0–8,5 D (đất mềm, cát rời), 6,0 D khi không có số liệu, D là đường kính ngoài của ống cọc.</li>
+<li><b>Mô hình lò xo tuyến tính tại đầu cọc:</b> dùng trong phân tích động lực học.</li>
+<li><b>Tương tác cọc–nền (PSI):</b> các lớp đất biểu diễn bằng đường cong lực–chuyển vị theo các phương: <b>p-y</b> (ngang), <b>t-z</b> (ma sát dọc), <b>Q-z</b> (sức chịu mũi).</li>
+</ul>
 <h4>Cọc chịu tải ngang</h4>
 <ul>
 <li>Cọc nhỏ và vừa: đường cong <b>p-y</b> theo API (cát, sét mềm, sét cứng).</li>
 <li>Monopile đường kính lớn, L/D thấp: ứng xử cứng, dùng phương pháp <b>PISA</b> hoặc phần tử hữu hạn 3D.</li>
 <li>Tải chu kỳ làm giảm độ cứng và tích lũy biến dạng, phải xét trong SLS.</li>
 </ul>
-<h4>Cọc chịu kéo nhổ (jacket)</h4>
+<h4>Cọc chịu tải dọc trục và kéo nhổ</h4>
 <ul>
 <li>Sức kháng nhổ gồm ma sát bên (cát: β·σ'<sub>v</sub>; sét: α·s<sub>u</sub>) cộng trọng lượng cọc. Mũi cọc không tham gia.</li>
+<li>Đường cong Q-z (API): Q/Q<sub>p</sub> = 0,25; 0,50; 0,75; 0,90; 1,00 ứng với z/D = 0,002; 0,013; 0,042; 0,073; 0,100.</li>
 <li>Thử tải tĩnh và động hiện trường để hiệu chỉnh.</li>
 </ul>
 <h4>Xói lở</h4>
 <ul>
-<li>Với dòng chảy ổn định quanh trụ, độ sâu xói cân bằng thường ước tính cỡ <b>S ≈ 1,3 D</b> (mức cực đại thực nghiệm).</li>
+<li>Với dòng chảy ổn định quanh trụ, độ sâu xói cân bằng thường ước tính cỡ <b>S ≈ 1,3 D</b>.</li>
 <li>Biện pháp: đá hộc bảo vệ nhiều lớp, thảm bê tông, hoặc tính xói vào thiết kế (cọc dài hơn).</li>
 <li>Xói làm giảm độ cứng ngàm và hạ tần số riêng.</li>
 </ul>
-<h4>Ăn mòn</h4>
+<h4>Ăn mòn và chống ăn mòn</h4>
 <div class="tw"><table>
 <tr><th>Vùng</th><th>Biện pháp thường dùng</th></tr>
 <tr><td>Khí quyển</td><td>Hệ sơn phủ nhiều lớp</td></tr>
 <tr><td>Văng bắn (splash)</td><td>Sơn dày hoặc bọc, tăng chiều dày dự phòng. Đây là vùng ăn mòn nhanh nhất</td></tr>
-<tr><td>Ngập nước</td><td>Bảo vệ catốt bằng anốt hy sinh hoặc dòng áp đặt, kết hợp sơn</td></tr>
+<tr><td>Ngập nước</td><td>Bảo vệ catốt kết hợp sơn</td></tr>
 <tr><td>Chôn trong đất</td><td>Chiều dày dự phòng ăn mòn</td></tr>
 </table></div>
+<ul>
+<li><b>Chống ăn mòn bị động:</b> cách ly kim loại với môi trường bằng lớp phủ. Yêu cầu bám dính tốt, chịu được tác động hóa học và vật lý, chống lão hóa. Vật liệu thường gặp: glass flake epoxy, fusion bonded epoxy, asphalt enamel, cao su polychloroprene, composite FRP.</li>
+<li><b>Chống ăn mòn chủ động:</b> bảo vệ catốt bằng <b>anốt hy sinh</b> (nhôm, kẽm, có tính chất mạnh hơn thép) hoặc bằng <b>dòng điện cưỡng bức</b> (nguồn một chiều hoặc ắc quy tạo dòng ngược chiều).</li>
+</ul>
 <h4>Điều kiện hay gặp ở Việt Nam</h4>
 <ul>
-<li>Bão và áp thấp nhiệt đới: gió và sóng cực hạn ngắn hạn, nước dâng bão.</li>
+<li>Bão và áp thấp nhiệt đới: gió và sóng cực hạn ngắn hạn, nước dâng bão. Vùng bão nhiệt đới nên xem xét V<sub>ref,T</sub> = 57 m/s.</li>
 <li>Thủy triều khác nhau nhiều giữa các vùng ven biển.</li>
 <li>Đất yếu (bùn, sét, cát chảy) ở đồng bằng sông Cửu Long, cần khảo sát địa chất kỹ cho cọc và nền.</li>
 </ul>`
+  },
+  {
+    id: 'thi-cong',
+    tag: 'Thi công',
+    title: 'Chế tạo, vận chuyển và lắp đặt',
+    body: `
+<h4>Chế tạo</h4>
+<ul>
+<li><b>Tháp:</b> thép tấm thô, cắt CNC và vát mép, cuốn tấm thành đoạn ống, hàn tự động (SAW) lắp ghép, lắp ráp nội thất, làm sạch bề mặt và sơn.</li>
+<li><b>Jacket và monopile:</b> chế tạo tại bãi, các nút ống và chân cọc, ống lớn cuốn và hàn dọc, chu vi.</li>
+</ul>
+<h4>Hạ thủy và vận chuyển trên biển</h4>
+<ul>
+<li>Kết cấu được đưa xuống tàu hoặc sà lan tại bến chế tạo (load-out) và chằng buộc.</li>
+<li>Vận chuyển bằng sà lan, tàu chuyên chở cánh quạt và tháp, hoặc kéo nổi đối với móng nổi.</li>
+</ul>
+<h4>Lắp đặt trên biển (monopile)</h4>
+<ol class="steps">
+<li>Khảo sát đáy biển bằng tàu khảo sát.</li>
+<li>Tàu lắp đặt dạng chân chống (jack-up) vào vị trí.</li>
+<li>Búa thủy lực đóng monopile xuống đáy biển. Bảo vệ chống xói bằng đá hộc.</li>
+<li>Lắp cấu kiện chuyển tiếp (TP) và điều chỉnh cao độ.</li>
+<li>Cẩu các đoạn tháp.</li>
+<li>Cẩu nacelle (vỏ máy).</li>
+<li>Lắp ba cánh quạt.</li>
+<li>Rải cáp ngầm nội mạng nối các tua bin với trạm biến áp ngoài khơi rồi cáp xuất ra bờ.</li>
+</ol>
+<p class="note">Với jacket thì lắp giàn rồi đóng hoặc khoan cọc qua chân. Cửa sổ thời tiết và năng lực tàu cẩu thường quyết định cách thi công.</p>`
   },
   {
     id: 'moi',
@@ -232,16 +310,34 @@ const TOPICS = [
 <h4>Morison cho trụ đứng</h4>
 <p><span class="eq">dF = ½·ρ·C<sub>D</sub>·D·u|u|·dz + ρ·C<sub>M</sub>·(π·D²/4)·∂u/∂t·dz</span></p>
 <p>Lực tổng và mô men đáy lấy bằng tích phân từ đáy đến mặt sóng, rồi quét pha θ để lấy cực đại. Thành phần cản đạt đỉnh khi θ = 0 (đỉnh sóng), thành phần quán tính khi θ = ±90°.</p>
-<div class="ex"><b>Ví dụ.</b> d = 25 m, T = 12 s, H = 1,86·6 = 11,16 m, trụ D = 8,1 m (8 m + 50 mm sinh vật bám mỗi phía), C<sub>D</sub> = 1,05, C<sub>M</sub> = 1,8.
+<div class="ex"><b>Ví dụ (dữ liệu dự án của bài giảng).</b> d = 25 m, H<sub>s</sub> = 6,26 m, H<sub>max</sub> = 1,647·H<sub>s</sub> = 10,31 m, T = 9,44 s, trụ D = 8,1 m (8 m + 50 mm sinh vật bám mỗi phía), C<sub>D</sub> = 1,05, C<sub>M</sub> = 1,2.
 <ul>
-<li>Bước sóng L = 166,0 m, c = 13,83 m/s, k·d = 0,95: vùng nước trung gian.</li>
-<li>Số Ursell U<sub>r</sub> = H·L²/d³ = 19,7, H/d = 0,45: lý thuyết Airy kém chính xác, nên dùng hàm dòng bậc cao.</li>
-<li>Lực sóng cực đại F ≈ 4 020 kN, mô men đáy M ≈ 59 758 kN·m. Cánh tay tương đương M/F ≈ 14,9 m, tức khoảng 0,6 d.</li>
+<li>Bước sóng L = 120,2 m, c = 12,73 m/s, k·d = 1,31: vùng nước trung gian.</li>
+<li>Số Ursell U<sub>r</sub> = H·L²/d³ = 9,5, H/d = 0,41: Airy đã kém chính xác, nên dùng hàm dòng bậc cao.</li>
+<li>Không có dòng chảy: F ≈ 2 884 kN, M ≈ 44 788 kN·m, cánh tay M/F ≈ 15,5 m.</li>
+<li>Có dòng chảy (xem dưới): F ≈ 3 232 kN, M ≈ 52 544 kN·m, tăng khoảng 12%.</li>
 </ul></div>
+<p class="note">C<sub>M</sub> = 1,2 hợp với trụ nhám (C<sub>D</sub> = 1,05) theo API và bài giảng. Dùng C<sub>M</sub> = 1,8 cùng C<sub>D</sub> = 1,05 sẽ cho lực quán tính quá lớn.</p>
+<h4>Thống kê sóng ngắn hạn</h4>
+<ul>
+<li>Biên độ sóng trong một cơn biển theo phân bố Rayleigh. H<sub>s</sub> = 4σ<sub>η</sub>, T<sub>z</sub> ≈ T<sub>p</sub>/1,28, số sóng N = (thời gian cơn biển)/T<sub>z</sub>.</li>
+<li><span class="eq">H<sub>max</sub> = H<sub>s</sub>·√(0,5·ln N)</span>. Với H<sub>s</sub> = 6,26 m, T<sub>p</sub> = 11,03 s, cơn biển 3 giờ: N ≈ 1 253, H<sub>max</sub> ≈ 11,8 m (1,89·H<sub>s</sub>). Giá trị dùng trong ví dụ là 10,31 m từ hệ số 1,647 của bài giảng.</li>
+<li>Chiều cao trung bình ≈ 0,627·H<sub>s</sub>.</li>
+</ul>
+<h4>Dòng chảy cộng với sóng</h4>
+<p>Dòng chảy theo DnV gồm thủy triều và gió, cộng vector với vận tốc hạt nước trong thành phần cản:</p>
+<p><span class="eq">v<sub>c</sub>(z) = v<sub>T</sub>·((d − h)/d)<sup>1/7</sup> + v<sub>W</sub>·max(0, (h<sub>0</sub> − h)/h<sub>0</sub>)</span>, h là độ sâu dưới mặt nước</p>
+<p>Ví dụ giả định v<sub>T</sub> = 0,6 m/s, v<sub>W</sub> = 0,4 m/s, h<sub>0</sub> = 50 m: dòng ở mặt 1,00 m/s, ở nửa độ sâu 0,84 m/s, gần đáy 0,65 m/s. Số liệu dòng chảy thật phải lấy từ khảo sát hải văn.</p>
+<h4>Giới hạn sóng vỡ và tải xung kích</h4>
+<ul>
+<li>Giới hạn đơn giản H<sub>b</sub> ≈ 0,78·d = 19,5 m. Công thức Goda xét độ dốc đáy và chu kỳ cho kết quả thấp hơn: 13,8 m với độ dốc đáy 1%. H = 10,31 m bằng 0,75 giới hạn, sóng chưa vỡ. Hệ số trong Goda lấy theo tài liệu, bài giảng ghi 11, cần đối chiếu bản gốc.</li>
+<li>Nếu sóng vỡ, thêm lực xung kích: <span class="eq">F<sub>s</sub> = ½·C<sub>s</sub>·ρ·D·c²·λ·η<sub>b</sub></span> với C<sub>s</sub> = 5, λ ≈ 0,46 và η<sub>b</sub> = 0,7·H<sub>b</sub> là các giá trị giả định của ứng dụng. Ở giới hạn vỡ, lực này có thể gấp nhiều lần Morison (ví dụ khoảng 6,5 lần), nên cần chú ý.</li>
+</ul>
 <h4>Khi nào Morison không đủ</h4>
 <ul>
 <li>D/L &gt; 0,2: nhiễu xạ quan trọng, dùng MacCamy–Fuchs.</li>
-<li>Sóng vỡ: thêm tải xung kích, tùy mô hình (ví dụ Wienke–Oumeraci).</li>
+<li>Sóng vỡ: thêm tải xung kích (xem trên) hoặc dùng mô hình chuyên biệt như Wienke–Oumeraci.</li>
+<li>Rung do xoáy (VIV): với dòng chảy mạnh và trụ mảnh, xem chuyên đề Tần số riêng.</li>
 <li>Sóng rất phi tuyến (U<sub>r</sub> lớn): dùng Stokes bậc 5 hoặc hàm dòng.</li>
 </ul>`
   },
@@ -258,27 +354,74 @@ const TOPICS = [
 <div class="ex"><b>Ví dụ.</b> Rotor D<sub>r</sub> = 200 m, C<sub>t</sub> = 0,8, V = 11 m/s, trục rotor cao 110 m, d = 25 m, tháp D từ 6,5 m xuống 4,2 m, từ cao độ +20 m.
 <ul>
 <li>T = ½·1,225·31 416·0,8·11² = 1 863 kN.</li>
-<li>Mô men đáy do rotor = 1 863 × (110 + 25) = 251 458 kN·m; cộng tháp, tổng M ≈ 253 334 kN·m.</li>
-<li>Gió lên tháp: F ≈ 21 kN, M ≈ 1 876 kN·m. Tháp đóng góp rất nhỏ khi vận hành.</li>
+<li>Mô men đáy do rotor = 1 863 × (110 + 25) = 251 458 kN·m; cộng tháp, tổng M ≈ 253 313 kN·m.</li>
+<li>Gió lên tháp: F ≈ 21 kN, M ≈ 1 856 kN·m. Tháp đóng góp rất nhỏ khi vận hành.</li>
 </ul>
-Trong bão (V = 50 m/s, rotor đỗ, C<sub>t</sub> = 0,04): T ≈ 1 924 kN, nhưng tháp tăng lên 431 kN và 38 755 kN·m do tải tỷ lệ V². Mô men gió tổng khoảng 298 526 kN·m.</div>
-<h4>Quy đổi thời gian lấy trung bình và độ cao</h4>
-<p>Số liệu bão ở Việt Nam hay là gió giật 3 giây ở độ cao 10 m. IEC dùng trung bình 10 phút tại trục rotor. Dùng quan hệ ISO 19901-1:</p>
-<p><span class="eq">U(z) = U₀·[1 + C·ln(z/10)]</span>, <span class="eq">C = 0,0573·√(1 + 0,15·U₀)</span></p>
-<p><span class="eq">I<sub>u</sub>(z) = 0,06·(1 + 0,043·U₀)·(z/10)<sup>−0,22</sup></span></p>
-<p><span class="eq">u(z,t) = U(z)·[1 − 0,41·I<sub>u</sub>·ln(t/3600)]</span></p>
-<div class="ex"><b>Ví dụ.</b> Giật 3 giây 45 m/s tại 10 m cho U₀ = 31,8 m/s (trung bình 1 giờ tại 10 m).
+Trong bão (V<sub>ref</sub> = 53,62 m/s, rotor đỗ, C<sub>t</sub> = 0,04, α = 0,11): T ≈ 2 213 kN, tháp tăng lên 514 kN và 45 920 kN·m do tải tỷ lệ V². Mô men gió tổng khoảng 344 667 kN·m.</div>
+<h4>Gió cực hạn theo IEC 61400-1</h4>
+<p>IEC xác định hai trạng thái gió bão đỗ (EWM):</p>
 <ul>
-<li>Trung bình 10 phút tại 10 m ≈ 35,1 m/s (khoảng 0,78 lần giá trị giật).</li>
-<li>Trung bình 10 phút tại 110 m ≈ 45,0 m/s.</li>
-<li>Giật 3 giây tại 110 m ≈ 52,7 m/s.</li>
+<li><b>Mô hình ổn định:</b> <span class="eq">V<sub>e50</sub>(z) = 1,4·V<sub>ref</sub>·(z/z<sub>hub</sub>)<sup>0,11</sup></span>, <span class="eq">V<sub>e1</sub> = 0,8·V<sub>e50</sub></span>. Giá trị này là giật 3 giây.</li>
+<li><b>Mô hình có mạch động:</b> V<sub>50</sub>(z) = V<sub>ref</sub>·(z/z<sub>hub</sub>)<sup>0,11</sup>, V<sub>1</sub> = 0,8·V<sub>50</sub> (trung bình 10 phút), cộng cường độ rối.</li>
 </ul>
-Vì vậy dùng nhầm gió giật 3 giây làm gió 10 phút làm tải tăng khoảng 1,37 lần theo V².</div>
+<p>Như vậy IEC lấy <b>hệ số giật 3 giây / 10 phút = 1,4</b> tại độ cao trục rotor.</p>
+<h4>Quy đổi số liệu giật 3 giây của trạm</h4>
+<p>Số liệu bão ở Việt Nam hay là giật 3 giây. Đưa về trung bình 10 phút theo IEC:</p>
+<p><span class="eq">V<sub>10 phút</sub>(z₂) = [V<sub>3 s</sub>(z₁)/1,4]·(z₂/z₁)<sup>α</sup></span>, α = 0,11 (EWM)</p>
+<p>ISO 19901-1 cho hệ số giật khác (phụ thuộc độ cao và cường độ rối):</p>
+<p><span class="eq">U(z) = U₀·[1 + C·ln(z/10)]</span>, <span class="eq">C = 0,0573·√(1 + 0,15·U₀)</span>, <span class="eq">I<sub>u</sub>(z) = 0,06·(1 + 0,043·U₀)·(z/10)<sup>−0,22</sup></span>, <span class="eq">u(z,t) = U(z)·[1 − 0,41·I<sub>u</sub>·ln(t/3600)]</span></p>
+<div class="ex"><b>Ví dụ (dự án của bài giảng).</b> Giật 3 giây 75,05 m/s tại 110 m.
+<ul>
+<li>Theo IEC (÷ 1,4): trung bình 10 phút tại 110 m = <b>53,6 m/s</b>. Đây là V<sub>ref</sub> dùng làm mặc định.</li>
+<li>Theo ISO 19901-1: 62,4 m/s.</li>
+<li>Chênh lệch 16%, nên tải gió theo V² chênh khoảng 35%.</li>
+</ul>
+IEC dùng cho tải tua bin (nhất quán với mô phỏng khí động đàn hồi), ISO dùng làm đối chiếu. Phải ghi rõ quy ước trong cơ sở thiết kế.</div>
+<h4>Hạng tua bin và cường độ rối</h4>
+<p>V<sub>ref</sub> = 53,6 m/s vượt hạng I (50 m/s), nên không nằm trong ba hạng tiêu chuẩn mà gần hạng T (vùng bão nhiệt đới, V<sub>ref,T</sub> = 57 m/s) hoặc hạng S do nhà thiết kế quy định. Cường độ rối I<sub>ref</sub> = 0,14 (hạng B). Mô-đun "Gió IEC" trong ứng dụng tính V<sub>e50</sub>, V<sub>e1</sub> theo độ cao, σ₁, phổ Kaimal và xác suất Weibull, Rayleigh.</p>
 <p class="note">Mô-đun "Quy đổi gió" trong tab Tính toán thực hiện chính xác các phép này.</p>`
   },
   {
-    id: 'dlc-ct',
+    id: 'moi-truong',
     tag: 'Chuyên đề 3',
+    title: 'Thống kê gió, sóng và số liệu môi trường',
+    body: `
+<h4>Chu kỳ lặp và xác suất trong tuổi thọ</h4>
+<p><span class="eq">P<sub>e</sub> = 1/T</span> là xác suất vượt trong một năm. Trong tuổi thọ n năm: <span class="eq">P = 1 − (1 − 1/T)<sup>n</sup></span>.</p>
+<div class="ex"><b>Ví dụ.</b> Sự kiện 50 năm, tuổi thọ 25 năm: P = 1 − (0,98)<sup>25</sup> ≈ 40%. Vì vậy một sự kiện "50 năm" có khả năng cao xuất hiện trong đời công trình.</div>
+<h4>Phân bố gió trung bình 10 phút</h4>
+<p><b>Weibull:</b> <span class="eq">F(V) = 1 − exp[−(V/A)<sup>k</sup>]</span>. <b>Rayleigh</b> là trường hợp k = 2: <span class="eq">F(V) = 1 − exp[−π·(V/2V<sub>ave</sub>)²]</span>.</p>
+<div class="ex"><b>Ví dụ.</b> A = 5,87 m/s, k = 1,709, V<sub>ave</sub> = 5,8 m/s:
+<ul>
+<li>P(V ≤ 3 m/s): Weibull 27,2%, Rayleigh 19,0%.</li>
+<li>P(V ≤ 11 m/s): Weibull 94,6%, Rayleigh 94,1%.</li>
+</ul>
+Rayleigh khá gần Weibull ở tốc độ cao nhưng lệch ở tốc độ thấp.</div>
+<h4>Rối và phổ Kaimal</h4>
+<ul>
+<li>Độ lệch chuẩn dọc: <span class="eq">σ₁ = I<sub>ref</sub>·(0,75·V<sub>hub</sub> + 5,6)</span>. Ví dụ I<sub>ref</sub> = 0,14, V<sub>hub</sub> = 11 m/s: σ₁ = 1,94 m/s, cường độ rối 0,176.</li>
+<li>Phổ Kaimal một phía: <span class="eq">S₁(f) = 4σ₁²·(L₁/V<sub>hub</sub>)/(1 + 6f·L₁/V<sub>hub</sub>)<sup>5/3</sup></span>, tỷ lệ độ dài Λ₁ = 42 m tại trục rotor cao hơn 60 m, L₁ = 8,1·Λ₁.</li>
+</ul>
+<h4>Sóng</h4>
+<ul>
+<li>Sea-state mô tả bằng H<sub>s</sub>, T<sub>p</sub>, hướng. Biểu đồ phân tán (scatter diagram) cho tần suất xuất hiện của từng cặp H<sub>s</sub>–T<sub>p</sub>, dùng để tính mỏi dài hạn.</li>
+<li>Hoa sóng và hoa gió cho tần suất theo hướng.</li>
+<li>Phổ <b>JONSWAP</b> cho biển đang phát triển, Pierson–Moskowitz cho biển phát triển đầy đủ.</li>
+<li>Cực hạn: H<sub>s</sub> có chu kỳ lặp 50 năm, H<sub>max</sub> = k·H<sub>s</sub> (bài giảng dùng 1,647 cho H<sub>max</sub> theo H<sub>s</sub> = 6,26 m).</li>
+</ul>
+<h4>Thời gian lấy trung bình</h4>
+<p>Gió cực hạn 3 giây, 10 phút, 1 giờ khác nhau nhiều. Luôn ghi rõ quy ước. Xem chuyên đề Gió để quy đổi.</p>
+<h4>Số liệu thực tế cần thu thập</h4>
+<ul>
+<li>Gió: chuỗi nhiều năm tại nhiều độ cao, hướng gió, giật cực hạn trong bão.</li>
+<li>Sóng, dòng chảy, mực nước: đo trực tiếp bằng phao hoặc ADCP, mô hình hóa ngược dòng (hindcast).</li>
+<li>Sinh vật bám, ăn mòn, đáy biển và địa chất.</li>
+</ul>
+<p class="note">Các thông số Weibull và rối ở đây là ví dụ trong mô-đun "Gió IEC" của ứng dụng, không phải số liệu của một địa điểm cụ thể.</p>`
+  },
+  {
+    id: 'dlc-ct',
+    tag: 'Chuyên đề 4',
     title: 'Bảng DLC chi tiết và tổ hợp tải',
     body: `
 <p>Bảng tóm lược các DLC thường gặp (tham khảo Bảng 2 của IEC 61400-3-1, hãy đối chiếu bản gốc khi làm hồ sơ):</p>
@@ -304,19 +447,26 @@ Vì vậy dùng nhầm gió giật 3 giây làm gió 10 phút làm tải tăng k
 <h4>Cách tổ hợp trong ứng dụng</h4>
 <p>Mô-đun DLC lấy bốn trường hợp cực hạn thường chi phối mô men đáy và quét tải sóng ở mỗi trường hợp:</p>
 <p><span class="eq">H = F<sub>sóng</sub> + F<sub>rotor</sub> + F<sub>tháp</sub></span>, <span class="eq">M = M<sub>sóng</sub> + M<sub>gió</sub></span>, <span class="eq">M<sub>d</sub> = γ<sub>f</sub>·M</span></p>
-<div class="ex"><b>Ví dụ</b> với giá trị mặc định (monopile D = 8 m, d = 25 m), mô men tính toán γ<sub>f</sub>·M:
+<div class="ex"><b>Ví dụ</b> với dữ liệu dự án của bài giảng (monopile D = 8 m, d = 25 m), mô men tính toán γ<sub>f</sub>·M:
 <ul>
-<li>DLC 1.3: 485,1 MN·m (lực đẩy rotor tăng do ETM).</li>
-<li>DLC 1.6: 450,0 MN·m (biển động mạnh hơn).</li>
-<li>DLC 6.1: 483,7 MN·m (gió bão, rotor đỗ, sóng 50 năm).</li>
-<li>DLC 7.1: 263,4 MN·m (γ<sub>f</sub> = 1,10, tải bất thường).</li>
+<li>DLC 1.3: 472,8 MN·m (ETM, lực đẩy rotor tăng, sóng thường).</li>
+<li>DLC 1.6: 431,5 MN·m (biển động mạnh hơn).</li>
+<li>DLC 6.1: <b>536,2 MN·m</b> (gió bão 53,6 m/s, rotor đỗ, sóng 50 năm có dòng chảy).</li>
+<li>DLC 7.1: 289,9 MN·m (γ<sub>f</sub> = 1,10, tải bất thường).</li>
 </ul>
-Trường hợp chi phối là 1.3, gần như bằng 6.1. Điều này cho thấy với tua bin lớn, DLC vận hành cũng chi phối. Phải xét đủ các DLC, không chỉ bão.</div>
-<p class="note">Các hệ số khuếch đại lực đẩy và C<sub>t</sub> khi đỗ là giả định. Trong dự án thật các số này đến từ mô phỏng khí động đàn hồi của nhà chế tạo.</p>`
+Trường hợp chi phối là 6.1. Khi nhập dòng chảy 0,6 và 0,4 m/s, 6.1 dùng dòng đầy đủ, 7.1 nhân hệ số thấp hơn (0,8), còn 1.3 và 1.6 chỉ tính thủy triều.</div>
+<h4>Những điểm cần lưu ý</h4>
+<ul>
+<li><b>Mực nước:</b> tải sóng thay đổi theo mực nước (NWLR, EWLR). Phải quét nhiều mực nước, không chỉ MSL.</li>
+<li><b>Hướng:</b> gió, sóng và dòng chảy không đồng hướng. Phân tích riêng từng tổ hợp hướng, xem xét lệch hướng.</li>
+<li><b>DLC 1.1:</b> ngoại suy tải cực hạn, dùng hệ số 1,25 cho tải bình thường khi ngoại suy thống kê.</li>
+<li><b>Ma trận tải tương đương:</b> kết quả phân tích tích hợp quy về chân tháp dưới dạng bảng lực và mô men lớn nhất, nhỏ nhất, dùng cho tính cấu kiện.</li>
+</ul>
+<p class="note">Các hệ số khuếch đại lực đẩy, C<sub>t</sub> khi đỗ, sóng và chu kỳ 1 năm (H<sub>s</sub> 4,8 m, T<sub>p</sub> 9 s), và hệ số dòng chảy 0,8 là giả định của ứng dụng. Trong dự án thật các số này đến từ mô phỏng khí động đàn hồi của nhà chế tạo.</p>`
   },
   {
     id: 'monopile',
-    tag: 'Chuyên đề 4',
+    tag: 'Chuyên đề 5',
     title: 'Monopile: ứng suất, ổn định vỏ và p-y',
     body: `
 <h4>Ứng suất tại đáy biển</h4>
@@ -332,43 +482,78 @@ Trường hợp chi phối là 1.3, gần như bằng 6.1. Điều này cho th�
 <p>Cọc coi là dầm EI chịu tải ngang H và mô men M tại đầu cọc, nền là các lò xo phi tuyến:</p>
 <p><span class="eq">EI·d⁴y/dz⁴ + p(y) = 0</span></p>
 <p>Ứng dụng giải bằng sai phân hữu hạn, lặp độ cứng cát tuyến cho đến hội tụ. Kết quả gồm độ võng, xoay đầu cọc, mô men lớn nhất và độ sâu của nó.</p>
-<div class="ex"><b>Ví dụ</b> với mặc định: D = 8 m, t = 80 mm, ngàm L = 30 m, φ = 35°, γ' = 9 kN/m³, k = 22 000 kN/m³.
+<div class="ex"><b>Ví dụ</b> với mặc định: D = 8 m, t = 80 mm, ngàm L = 30 m (3,75 D), φ = 35°, γ' = 9 kN/m³, k = 22 000 kN/m³.
 <ul>
 <li>Tại độ sâu 5 m, D = 8,1 m: p<sub>us</sub> = (2,97·5 + 3,42·8,1)·9·5 ≈ 1 915 kN/m, nhỏ hơn p<sub>ud</sub> ≈ 19 610 kN/m nên chọn p<sub>u</sub> = 1 915 kN/m.</li>
-<li>Tải tiêu chuẩn tại đáy biển: H ≈ 5 904 kN, M ≈ 313 091 kN·m.</li>
-<li>Độ võng đáy biển ≈ 33 mm, xoay ≈ 0,15°, thỏa giới hạn 0,25°.</li>
-<li>Mô men tính toán lớn nhất trong cọc ≈ 461 MN·m, xuất hiện ở độ sâu khoảng 7 m dưới đáy biển.</li>
-<li>Broms cho chiều sâu ngàm tối thiểu ≈ 18,5 m, nhỏ hơn 30 m.</li>
+<li>Tải tiêu chuẩn tại đáy biển (có dòng chảy): H ≈ 5 115 kN, M ≈ 305 859 kN·m. Mô men tính toán γ<sub>f</sub>·M ≈ 412 909 kN·m.</li>
+<li>Độ võng đáy biển ≈ 31 mm, xoay ≈ 0,143°, thỏa giới hạn 0,25°.</li>
+<li>Mô men tính toán lớn nhất trong cọc ≈ 444 MN·m, xuất hiện ở độ sâu khoảng 6,4 m dưới đáy biển.</li>
+<li>Hệ số sử dụng thép khoảng 39%.</li>
+<li>Broms cho chiều sâu ngàm tối thiểu ≈ 18,2 m, nhỏ hơn 30 m.</li>
 </ul></div>
 <p class="note">API p-y hiệu chỉnh cho cọc nhỏ. Với monopile đường kính lớn, nó có thể sai đáng kể so với PISA hoặc 3D. Chỉ dùng cho kiểm tra sơ bộ.</p>`
   },
   {
     id: 'tan',
-    tag: 'Chuyên đề 5',
+    tag: 'Chuyên đề 6',
     title: 'Tần số riêng và cửa sổ 1P/3P',
     body: `
 <h4>Phương pháp Rayleigh</h4>
 <p>Cho dầm công-xon có độ cứng EI(z) và khối lượng m(z) với RNA ở đỉnh. Chọn dạng dao động là độ võng tĩnh u(z) khi tải ngang tỷ lệ với khối lượng. Khi đó:</p>
 <p><span class="eq">ω² = Σ m<sub>j</sub>·u<sub>j</sub> / Σ m<sub>j</sub>·u<sub>j</sub>²</span>, <span class="eq">f₁ = ω/2π</span></p>
 <p>Rayleigh luôn cho tần số lớn hơn hoặc bằng tần số thật. Đoạn ngập có thêm khối lượng nước nâng ρ<sub>w</sub>·π·(D + 2·t<sub>mg</sub>)²/4 mỗi mét dài.</p>
-<h4>Đất nền và xói</h4>
+<h4>Tần số thứ hai</h4>
+<p>Ứng dụng giải bài toán trị riêng bằng phần tử dầm Euler–Bernoulli (khối lượng nhất quán) để lấy f₁, f₂, f₃. Kết quả được kiểm chứng với nghiệm giải tích dầm công-xon (f₁ = 0,608 Hz, f₂ = 3,809 Hz). f₂ thường nằm trên dải 3P, nhưng với tua bin lớn có thể rơi vào vùng nhạy cảm. Cần kiểm tra cả hai.</p>
+<h4>Đất nền, độ sâu ngàm giả định và xói</h4>
 <ul>
-<li>Cọc ngàm trong đất được thay bằng ngàm tương đương ở độ sâu L<sub>d</sub>, thường bằng 4 đến 6 lần D.</li>
+<li>Cọc ngàm trong đất được thay bằng ngàm tương đương ở độ sâu L<sub>d</sub> dưới đáy biển. Theo bài giảng: 3,5–4,5 D (sét), 7,0–8,5 D (đất mềm, cát rời), 6,0 D khi không có số liệu.</li>
 <li>Đất mềm hơn hoặc xói sâu hơn làm L<sub>d</sub> tăng, f₁ giảm.</li>
-<li>Đối với thiết kế chính thức dùng lò xo p-y/t-z hoặc phần tử đất đa chiều trong mô hình tích hợp.</li>
+<li>Thiết kế chính thức dùng lò xo p-y, t-z hoặc phần tử đất đa chiều trong mô hình tích hợp.</li>
 </ul>
+<h4>Rung do xoáy (VIV)</h4>
+<p>Dòng chảy lên trụ mảnh tạo xoáy luân phiên. Kiểm tra vận tốc rút gọn <span class="eq">U<sub>r</sub> = U/(f₁·D)</span>. Vùng nguy cơ ứng dụng dùng là 4 đến 10, và thông số ổn định <span class="eq">k<sub>s</sub> = 2·m<sub>e</sub>·δ/(ρ·D²)</span>. Ví dụ mặc định: U = 1,0 m/s, D = 8,1 m, U<sub>r</sub> = 0,61, k<sub>s</sub> = 0,11 (với δ = 0,05 giả định). Chưa có nguy cơ. Với tua bin chưa dựng tháp, f₁ của cọc đơn khác nhiều, VIV có thể thành vấn đề khi lắp đặt.</p>
 <div class="ex"><b>Ví dụ</b> với mặc định: móng D = 8 m, t = 80 mm, ngàm tương đương 30 m, tháp 6,5 m xuống 4,2 m dày 35 mm, RNA 600 t, thép phụ 15%.
 <ul>
-<li>f₁ ≈ 0,209 Hz. Khối lượng kết cấu ≈ 3 133 t.</li>
+<li>f₁ phần tử dầm ≈ 0,203 Hz (Rayleigh 0,209 Hz, cận trên). f₂ ≈ 1,007 Hz, f₃ ≈ 2,688 Hz. Khối lượng kết cấu ≈ 3 133 t.</li>
 <li>Rotor 5 đến 9 vòng/phút: 1P = 0,083 đến 0,150 Hz, 3P = 0,250 đến 0,450 Hz. Với biên 10%, dải tránh là 0,075–0,165 Hz và 0,225–0,495 Hz.</li>
-<li>f₁ nằm giữa hai dải: soft-stiff.</li>
-<li>Độ nhạy: ngàm +30% cho f₁ ≈ 0,198 Hz, ngàm −30% cho f₁ ≈ 0,220 Hz. Giá trị này tiến sát biên dưới của dải 3P (0,225 Hz).</li>
+<li>f₁ nằm giữa hai dải: soft-stiff. f₂ nằm trên dải 3P. Đỉnh phổ sóng 1/T<sub>p</sub> = 0,091 Hz cũng xa f₁.</li>
+<li>Độ nhạy: ngàm −30% cho f₁ ≈ 0,215 Hz, ngàm +30% cho f₁ ≈ 0,192 Hz. Biên dưới của dải 3P là 0,225 Hz, vẫn còn cách khoảng 5%.</li>
 </ul></div>
 <p class="note">Khi f₁ cách biên dải 3P chưa tới vài phần trăm, kết cấu rất nhạy với xói và độ cứng đất. Nên tăng độ cứng hoặc giảm khối lượng.</p>`
   },
   {
+    id: 'dong-dat',
+    tag: 'Chuyên đề 7',
+    title: 'Động đất: phổ phản ứng và lực theo dạng dao động thứ nhất',
+    body: `
+<h4>Phổ phản ứng (API RP 2A, cản 5%)</h4>
+<p>Gia tốc phổ chuẩn hóa theo gia tốc nền a<sub>g</sub>, đất loại B:</p>
+<ul>
+<li>T ≤ 0,05 s: S<sub>A</sub>/a<sub>g</sub> = 1.</li>
+<li>0,05 &lt; T ≤ 0,125 s: S<sub>A</sub>/a<sub>g</sub> = 20·T.</li>
+<li>Đoạn bằng: S<sub>A</sub>/a<sub>g</sub> = 2,5, khoảng 0,125 đến 0,48 s.</li>
+<li>T lớn: S<sub>A</sub>/a<sub>g</sub> = 1,2/T (đất B).</li>
+</ul>
+<h4>Lực theo dạng dao động thứ nhất</h4>
+<p>Hệ số tham gia <span class="eq">Γ = Σ m<sub>i</sub>·φ<sub>i</sub> / Σ m<sub>i</sub>·φ<sub>i</sub>²</span>, lực tại điểm i: <span class="eq">F<sub>i</sub> = Γ·m<sub>i</sub>·φ<sub>i</sub>·S<sub>A</sub></span>. Cộng lực để có lực cắt và mô men đáy biển.</p>
+<div class="ex"><b>Ví dụ</b> (giả định a<sub>g</sub> = 0,10 g, đất B, f₁ = 0,203 Hz):
+<ul>
+<li>T₁ = 4,92 s, S<sub>A</sub>/a<sub>g</sub> = 0,24, S<sub>A</sub> = 0,024 g.</li>
+<li>Lực cắt đáy biển V ≈ 333 kN, mô men đáy M ≈ 35,1 MN·m.</li>
+<li>So với mô men gió, sóng (DLC 6.1) khoảng 397 MN·m: chỉ 8,8%. Động đất không chi phối.</li>
+</ul></div>
+<p>Kết cấu mềm có chu kỳ dài nên ít chịu động đất. Kết cấu cứng (móng trọng lực, jacket cứng) chịu gia tốc phổ lớn hơn. Cần xét thêm dạng dao động bậc cao, hóa lỏng của đất, ổn định cọc và khả năng tăng áp lực nước lỗ rỗng.</p>
+<h4>Phương pháp</h4>
+<ul>
+<li><b>Miền tần số:</b> dùng phổ phản ứng tại địa điểm.</li>
+<li><b>Miền thời gian:</b> dùng biểu đồ gia tốc nền, phù hợp phân tích phi tuyến.</li>
+<li>Kiểm tra theo mức cường độ và mức dẻo (ISO 19901-2). TCVN 9386:2012 để đối chiếu gia tốc nền theo vùng.</li>
+</ul>
+<p class="note">Gia tốc nền a<sub>g</sub> = 0,10 g là giả định. Dự án thật dùng nghiên cứu nguy cơ động đất riêng cho địa điểm.</p>`
+  },
+  {
     id: 'jacket',
-    tag: 'Chuyên đề 6',
+    tag: 'Chuyên đề 8',
     title: 'Jacket: lực chân, giằng và cọc nhổ',
     body: `
 <h4>Phân phối lực lên 4 chân</h4>
@@ -387,18 +572,18 @@ Trường hợp chi phối là 1.3, gần như bằng 6.1. Điều này cho th�
 <p>Nếu λ<sub>c</sub> ≤ 1,34: <span class="eq">F<sub>xc</sub> = f<sub>y</sub>·(1 − 0,25·λ<sub>c</sub>²)</span>. Nếu lớn hơn: <span class="eq">F<sub>xc</sub> = 0,88·f<sub>y</sub>/λ<sub>c</sub>²</span>. Sức kháng nén <span class="eq">R<sub>c</sub> = F<sub>xc</sub>·A/γ<sub>M</sub></span>.</p>
 <h4>Cọc chịu nhổ</h4>
 <p>Cát: <span class="eq">Q = π·D·β·γ'·L²/2</span>. Sét: <span class="eq">Q = π·D·α·s<sub>u</sub>·L</span>. Yêu cầu <span class="eq">Q ≥ FS·T</span>.</p>
-<div class="ex"><b>Ví dụ</b> với mặc định: B = 25 m, N = 20 000 kN, tải theo đường chéo. M = 283 747 kN·m.
+<div class="ex"><b>Ví dụ</b> với mặc định: B = 25 m, N = 20 000 kN, tải theo đường chéo. M = 286 466 kN·m.
 <ul>
-<li>N/4 = 5 000 kN, ΔN = 0,707·283 747/25 = 8 026 kN.</li>
-<li>Chân nén: 13 026 kN. Chân nhổ: −3 026 kN, tức có lực nhổ.</li>
+<li>N/4 = 5 000 kN, ΔN = 0,707·286 466/25 = 8 102 kN.</li>
+<li>Chân nén: 13 102 kN. Chân nhổ: −3 102 kN, tức có lực nhổ.</li>
 <li>Chân D = 2 m, t = 50 mm, L = 15 m: λ<sub>c</sub> = 0,23, F<sub>xc</sub> = 350 MPa, R<sub>c</sub>/γ<sub>M</sub> ≈ 93 329 kN. Sử dụng 19%.</li>
-<li>Cọc D = 2,4 m, β = 0,4, γ' = 9 kN/m³, FS = 2: L ≈ 21,1 m để chịu nhổ.</li>
+<li>Cọc D = 2,4 m, β = 0,4, γ' = 9 kN/m³, FS = 2: L ≈ 21,4 m để chịu nhổ.</li>
 </ul></div>
 <p class="note">Mỏi tại nút ống (hot-spot) và cường độ mối nối thường chi phối thiết kế giàn thực tế. Cần mô hình giàn đầy đủ.</p>`
   },
   {
     id: 'gbs',
-    tag: 'Chuyên đề 7',
+    tag: 'Chuyên đề 9',
     title: 'Móng trọng lực: ổn định và biến dạng',
     body: `
 <h4>Độ lệch tâm và diện tích hữu hiệu</h4>
@@ -417,18 +602,18 @@ Trường hợp chi phối là 1.3, gần như bằng 6.1. Điều này cho th�
 <h4>Lún và xoay đàn hồi</h4>
 <p>Đế cứng tròn trên bán không gian đàn hồi, bán kính a:</p>
 <p><span class="eq">s = V·(1 − ν²)/(2·a·E)</span>, <span class="eq">θ = 3·(1 − ν²)·M/(4·E·a³)</span></p>
-<div class="ex"><b>Ví dụ</b> với mặc định: đáy D = 36 m, V = 90 000 kN, H = 5 904 kN, M = 313 091 kN·m, φ = 35°, E = 50 MPa, ν = 0,3.
+<div class="ex"><b>Ví dụ</b> với mặc định: đáy D = 36 m, V = 90 000 kN, H = 5 115 kN, M = 305 859 kN·m, φ = 35°, E = 50 MPa, ν = 0,3.
 <ul>
-<li>N<sub>q</sub> = 33,3, N<sub>γ</sub> = 48,0. e = 3,48 m, nhỏ hơn D/8 = 4,5 m.</li>
-<li>A' = 769 m², D' = 31,3 m.</li>
-<li>FS sức chịu tải ≈ 27, trượt ≈ 7,1, lật ≈ 5,2.</li>
-<li>Lún đàn hồi ≈ 45 mm, xoay ≈ 0,04°.</li>
+<li>N<sub>q</sub> = 33,3, N<sub>γ</sub> = 48,0. e = 3,40 m, nhỏ hơn D/8 = 4,5 m.</li>
+<li>A' = 775 m², D' = 31,4 m.</li>
+<li>FS sức chịu tải ≈ 28,6, trượt ≈ 8,2, lật ≈ 5,3.</li>
+<li>Lún đàn hồi ≈ 45,5 mm, xoay ≈ 0,041°.</li>
 </ul></div>
 <p class="note">Móng thật còn cần kiểm tra tải chu kỳ gây tăng áp lực nước lỗ rỗng, lún lệch và xói dưới mép đế. Ở vùng đất yếu của đồng bằng sông Cửu Long, lún dài hạn có thể chi phối.</p>`
   },
   {
     id: 'noi',
-    tag: 'Chuyên đề 8',
+    tag: 'Chuyên đề 10',
     title: 'Móng nổi: ổn định và chu kỳ riêng',
     body: `
 <h4>Ổn định tĩnh của spar</h4>
@@ -459,7 +644,7 @@ Nhún 18,8 s còn khá gần dải sóng dài. Cách xử lý là thêm tấm gi
   },
   {
     id: 'moi',
-    tag: 'Chuyên đề 9',
+    tag: 'Chuyên đề 11',
     title: 'Mỏi: đường cong S–N và cộng dồn Miner',
     body: `
 <h4>Đường cong S–N loại D (DNV-RP-C203)</h4>
@@ -534,7 +719,7 @@ const TCVN = [
   {
     topic: 'Tua bin và thiết bị điện gió',
     intl: 'IEC 61400-1, 61400-3-1, 61400-3-2 (nổi), 61400-22 (chứng nhận)',
-    vn: 'Các tiêu chuẩn TCVN IEC tương đương (nếu đã ban hành). Kiểm tra danh mục hiện hành.',
+    vn: 'TCVN 10687 (bộ tiêu chuẩn tua bin gió, ban hành 2019–2025, tương ứng IEC 61400). Kiểm tra số hiệu từng phần và năm ban hành.',
     note: 'Hồ sơ dự án thực tế thường yêu cầu chứng nhận độc lập (DNV, TÜV, Bureau Veritas...).'
   }
 ];
@@ -545,7 +730,7 @@ const CHECKS = [
     h: 'Tải gió lên tháp và rotor',
     intl: 'IEC 61400-1/-3-1: profile NWP α = 0,14, gió trung bình 10 phút tại trục rotor, lực rotor từ mô phỏng khí động đàn hồi. Gió tháp: ½·ρ·C<sub>d</sub>·D·V².',
     vn: 'TCVN 2737:2023: tải gió tính từ áp lực gió cơ sở nhân hệ số độ cao và hệ số khí động, kiểm tra bản hiện hành về thời gian lấy trung bình.',
-    mix: 'Dùng IEC cho rotor. Với tháp, dùng IEC để đồng bộ với mô phỏng, dùng TCVN để kiểm tra độc lập. Phải quy đổi gió giật sang trung bình 10 phút.'
+    mix: 'Dùng IEC cho rotor. Với tháp, dùng IEC để đồng bộ với mô phỏng, dùng TCVN để kiểm tra độc lập. Phải quy đổi gió giật 3 giây sang trung bình 10 phút. IEC dùng hệ số 1,4, ISO 19901-1 cho hệ số khác (ví dụ 75,05 m/s → 53,6 m/s theo IEC, 62,4 m/s theo ISO).'
   },
   {
     h: 'Tải sóng lên trụ',
@@ -611,12 +796,12 @@ const CHECKS = [
     h: 'Động đất',
     intl: 'ISO 19901-2: thiết kế theo mức cường độ và mức dẻo, phổ phản ứng theo địa điểm.',
     vn: 'TCVN 9386:2012: gia tốc nền tham chiếu theo vùng, phổ phản ứng, cấp tầm quan trọng.',
-    mix: 'Dùng nghiên cứu động đất riêng cho địa điểm và đối chiếu gia tốc nền với TCVN 9386.'
+    mix: 'Dùng nghiên cứu động đất riêng cho địa điểm và đối chiếu gia tốc nền với TCVN 9386. Phổ API trong ứng dụng chỉ để đánh giá nhanh.'
   }
 ];
 
 const TIPS = [
-  ['Thời gian lấy trung bình của gió', '<p>IEC dùng trung bình 10 phút tại cao độ trục rotor. Số liệu trạm Việt Nam có thể là trung bình 2 phút hoặc giật 3 giây. Phải quy đổi về cùng cơ sở trước khi dùng.</p><p>Ví dụ: giật 3 giây 45 m/s tại 10 m tương đương khoảng 45,0 m/s trung bình 10 phút tại 110 m. Nếu nhầm giật 3 giây tại 110 m (52,7 m/s) với trung bình 10 phút (45,0 m/s) thì tải gió lệch khoảng 37% theo V².</p>'],
+  ['Thời gian lấy trung bình của gió', '<p>IEC dùng trung bình 10 phút tại cao độ trục rotor. Số liệu trạm Việt Nam có thể là trung bình 2 phút hoặc giật 3 giây. Phải quy đổi về cùng cơ sở trước khi dùng.</p><p>Ví dụ: giật 3 giây 75,05 m/s tại 110 m. Theo IEC (hệ số 1,4) ra 53,6 m/s trung bình 10 phút. Theo ISO 19901-1 ra 62,4 m/s. Chênh khoảng 16% về gió, khoảng 35% về tải theo V². Phải ghi rõ chọn quy ước nào.</p>'],
   ['Chu kỳ lặp', '<p>IEC dùng 50 năm cho tải cực hạn và 1 năm cho một số DLC. TCVN gắn chu kỳ lặp với cấp công trình. Chọn chu kỳ lặp theo yêu cầu hợp đồng và hồ sơ.</p>'],
   ['Hệ số an toàn', '<p>Không trộn hệ số riêng phần của IEC với hệ số an toàn tổng thể của TCVN trong cùng một kiểm tra. Chọn một hệ và áp dụng nhất quán.</p>'],
   ['Cao độ chuẩn', '<p>Thống nhất LAT, MSL hay cao độ quốc gia cho độ sâu, mực nước và cao độ trục rotor.</p>'],
@@ -1509,7 +1694,7 @@ const TERMS = [
  ],
  [
   "Catenary mooring",
-  "Neo dây xích võng",
+  "Neo xích dạng dây xích",
   "Độ cứng do trọng lượng dây.",
   "noi"
  ],
@@ -1710,6 +1895,270 @@ const TERMS = [
   "Thẩm tra độc lập",
   "",
   "ts"
+ ],
+ [
+  "Kaimal spectrum",
+  "Phổ Kaimal",
+  "Phổ rối gió theo tần số, dùng trong IEC 61400-1.",
+  "tai"
+ ],
+ [
+  "Weibull distribution",
+  "Phân bố Weibull",
+  "Mô tả tốc độ gió trung bình 10 phút.",
+  "tai"
+ ],
+ [
+  "Rayleigh distribution",
+  "Phân bố Rayleigh",
+  "Weibull với k = 2, cũng dùng cho biên độ sóng.",
+  "tai"
+ ],
+ [
+  "Reference wind speed (Vref)",
+  "Tốc độ gió tham chiếu",
+  "Trung bình 10 phút chu kỳ lặp 50 năm tại trục rotor.",
+  "tai"
+ ],
+ [
+  "Average wind speed (Vave)",
+  "Tốc độ gió trung bình năm",
+  "Dùng định nghĩa hạng tua bin.",
+  "tai"
+ ],
+ [
+  "Turbine class",
+  "Hạng tua bin",
+  "I, II, III, S theo Vref và Iref; T cho vùng bão nhiệt đới.",
+  "tai"
+ ],
+ [
+  "Reference turbulence intensity (Iref)",
+  "Cường độ rối tham chiếu",
+  "A+ 0,18; A 0,16; B 0,14; C 0,12.",
+  "tai"
+ ],
+ [
+  "Extreme wind speed (Ve50)",
+  "Tốc độ gió cực hạn 50 năm",
+  "1,4·Vref·(z/zhub)^0,11, giật 3 giây.",
+  "tai"
+ ],
+ [
+  "Normal wind profile (NWP)",
+  "Profile gió thường",
+  "Lũy thừa, α = 0,14 ngoài khơi.",
+  "tai"
+ ],
+ [
+  "Scatter diagram",
+  "Biểu đồ phân tán",
+  "Tần suất xuất hiện của cặp Hs và Tp.",
+  "tai"
+ ],
+ [
+  "Wave rose",
+  "Hoa sóng",
+  "Tần suất sóng theo hướng.",
+  "tai"
+ ],
+ [
+  "Wind rose",
+  "Hoa gió",
+  "Tần suất gió theo hướng.",
+  "tai"
+ ],
+ [
+  "Cnoidal wave",
+  "Sóng cnoidal",
+  "Lý thuyết sóng cho nước nông.",
+  "tai"
+ ],
+ [
+  "Spilling breaker",
+  "Sóng vỡ tràn",
+  "Vỡ từ từ, bọt lan từ đỉnh.",
+  "tai"
+ ],
+ [
+  "Plunging breaker",
+  "Sóng vỡ cuộn",
+  "Đỉnh cuộn xuống, tải xung kích lớn.",
+  "tai"
+ ],
+ [
+  "Surging breaker",
+  "Sóng vỡ dâng",
+  "Sóng dâng lên mái dốc mà không vỡ rõ.",
+  "tai"
+ ],
+ [
+  "Iribarren number",
+  "Số Iribarren",
+  "Phân loại dạng sóng vỡ theo độ dốc đáy.",
+  "tai"
+ ],
+ [
+  "Wave slamming",
+  "Xung kích sóng vỡ",
+  "Tải ngắn hạn, rất lớn khi sóng vỡ đập vào trụ.",
+  "tai"
+ ],
+ [
+  "Hindcast",
+  "Mô hình hóa ngược dòng",
+  "Tái tạo sóng, gió quá khứ bằng mô hình.",
+  "tai"
+ ],
+ [
+  "Tidal current",
+  "Dòng chảy thủy triều",
+  "Thành phần dòng theo chu kỳ triều.",
+  "tai"
+ ],
+ [
+  "Wind-driven current",
+  "Dòng chảy do gió",
+  "Giảm tuyến tính theo độ sâu trong DnV.",
+  "tai"
+ ],
+ [
+  "Marine growth",
+  "Sinh vật bám",
+  "Làm tăng đường kính, khối lượng và C_D.",
+  "tai"
+ ],
+ [
+  "Progressive limit state (PLS)",
+  "Trạng thái giới hạn phá hủy lũy tiến",
+  "Sụp đổ dây chuyền sau hư hỏng cục bộ.",
+  "dkt"
+ ],
+ [
+  "Working stress design (WSD)",
+  "Thiết kế theo ứng suất cho phép",
+  "Ứng suất cho phép khoảng 0,6·Fy.",
+  "dkt"
+ ],
+ [
+  "Load and resistance factor design (LRFD)",
+  "Thiết kế hệ số tải và sức kháng",
+  "Hệ số riêng cho tải và vật liệu.",
+  "dkt"
+ ],
+ [
+  "Quasi-static analysis",
+  "Phân tích tựa tĩnh",
+  "Tải tương đương, bỏ qua hiệu ứng động.",
+  "dkt"
+ ],
+ [
+  "Equivalent load",
+  "Tải tương đương",
+  "Tải quy về chân tháp từ mô phỏng tích hợp.",
+  "dkt"
+ ],
+ [
+  "Response spectrum",
+  "Phổ phản ứng",
+  "Gia tốc cực đại theo chu kỳ của hệ một bậc tự do.",
+  "dkt"
+ ],
+ [
+  "Peak ground acceleration (PGA)",
+  "Gia tốc nền cực đại",
+  "Ký hiệu ag.",
+  "dkt"
+ ],
+ [
+  "Modal participation factor",
+  "Hệ số tham gia dạng dao động",
+  "Γ = Σmφ/Σmφ².",
+  "dkt"
+ ],
+ [
+  "Bathymetric survey",
+  "Khảo sát địa hình đáy biển",
+  "Đo độ sâu và hình dạng đáy.",
+  "dkt"
+ ],
+ [
+  "Vortex-induced vibration (VIV)",
+  "Rung do xoáy",
+  "Dòng chảy làm trụ dao động ngang.",
+  "dkt"
+ ],
+ [
+  "Reduced velocity",
+  "Vận tốc rút gọn",
+  "Ur = U/(f·D).",
+  "dkt"
+ ],
+ [
+  "Second natural frequency",
+  "Tần số riêng thứ hai",
+  "Kiểm tra so với dải 3P.",
+  "dkt"
+ ],
+ [
+  "t-z curve",
+  "Đường cong t-z",
+  "Ma sát bên và chuyển vị dọc cọc.",
+  "tc"
+ ],
+ [
+  "Q-z curve",
+  "Đường cong Q-z",
+  "Sức chịu mũi và chuyển vị mũi cọc.",
+  "tc"
+ ],
+ [
+  "Apparent fixity",
+  "Ngàm giả định",
+  "Độ sâu ngàm tương đương thay cho nền đất.",
+  "tc"
+ ],
+ [
+  "Impressed current cathodic protection (ICCP)",
+  "Bảo vệ catốt dòng cưỡng bức",
+  "Nguồn một chiều cấp dòng bảo vệ.",
+  "tc"
+ ],
+ [
+  "Glass flake epoxy",
+  "Epoxy cốt mảnh thủy tinh",
+  "Lớp phủ chống ăn mòn bền.",
+  "tc"
+ ],
+ [
+  "Fusion bonded epoxy (FBE)",
+  "Epoxy nung chảy",
+  "Lớp phủ chống ăn mòn.",
+  "tc"
+ ],
+ [
+  "Splash zone",
+  "Vùng văng bắn",
+  "Vùng ăn mòn nhanh nhất.",
+  "tc"
+ ],
+ [
+  "Load-out",
+  "Xuất xưởng lên tàu",
+  "Chuyển kết cấu lên sà lan hoặc tàu.",
+  "tc"
+ ],
+ [
+  "Jack-up vessel",
+  "Tàu chân chống",
+  "Tàu lắp đặt có chân hạ xuống đáy biển.",
+  "tc"
+ ],
+ [
+  "Hydraulic hammer",
+  "Búa thủy lực",
+  "Đóng monopile.",
+  "tc"
  ]
 ];
 const QUIZ = [
@@ -2531,5 +2980,226 @@ const QUIZ = [
   "w": "Điều kiện tự nhiên dùng trong xây dựng.",
   "c": "vn",
   "l": 1
+ },
+ {
+  "q": "C_M thường dùng cho trụ nhám (C_D = 1,05) là?",
+  "o": [
+   "0,2",
+   "3,5",
+   "5",
+   "1,2"
+  ],
+  "a": 3,
+  "w": "API và bài giảng dùng C_M = 1,2 với trụ nhám.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "Công thức Hmax theo Rayleigh là?",
+  "o": [
+   "Hs·√(0,5·ln N)",
+   "Hs/N",
+   "2·Hs·N",
+   "Hs²"
+  ],
+  "a": 0,
+  "w": "N là số sóng trong cơn biển.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Xác suất vượt trong một năm của sự kiện T năm là?",
+  "o": [
+   "T",
+   "1/T",
+   "T²",
+   "1−T"
+  ],
+  "a": 1,
+  "w": "Pe = 1/T.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "Vref của hạng tua bin T là?",
+  "o": [
+   "50 m/s",
+   "42,5 m/s",
+   "57 m/s",
+   "37,5 m/s"
+  ],
+  "a": 2,
+  "w": "Hạng T dành cho vùng bão nhiệt đới.",
+  "c": "iec",
+  "l": 2
+ },
+ {
+  "q": "IEC quy đổi giật 3 giây sang trung bình 10 phút bằng cách?",
+  "o": [
+   "Nhân 1,4",
+   "Chia 2",
+   "Giữ nguyên",
+   "Chia 1,4"
+  ],
+  "a": 3,
+  "w": "Ve50 = 1,4·Vref.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Tần số riêng thứ hai nên so với?",
+  "o": [
+   "Dải 3P",
+   "Chỉ 1P",
+   "Dải sóng chỉ 0 Hz",
+   "Tần số lưới"
+  ],
+  "a": 0,
+  "w": "f2 thường nằm trên dải 3P.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "VIV được kiểm tra qua đại lượng?",
+  "o": [
+   "H/L",
+   "U/(f·D)",
+   "Cd",
+   "E·I"
+  ],
+  "a": 1,
+  "w": "Vận tốc rút gọn Ur.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "PLS là trạng thái giới hạn về?",
+  "o": [
+   "Mỏi",
+   "Võng",
+   "Phá hủy lũy tiến",
+   "Rung"
+  ],
+  "a": 2,
+  "w": "Sụp đổ dây chuyền.",
+  "c": "iec",
+  "l": 2
+ },
+ {
+  "q": "WSD dùng ứng suất cho phép khoảng?",
+  "o": [
+   "2·Fy",
+   "0,1·Fy",
+   "Fy²",
+   "0,6·Fy"
+  ],
+  "a": 3,
+  "w": "Tương đương LRFD với hệ số 1,45 và 1,15.",
+  "c": "iec",
+  "l": 2
+ },
+ {
+  "q": "Ngàm giả định cho đất mềm, cát rời là?",
+  "o": [
+   "7,0 đến 8,5 D",
+   "1 D",
+   "20 D",
+   "0 D"
+  ],
+  "a": 0,
+  "w": "Theo bài giảng; sét là 3,5 đến 4,5 D.",
+  "c": "mono",
+  "l": 2
+ },
+ {
+  "q": "Khi không có số liệu đất, ngàm giả định lấy?",
+  "o": [
+   "0,5 D",
+   "6,0 D",
+   "12 D",
+   "Bằng độ sâu nước"
+  ],
+  "a": 1,
+  "w": "Giá trị mặc định trong bài giảng.",
+  "c": "mono",
+  "l": 2
+ },
+ {
+  "q": "Phổ API RP 2A có đoạn bằng S_A/a_g bằng?",
+  "o": [
+   "1",
+   "0,5",
+   "2,5",
+   "10"
+  ],
+  "a": 2,
+  "w": "Đoạn bằng khoảng 0,125 đến 0,48 s.",
+  "c": "jac",
+  "l": 2
+ },
+ {
+  "q": "TCVN 10687 là bộ tiêu chuẩn về?",
+  "o": [
+   "Cọc",
+   "Bê tông",
+   "Cáp biển",
+   "Tua bin gió"
+  ],
+  "a": 3,
+  "w": "Tương ứng IEC 61400, ban hành 2019–2025.",
+  "c": "vn",
+  "l": 1
+ },
+ {
+  "q": "Q-z mô tả quan hệ giữa?",
+  "o": [
+   "Sức chịu mũi và chuyển vị",
+   "Mỏi và chu kỳ",
+   "Gió và sóng",
+   "Lún và thời gian"
+  ],
+  "a": 0,
+  "w": "Đường cong sức chịu mũi cọc.",
+  "c": "moi",
+  "l": 2
+ },
+ {
+  "q": "Dòng chảy DnV gồm?",
+  "o": [
+   "Chỉ sóng",
+   "Thủy triều và gió",
+   "Chỉ thủy triều",
+   "Chỉ bão"
+  ],
+  "a": 1,
+  "w": "Thủy triều theo lũy thừa 1/7, gió giảm tuyến tính.",
+  "c": "moi",
+  "l": 2
+ },
+ {
+  "q": "Vùng ăn mòn nhanh nhất là?",
+  "o": [
+   "Chôn trong đất",
+   "Trong ống",
+   "Vùng văng bắn",
+   "Trên cao 100 m"
+  ],
+  "a": 2,
+  "w": "Splash zone.",
+  "c": "moi",
+  "l": 1
+ },
+ {
+  "q": "Thứ tự lắp đặt monopile đúng là?",
+  "o": [
+   "Cánh, tháp, cọc",
+   "Nacelle, cọc",
+   "Cáp trước, cọc sau",
+   "Đóng cọc, TP, tháp, nacelle, cánh"
+  ],
+  "a": 3,
+  "w": "Cọc, TP, tháp, nacelle, cánh, rồi cáp.",
+  "c": "moi",
+  "l": 2
  }
 ];

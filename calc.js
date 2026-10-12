@@ -52,8 +52,14 @@
       const z = zBot + (i + 0.5) * dz;
       const zs = (d * (z - eta)) / (d + eta);
       const ch = Math.cosh(k * (zs + d)) / sh;
-      const u = (H / 2) * w * ch * Math.cos(theta);
+      const uw = (H / 2) * w * ch * Math.cos(theta);
       const a = (H / 2) * w * w * ch * Math.sin(theta);
+      let uc = 0;
+      if (p.curr) {
+        const dep = Math.min(Math.max(-z, 0), d);
+        uc = p.curr.vT * Math.pow((d - dep) / d, 1 / 7) + (p.curr.h0 > 0 ? p.curr.vW * Math.max(0, (p.curr.h0 - dep) / p.curr.h0) : 0);
+      }
+      const u = uw + uc;
       const dF = 0.5 * rho * CD * D * u * Math.abs(u) + rho * CM * (Math.PI * D * D / 4) * a;
       F += dF * dz;
       M += dF * dz * (z + d);
@@ -73,7 +79,7 @@
       const th = (2 * Math.PI * i) / steps;
       let F = 0, M = 0;
       for (const lg of legs) {
-        const r = C.cylForce({ d: p.d, H: p.H, T: p.T, D: lg.D, CD: p.CD, CM: p.CM, k }, th + k * lg.x);
+        const r = C.cylForce({ d: p.d, H: p.H, T: p.T, D: lg.D, CD: p.CD, CM: p.CM, k, curr: p.curr }, th + k * lg.x);
         F += r.F; M += r.M;
       }
       F *= mult; M *= mult;
