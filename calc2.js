@@ -400,4 +400,62 @@
     }
     return { gam, V: Vb / 1000, M: Mb / 1000 };
   };
+
+  /* ---------- Ví dụ bài giảng chương 4: Morison tại một pha, Airy không kéo dãn, dòng chảy (z+h)/h ^ 1/7 ---------- */
+  C.morisonTable = function ({ H, T, h, D, CD, CM, Uc0, phase, rho = 1025, dzTab = 5, nInt = 3000 }) {
+    const g = 9.81, w = (2 * Math.PI) / T;
+    const k = C.waveNumber(T, h);
+    const at = (zAbs) => {                          /* zAbs: cao độ so với MSL (âm xuống đáy) */
+      const ch = Math.cosh(k * (zAbs + h)) / Math.sinh(k * h);
+      const uw = (H / 2) * w * ch * Math.cos(phase);
+      const aw = (H / 2) * w * w * ch * Math.sin(phase);
+      const uc = Uc0 * Math.pow(Math.max(zAbs + h, 0) / h, 1 / 7);
+      const ur = uw + uc;
+      const fD = 0.5 * rho * CD * D * Math.abs(ur) * ur / 1000;       /* kN/m */
+      const fI = rho * CM * (Math.PI * D * D / 4) * aw / 1000;        /* kN/m */
+      return { z: zAbs, uw, aw, uc, ur, fD, fI, f: fD + fI };
+    };
+    const rows = [];
+    for (let z = 0; z >= -h - 1e-9; z -= dzTab) rows.push(at(z));
+    /* hình thang theo bảng (như slide) */
+    let Ft = 0, Mt = 0, FD = 0, FI = 0;
+    for (let i = 0; i < rows.length - 1; i++) {
+      const a = rows[i], b = rows[i + 1], dz = a.z - b.z;
+      Ft += 0.5 * (a.f + b.f) * dz; FD += 0.5 * (a.fD + b.fD) * dz; FI += 0.5 * (a.fI + b.fI) * dz;
+      Mt += 0.5 * (a.f * (a.z + h) + b.f * (b.z + h)) * dz;
+    }
+    /* tích phân chi tiết */
+    let Fc = 0, Mc = 0;
+    const dz = h / nInt;
+    for (let i = 0; i < nInt; i++) {
+      const r = at(-h + (i + 0.5) * dz);
+      Fc += r.f * dz; Mc += r.f * dz * (r.z + h);
+    }
+    return { k, L: (2 * Math.PI) / k, w, rows, F: Ft, M: Mt / 1000, FD, FI, Fc, Mc: Mc / 1000 };
+  };
+
+  /* Tải gió lên tuabin 8 MW trên monopile: T, nacelle, tháp (đường kính thay đổi tuyến tính), mô men tại đáy biển */
+  C.windMonopile = function ({ DR, zhub, V, alpha, CT, CDn, AN, Dtb, Dtt, Ht, CDt, h, rho = 1.225 }) {
+    const T = (0.5 * rho * (Math.PI * DR * DR / 4) * CT * V * V) / 1000;
+    const FN = (0.5 * rho * CDn * AN * V * V) / 1000;
+    let Ft = 0, Mz = 0;
+    const n = 2000;
+    for (let i = 0; i < n; i++) {
+      const z = ((i + 0.5) * Ht) / n;
+      const D = Dtb + ((Dtt - Dtb) * z) / Ht;
+      const v = V * Math.pow(z / zhub, alpha);
+      const p = (0.5 * rho * CDt * D * v * v) / 1000;
+      Ft += (p * Ht) / n; Mz += (p * z * Ht) / n;
+    }
+    const zt = Ft > 0 ? Mz / Ft : 0;
+    const Mm = (T * (zhub + h) + FN * (zhub + h) + Ft * (zt + h)) / 1000;
+    return { T, FN, FT: Ft, zT: zt, F: T + FN + Ft, M: Mm };
+  };
+
+  /* Tổ hợp tải đồng thời (vector) và kiểm tra ULS */
+  C.vecCombine = function ({ N, Vx, Vy, Mx, My, Tq, gf, MR }) {
+    const d = { N: N * gf, Vx: Vx * gf, Vy: Vy * gf, Mx: Mx * gf, My: My * gf, T: Tq * gf };
+    const Vd = Math.hypot(d.Vx, d.Vy), Mb = Math.hypot(d.Mx, d.My);
+    return { d, Vd, Mb, UR: MR > 0 ? Mb / MR : NaN };
+  };
 })(typeof globalThis !== 'undefined' ? globalThis : this);

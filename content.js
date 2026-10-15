@@ -317,7 +317,7 @@ const TOPICS = [
 <li>Không có dòng chảy: F ≈ 2 884 kN, M ≈ 44 788 kN·m, cánh tay M/F ≈ 15,5 m.</li>
 <li>Có dòng chảy (xem dưới): F ≈ 3 232 kN, M ≈ 52 544 kN·m, tăng khoảng 12%.</li>
 </ul></div>
-<p class="note">C<sub>M</sub> = 1,2 hợp với trụ nhám (C<sub>D</sub> = 1,05) theo API và bài giảng. Dùng C<sub>M</sub> = 1,8 cùng C<sub>D</sub> = 1,05 sẽ cho lực quán tính quá lớn.</p>
+<p class="note">C<sub>M</sub> = 1,2 hợp với trụ nhám (C<sub>D</sub> = 1,05) theo API và bài giảng. Dùng C<sub>M</sub> = 1,8 cùng C<sub>D</sub> = 1,05 sẽ cho lực quán tính quá lớn. Ví dụ nhỏ của bài giảng ở chuyên đề "Ví dụ bài giảng Chương 4" dùng C<sub>M</sub> = 2,0 cho trụ trơn D = 8 m, nên C<sub>M</sub> phụ thuộc độ nhám, Re và KC. Phải ghi rõ giá trị chọn.</p>
 <h4>Thống kê sóng ngắn hạn</h4>
 <ul>
 <li>Biên độ sóng trong một cơn biển theo phân bố Rayleigh. H<sub>s</sub> = 4σ<sub>η</sub>, T<sub>z</sub> ≈ T<sub>p</sub>/1,28, số sóng N = (thời gian cơn biển)/T<sub>z</sub>.</li>
@@ -342,8 +342,65 @@ const TOPICS = [
 </ul>`
   },
   {
-    id: 'gio',
+    id: 'song-nc',
     tag: 'Chuyên đề 2',
+    title: 'Sóng: chọn lý thuyết, sóng ngẫu nhiên, thanh xiên và dòng chảy',
+    body: `
+<h4>Phân loại theo độ sâu tương đối</h4>
+<div class="tw"><table>
+<tr><th>Vùng</th><th>h/L</th></tr>
+<tr><td>Nước sâu</td><td>&gt; 0,5</td></tr>
+<tr><td>Nước trung gian</td><td>0,05 đến 0,5</td></tr>
+<tr><td>Nước nông</td><td>&lt; 0,05</td></tr>
+</table></div>
+<p>Sóng vào bờ: độ sâu lớn hơn nửa bước sóng thì sóng không cảm nhận đáy. Khi vào nước nông, vận tốc truyền giảm, chiều cao tăng, rồi sóng vỡ.</p>
+<h4>Các lý thuyết sóng</h4>
+<ul>
+<li><b>Airy (tuyến tính):</b> η = (H/2)·cos(kx − ωt), vận tốc ngang <span class="eq">u = (H/2)·ω·cosh k(z+d)/sinh kd·cos θ</span>, tán sắc <span class="eq">ω² = g·k·tanh kd</span>.</li>
+<li><b>Stokes bậc 2</b> thêm thành phần bậc hai: <span class="eq">u = aω·cosh k(z+d)/sinh kd·cos θ + ¾·a²ωk·cosh 2k(z+d)/sinh⁴kd·cos 2θ</span>. Đỉnh sóng nhọn hơn, bụng sóng phẳng hơn Airy. <b>Stokes bậc 5</b> dùng chuỗi năm thành phần với hệ số A<sub>n</sub>, B<sub>n</sub> xác định theo H, T, d.</li>
+<li><b>Cnoidal</b> cho nước nông, <b>sóng đơn (solitary)</b> cho sóng đơn rất nông, <b>hàm dòng (stream function)</b> cho phi tuyến cao.</li>
+</ul>
+<p>Cách chọn theo quy phạm API: vẽ điểm (d/gT², H/gT²) lên biểu đồ. Có các đường giới hạn vỡ: nước sâu H/L ≈ 0,14, nước nông H/d ≈ 0,78. Vùng nước sâu dùng Airy hoặc hàm dòng, vùng trung gian dùng Stokes bậc 5 hoặc hàm dòng, vùng nước nông dùng hàm dòng.</p>
+<h4>Sóng ngẫu nhiên (sóng thực)</h4>
+<ul>
+<li>Mặt biển là tổ hợp nhiều sóng điều hòa: <span class="eq">η(t) = Σ a<sub>i</sub>·cos(ω<sub>i</sub>t + φ<sub>i</sub>)</span>, pha φ<sub>i</sub> ngẫu nhiên phân bố đều trong [0, 2π].</li>
+<li>Thông số thống kê từ phổ: mô men phổ <span class="eq">m<sub>n</sub> = ∫ f<sup>n</sup>·S(f)·df</span>, <span class="eq">H<sub>m0</sub> = 4·√m₀</span>, <span class="eq">T<sub>z</sub> = √(m₀/m₂)</span>, <span class="eq">T<sub>p</sub> = 1/f<sub>p</sub></span>.</li>
+<li>Phân bố chiều cao sóng Rayleigh: <span class="eq">P(H &gt; H<sub>i</sub>) = exp[−2·(H<sub>i</sub>/H<sub>s</sub>)²]</span>.</li>
+<li>Phổ <b>Pierson–Moskowitz</b> cho biển phát triển đầy đủ. Phổ <b>JONSWAP</b> cho biển còn phát triển theo đà gió, thêm hệ số tăng đỉnh γ (thường 3,3).</li>
+</ul>
+<h4>Kích thước vật cản D/L</h4>
+<ul>
+<li>D/L &gt; 1: vật cản rất lớn, sóng bị dội lại gần hết (công trình chắn sóng).</li>
+<li>0,2 ≤ D/L ≤ 1: sóng nhiễu xạ, dùng lý thuyết nhiễu xạ (MacCamy–Fuchs).</li>
+<li>D/L &lt; 0,2: dùng Morison.</li>
+</ul>
+<h4>Morison và các hệ số</h4>
+<p><span class="eq">q(t) = q<sub>d</sub> + q<sub>I</sub></span>, <span class="eq">q<sub>d</sub> = ½·ρ·C<sub>d</sub>·D·|v|·v</span>, <span class="eq">q<sub>I</sub> = ρ·A·a + C<sub>m</sub>·ρ·A·a = C<sub>I</sub>·ρ·A·a</span>. Thành phần quán tính gồm hai phần: khối lượng nước bị chiếm chỗ (ρ·A·a) và khối lượng nước kèm (C<sub>m</sub>·ρ·A·a). Hệ số quán tính <span class="eq">C<sub>I</sub> = 1 + C<sub>m</sub></span>. Trong các ví dụ khác, ký hiệu C<sub>M</sub> thường chỉ chính C<sub>I</sub> này.</p>
+<p>C<sub>D</sub>, C<sub>m</sub>, C<sub>I</sub> phụ thuộc hình dạng, độ nhám bề mặt, số Reynolds Re và số Keulegan–Carpenter KC.</p>
+<h4>Cách tính thực hành</h4>
+<ul>
+<li>Lực trên đoạn a<sub>i</sub> đến b<sub>i</sub>: <span class="eq">F<sub>i</sub>(t) = ∫ q(z, t)·dz</span>, mô men <span class="eq">M<sub>i</sub>(t) = ∫ z·q(z, t)·dz</span>, vị trí hợp lực <span class="eq">d<sub>i</sub> = M<sub>i</sub>/F<sub>i</sub></span>.</li>
+<li>Thời điểm F lớn nhất và M lớn nhất thường khác nhau (dF/dt = 0 và dM/dt = 0). Thực tế rời rạc hóa chu kỳ sóng thành khoảng 20 thời điểm rồi lấy cực đại.</li>
+<li>Công thức đóng với Airy có F<sub>D</sub> ∝ cos θ|cos θ| và F<sub>I</sub> ∝ sin θ, nên cản cực đại ở đỉnh sóng, quán tính cực đại ở θ = ±90°.</li>
+</ul>
+<h4>Trụ chuyển vị và thanh xiên</h4>
+<ul>
+<li><b>Morison mở rộng</b> cho trụ dao động: dùng vận tốc tương đối (v − U̇) trong lực cản. Khối lượng nước kèm tác dụng lên gia tốc của chính kết cấu.</li>
+<li><b>Thanh xiên:</b> phân tích vận tốc và gia tốc của nước theo các cosin chỉ phương c<sub>x</sub>, c<sub>y</sub>, c<sub>z</sub> của trục thanh, chỉ thành phần vuông góc trục (pháp tuyến) tạo tải: <span class="eq">v<sub>n</sub> = v − c·(c·v)</span>, <span class="eq">q = ½ρC<sub>d</sub>D|v<sub>n</sub>|v<sub>n</sub> + ρC<sub>I</sub>A·a<sub>n</sub></span>. Dùng cho giằng của jacket.</li>
+</ul>
+<h4>Dòng chảy</h4>
+<ul>
+<li>Dòng chảy tổng: <span class="eq">V<sub>dc</sub>(z) = V<sub>triều</sub>(z) + V<sub>gió</sub>(z)</span>. Dòng triều theo lũy thừa 1/7 theo độ sâu, dòng do gió giảm tuyến tính trong độ sâu d₀ (xem chuyên đề Sóng).</li>
+<li>Cộng vận tốc nước: <span class="eq">v(z, t) = v<sub>sóng</sub> + v<sub>dc</sub></span>, rồi đưa vào thành phần cản (thành phần quán tính chỉ do sóng).</li>
+<li><b>Ảnh hưởng của dòng chảy lên sóng:</b> dòng cùng chiều làm bước sóng dãn ra, dòng ngược chiều nén sóng lại. Dùng chu kỳ biểu kiến T<sub>app</sub> khi tính sóng trong dòng chảy.</li>
+</ul>
+<h4>Phương pháp phổ (quan điểm ngẫu nhiên)</h4>
+<p>Tuyến tính hóa số hạng cản theo độ lệch chuẩn vận tốc: <span class="eq">|v|·v ≈ √(8/π)·σ<sub>v</sub>·v</span>. Khi đó lực là hàm tuyến tính của vận tốc và gia tốc, phổ lực: <span class="eq">S<sub>qq</sub>(ω) = C′<sub>D</sub>²·S<sub>vv</sub>(ω) + (C<sub>I</sub>·ρ·A)²·ω²·S<sub>vv</sub>(ω)</span>, với S<sub>vv</sub> suy từ phổ sóng qua hàm truyền cosh k(z+d)/sinh kd. Dùng cho phân tích mỏi và đáp ứng ngẫu nhiên.</p>
+<p class="note">Ví dụ số có tính tay và so sánh slide ở chuyên đề "Ví dụ bài giảng Chương 4".</p>`
+  },
+  {
+    id: 'gio',
+    tag: 'Chuyên đề 3',
     title: 'Tải gió lên rotor và tháp, quy đổi gió',
     body: `
 <h4>Lực đẩy rotor</h4>
@@ -382,8 +439,54 @@ IEC dùng cho tải tua bin (nhất quán với mô phỏng khí động đàn h
 <p class="note">Mô-đun "Quy đổi gió" trong tab Tính toán thực hiện chính xác các phép này.</p>`
   },
   {
+    id: 'tuabin',
+    tag: 'Chuyên đề 4',
+    title: 'Lý thuyết tải gió lên tuabin: động lượng, Betz, BEM, tải 1P và 3P',
+    body: `
+<h4>Chế độ hoạt động</h4>
+<ul>
+<li><b>V<sub>cut-in</sub></b>: tốc độ bắt đầu phát điện. <b>V<sub>rat</sub></b>: tốc độ định mức, sau đó cơ cấu xoay cánh (pitch) và phanh giữ công suất ổn định. <b>V<sub>cut-out</sub></b>: tốc độ ngừng máy. <b>V<sub>ref</sub></b>: tốc độ gió bão cực hạn 50 năm khi công trình chịu bão.</li>
+<li>Cơ cấu điều khiển: <b>tilting</b> (nghiêng trục), <b>yawing</b> (xoay nacelle theo hướng gió), <b>pitching</b> (xoay góc cánh).</li>
+<li>Bảy chế độ làm việc để đưa vào DLC: vận hành, vận hành + sự cố, khởi động, dừng thông thường, dừng đột ngột, đỗ khi bão, đỗ khi bão + sự cố.</li>
+</ul>
+<h4>Vận tốc gió</h4>
+<p>Vận tốc gió thay đổi theo độ cao và theo thời gian: <span class="eq">V(M, t) = V̄(M) + v(M, t)</span>, gồm thành phần trung bình và thành phần mạch động. Giá trị trung bình lấy theo nhiều thời gian (3 giây, 1 phút, 10 phút, 1 giờ), tuabin gió dùng <b>10 phút</b>. Số liệu khảo sát thường cho gió trung bình 1 giờ tại 10 m, cần quy đổi như chuyên đề Gió. Phân bố xác suất của gió trung bình 10 phút theo Rayleigh, phổ nhiễu loạn theo Kaimal, có hai mô hình nhiễu loạn NTM và ETM.</p>
+<h4>Lý thuyết động lượng (actuator disk)</h4>
+<p>Coi rotor là một đĩa hút năng lượng. Hệ số cảm ứng dọc trục <span class="eq">a = (V₀ − V<sub>d</sub>)/V₀</span>. Vận tốc qua đĩa <span class="eq">V<sub>d</sub> = V₀·(1 − a)</span>, vận tốc xa phía sau (wake) <span class="eq">V<sub>w</sub> = V₀·(1 − 2a)</span>.</p>
+<ul>
+<li>Lực đẩy bằng độ biến thiên động lượng: <span class="eq">T = ṁ·(V₀ − V<sub>w</sub>) = 2·ρ·A·V₀²·a·(1 − a)</span>, hệ số lực đẩy <span class="eq">C<sub>T</sub> = T/(½·ρ·A·V₀²) = 4a(1 − a)</span>.</li>
+<li>Công suất: <span class="eq">P = T·V<sub>d</sub> = 2ρAV₀³·a(1 − a)²</span>, <span class="eq">C<sub>P</sub> = 4a(1 − a)²</span>.</li>
+<li><b>Giới hạn Betz:</b> cực đại C<sub>P</sub> tại a = 1/3, bằng 16/27 ≈ 0,593. Khi đó V<sub>d</sub> = 2/3 V₀, V<sub>w</sub> = 1/3 V₀, và C<sub>T</sub> = 8/9 ≈ 0,89. Không thể lấy 100% năng lượng vì dòng khí vẫn phải đi qua rotor.</li>
+<li>Ví dụ: a = 0,20 cho V<sub>d</sub> = 0,80 V₀ và V<sub>w</sub> = 0,60 V₀. a quá lớn thì wake phức tạp, lý thuyết động lượng cơ bản không còn phù hợp.</li>
+</ul>
+<h4>Tính sơ bộ tải gió</h4>
+<p>Với tuabin trong dải vận hành, dùng <span class="eq">T = ½·ρ<sub>a</sub>·A<sub>R</sub>·C<sub>T</sub>·V<sub>hub</sub>²</span>, C<sub>T</sub> ≈ 0,7 đến 0,9 (xem chuyên đề Gió). Lực lên nacelle và tháp tính theo cản khí động.</p>
+<h4>Lý thuyết phần tử cánh (Blade Element Theory)</h4>
+<p>Chia cánh thành các phần tử dài dr, mỗi phần tử coi như một mặt cắt cánh 2D độc lập có chord c(r), góc xoắn θ(r) và đường cong khí động C<sub>L</sub>(α), C<sub>D</sub>(α). Lực nâng và lực cản: <span class="eq">dL = ½ρV<sub>rel</sub>²·c·C<sub>L</sub>·dr</span>, <span class="eq">dD = ½ρV<sub>rel</sub>²·c·C<sub>D</sub>·dr</span>.</p>
+<ul>
+<li>Chuyển sang lực pháp tuyến và tiếp tuyến: <span class="eq">C<sub>n</sub> = C<sub>L</sub>cosφ + C<sub>D</sub>sinφ</span>, <span class="eq">C<sub>t</sub> = C<sub>L</sub>sinφ − C<sub>D</sub>cosφ</span>. Lực pháp tuyến tạo lực đẩy, lực tiếp tuyến tạo mô men xoắn.</li>
+<li>Cho B cánh: <span class="eq">dT = ½ρV<sub>rel</sub>²·B·c·C<sub>n</sub>·dr</span>, <span class="eq">dQ = ½ρV<sub>rel</sub>²·B·c·C<sub>t</sub>·r·dr</span>, <span class="eq">dP = Ω·dQ</span>. Tích phân theo bán kính cho tải toàn rotor.</li>
+</ul>
+<h4>Ghép hai lý thuyết: BEM</h4>
+<p>Cho mỗi phần tử cánh trao đổi động lượng với một ống dòng hình vành khăn (dA = 2πr·dr): <span class="eq">dT<sub>động lượng</sub> = dT<sub>cánh</sub></span>, <span class="eq">dQ<sub>động lượng</sub> = dQ<sub>cánh</sub></span>. Đặt độ đặc σ = B·c/(2πr), hệ số tổn thất đầu cánh F (Prandtl):</p>
+<p><span class="eq">a = 1/[1 + 4F·sin²φ/(σ·C<sub>n</sub>)]</span>, <span class="eq">a′ = 1/[4F·sinφ·cosφ/(σ·C<sub>t</sub>) − 1]</span></p>
+<p>BEM phải giải <b>lặp</b> vì a, a′ → φ → α → C<sub>L</sub>, C<sub>D</sub> → C<sub>n</sub>, C<sub>t</sub> → a, a′ mới. Quy trình: khởi tạo a, a′; tính V<sub>a</sub>, V<sub>t</sub>, W, φ; tính α = φ − (θ + θ<sub>p</sub>); tra polar; tính C<sub>n</sub>, C<sub>t</sub>, F; cập nhật a, a′; kiểm tra hội tụ |a<sub>mới</sub> − a| &lt; ε; rồi tính dT, dQ, dP.</p>
+<h4>Vì sao cần mô phỏng tích hợp</h4>
+<ul>
+<li>Gió thay đổi theo không gian và thời gian (trung bình và nhiễu loạn).</li>
+<li>Cánh biến dạng lớn (chuyển vị, xoắn) làm hệ số cảm ứng, lực cản, lực nâng thay đổi.</li>
+<li>Thân tháp biến dạng; cơ chế điều khiển tilt, yaw, pitch; thành phần 1P và 3P.</li>
+</ul>
+<h4>Tải 1P và 3P khi vận hành</h4>
+<ul>
+<li><b>Tải 1P</b> (một lần mỗi vòng): do lực quán tính, do mất cân bằng khối lượng khi quay và mất cân bằng lực khí động.</li>
+<li><b>Tải 3P</b> (ba lần mỗi vòng): do hiệu ứng che chắn khi một cánh trùng vị trí thân trụ, làm giảm đột ngột tải gió lên trụ.</li>
+</ul>
+<p class="note">Ứng dụng dùng công thức động lượng với C<sub>T</sub> cho trước, không chạy BEM. Giá trị C<sub>T</sub>(V) thật đến từ nhà chế tạo hoặc mô phỏng khí động đàn hồi.</p>`
+  },
+  {
     id: 'moi-truong',
-    tag: 'Chuyên đề 3',
+    tag: 'Chuyên đề 5',
     title: 'Thống kê gió, sóng và số liệu môi trường',
     body: `
 <h4>Chu kỳ lặp và xác suất trong tuổi thọ</h4>
@@ -421,7 +524,7 @@ Rayleigh khá gần Weibull ở tốc độ cao nhưng lệch ở tốc độ th
   },
   {
     id: 'dlc-ct',
-    tag: 'Chuyên đề 4',
+    tag: 'Chuyên đề 6',
     title: 'Bảng DLC chi tiết và tổ hợp tải',
     body: `
 <p>Bảng tóm lược các DLC thường gặp (tham khảo Bảng 2 của IEC 61400-3-1, hãy đối chiếu bản gốc khi làm hồ sơ):</p>
@@ -462,11 +565,62 @@ Trường hợp chi phối là 6.1. Khi nhập dòng chảy 0,6 và 0,4 m/s, 6.1
 <li><b>DLC 1.1:</b> ngoại suy tải cực hạn, dùng hệ số 1,25 cho tải bình thường khi ngoại suy thống kê.</li>
 <li><b>Ma trận tải tương đương:</b> kết quả phân tích tích hợp quy về chân tháp dưới dạng bảng lực và mô men lớn nhất, nhỏ nhất, dùng cho tính cấu kiện.</li>
 </ul>
+<h4>Các DLC dùng cho từng trạng thái (theo bài giảng)</h4>
+<ul>
+<li><b>ULS:</b> 1.1 (NTM + NSS, ngoại suy tải cực hạn), 1.3 (ETM), 1.4 (ECD), 1.5 (EWS), 1.6 (NTM + SSS); 2.x (vận hành + sự cố); 3.x (khởi động: NWP, EOG, EDC); 4.2 (dừng thông thường); 5.1 (dừng khẩn cấp); 6.1 đến 6.3 (đỗ); 7.1 (đỗ + sự cố); 8.x (vận chuyển, lắp dựng, sửa chữa). Phải dùng bộ tải đồng thời tại một thời điểm.</li>
+<li><b>FLS:</b> 1.2, 4.1, 6.4, 7.2, 8.3 và 8.4. Là chuỗi thời gian dài kèm tần suất theo hướng gió, đếm rainflow, S–N, Miner. DLC 1.2 và 6.4 thường chi phối.</li>
+<li><b>SLS:</b> không có họ DLC riêng. Dùng γ<sub>f</sub> = 1,0 và đánh giá theo ba mức tải dịch vụ: <b>S1</b> (đặc trưng, suy từ DLC vận hành nhóm N của ULS), <b>S2</b> (thường xuyên, mức vượt rất thấp cỡ 10⁻⁴ tuổi thọ, từ mô phỏng kiểu FLS) và <b>S3</b> (thường xuyên tương đương, mức vượt cỡ 10⁻², kiểm tra yêu cầu làm việc lâu dài). Mức vượt ghi theo slide, cần đối chiếu bản gốc.</li>
+</ul>
+<p>Các đại lượng kiểm tra SLS: chuyển vị đỉnh tháp δ ≤ δ<sub>allow</sub> (độ lệch ngang), độ nghiêng móng hoặc tháp θ ≤ θ<sub>allow</sub>, gia tốc rung a<sub>rms</sub> ≤ a<sub>allow</sub>, khoảng hở đầu cánh so với tháp, và khả năng vận hành của rotor và nacelle.</p>
+<h4>LRFD và WSD</h4>
+<p>Trạng thái ULS theo LRFD: <span class="eq">S(Σγ<sub>i</sub>·F<sub>i</sub>) ≤ m·R<sub>k</sub>/γ<sub>m</sub></span>, hay <span class="eq">UR = S<sub>d</sub>/R<sub>d</sub> ≤ 1</span> (ISO, DnV, API). Theo WSD: <span class="eq">f ≤ F<sub>allowable</sub> = F<sub>y</sub> hoặc F<sub>crit</sub> chia SF</span>.</p>
 <p class="note">Các hệ số khuếch đại lực đẩy, C<sub>t</sub> khi đỗ, sóng và chu kỳ 1 năm (H<sub>s</sub> 4,8 m, T<sub>p</sub> 9 s), và hệ số dòng chảy 0,8 là giả định của ứng dụng. Trong dự án thật các số này đến từ mô phỏng khí động đàn hồi của nhà chế tạo.</p>`
   },
   {
+    id: 'vd-ch4',
+    tag: 'Chuyên đề 7',
+    title: 'Ví dụ bài giảng Chương 4: sóng với dòng chảy, gió 8 MW và tổ hợp ULS',
+    body: `
+<p>Ba ví dụ lấy từ bài giảng, đã được dựng lại trong mô-đun "Ví dụ Ch.4" ở tab Tính toán. Kết quả của ứng dụng khớp số của slide.</p>
+<h4>Ví dụ 1: sóng và dòng chảy lên monopile (Morison, sóng Airy)</h4>
+<p>H = 2,5 m, T = 8 s, h = 30 m, D = 8 m, C<sub>D</sub> = 1,0, C<sub>M</sub> = 2,0, U<sub>c0</sub> = 0,5 m/s (phân bố ((z + h)/h)<sup>1/7</sup>). Sóng có ω = 0,7854 rad/s, k = 0,06541 1/m, L = 96,05 m (nước trung gian, h/L = 0,31).</p>
+<div class="ex"><b>Pha đỉnh sóng trùng tim cọc</b> (kx − ωt = 0): gia tốc sóng bằng 0, chỉ còn cản của vận tốc tổ hợp u<sub>r</sub> = u<sub>w</sub> + U<sub>c</sub>.
+<ul>
+<li>Tại z = 0: u<sub>w</sub> = 1,021 m/s, U<sub>c</sub> = 0,500 m/s, u<sub>r</sub> = 1,521 m/s, f<sub>D</sub> = 9,49 kN/m. Tại đáy: u<sub>r</sub> = 0,281 m/s, f<sub>D</sub> = 0,32 kN/m.</li>
+<li>Tổng lực F ≈ 115,4 kN, mô men tại mudline M ≈ 2,34 MN·m (slide: 115,38 kN và 2,34 MN·m).</li>
+</ul></div>
+<div class="ex"><b>Pha mặt nước tại tim cọc bằng MSL</b> (kx − ωt = π/2): vận tốc sóng bằng 0, gia tốc sóng cực đại, quán tính chi phối.
+<ul>
+<li>Cản chỉ do dòng chảy: F<sub>D</sub> ≈ 23,0 kN. Quán tính F<sub>I</sub> ≈ 1 225 kN.</li>
+<li>Tổng lực F ≈ 1 248,5 kN, M ≈ 23,30 MN·m (slide: 1 248,46 kN, 23,30 MN·m).</li>
+</ul></div>
+<p>Bài học: với trụ lớn (D = 8 m), tải quán tính lớn gấp hơn 10 lần tải cản. Pha quyết định tải cực đại khác nhau cho từng thành phần, nên phải quét pha. Tích phân hình thang theo bảng 5 m cho sai lệch khoảng 0,8% so với tích phân chi tiết, đây là sai số cầu phương.</p>
+<h4>Ví dụ 2: tải gió lên tuabin 8 MW</h4>
+<p>D<sub>R</sub> = 170 m, hub +110 m, tháp cao 105 m (D từ 6,5 m xuống 4,0 m), h = 30 m, V<sub>hub</sub> = 12 m/s, α = 0,10, C<sub>T</sub> = 0,8, ρ<sub>a</sub> = 1,225 kg/m³.</p>
+<div class="ex">
+<ul>
+<li>Lực đẩy rotor T = ½·1,225·22 698·0,8·12² = 1,60 MN tại 110 m.</li>
+<li>Nacelle F<sub>N</sub> ≈ 6,9 kN, tháp F<sub>T</sub> ≈ 46 kN tại độ cao khoảng 55 m.</li>
+<li>Tổng lực ngang ≈ 1,65 MN. Mô men tại mudline M<sub>wind</sub> = T·(110 + 30) + F<sub>N</sub>·(110 + 30) + ∫p<sub>T</sub>·(z + 30)·dz ≈ 229 MN·m.</li>
+</ul>
+Rotor chiếm khoảng 97% tổng tải. Gió chỉ tác dụng lên phần tháp phía trên MSL, mô men tại mudline lấy với cánh tay cộng thêm độ sâu nước.</div>
+<h4>Ví dụ 3: tổ hợp ULS tại mudline, DLC 6.1</h4>
+<p>Tuabin đỗ (rotor parked, cánh feather) trong bão cực trị: V<sub>hub</sub> = 50 m/s, H<sub>s</sub> = 8,5 m, T<sub>p</sub> = 12,5 s, dòng chảy U<sub>c</sub> = 0,9 m/s, mực nước +3,0 m so với MSL, gió và sóng lệch 30°.</p>
+<div class="tw"><table>
+<tr><th>Tải</th><th>Đặc trưng</th><th>Thiết kế (γ<sub>f</sub> = 1,35)</th></tr>
+<tr><td>N</td><td>−60 MN</td><td>−81 MN</td></tr>
+<tr><td>V<sub>x</sub></td><td>8,0 MN</td><td>10,8 MN</td></tr>
+<tr><td>V<sub>y</sub></td><td>3,0 MN</td><td>4,05 MN</td></tr>
+<tr><td>M<sub>x</sub></td><td>260 MN·m</td><td>351 MN·m</td></tr>
+<tr><td>M<sub>y</sub></td><td>760 MN·m</td><td>1 026 MN·m</td></tr>
+<tr><td>T</td><td>15 MN·m</td><td>20,25 MN·m</td></tr>
+</table></div>
+<p>Lực cắt tổng hợp <span class="eq">V<sub>d</sub> = √(10,8² + 4,05²) ≈ 11,53 MN</span>. Mô men uốn tổng hợp <span class="eq">M<sub>b,d</sub> = √(351² + 1026²) ≈ 1 084 MN·m</span>. Kiểm tra ULS: UR = S<sub>d</sub>/R<sub>d</sub> = 0,84 &lt; 1, đạt.</p>
+<p class="note">Phải dùng bộ tải đồng thời [N, V<sub>x</sub>, V<sub>y</sub>, M<sub>x</sub>, M<sub>y</sub>, T] tại cùng một thời điểm, không ghép các cực trị riêng lẻ. Số liệu DLC 6.1 của slide là số giả định phục vụ giảng dạy.</p>`
+  },
+  {
     id: 'monopile',
-    tag: 'Chuyên đề 5',
+    tag: 'Chuyên đề 8',
     title: 'Monopile: ứng suất, ổn định vỏ và p-y',
     body: `
 <h4>Ứng suất tại đáy biển</h4>
@@ -495,7 +649,7 @@ Trường hợp chi phối là 6.1. Khi nhập dòng chảy 0,6 và 0,4 m/s, 6.1
   },
   {
     id: 'tan',
-    tag: 'Chuyên đề 6',
+    tag: 'Chuyên đề 9',
     title: 'Tần số riêng và cửa sổ 1P/3P',
     body: `
 <h4>Phương pháp Rayleigh</h4>
@@ -523,7 +677,7 @@ Trường hợp chi phối là 6.1. Khi nhập dòng chảy 0,6 và 0,4 m/s, 6.1
   },
   {
     id: 'dong-dat',
-    tag: 'Chuyên đề 7',
+    tag: 'Chuyên đề 10',
     title: 'Động đất: phổ phản ứng và lực theo dạng dao động thứ nhất',
     body: `
 <h4>Phổ phản ứng (API RP 2A, cản 5%)</h4>
@@ -553,7 +707,7 @@ Trường hợp chi phối là 6.1. Khi nhập dòng chảy 0,6 và 0,4 m/s, 6.1
   },
   {
     id: 'jacket',
-    tag: 'Chuyên đề 8',
+    tag: 'Chuyên đề 11',
     title: 'Jacket: lực chân, giằng và cọc nhổ',
     body: `
 <h4>Phân phối lực lên 4 chân</h4>
@@ -583,7 +737,7 @@ Trường hợp chi phối là 6.1. Khi nhập dòng chảy 0,6 và 0,4 m/s, 6.1
   },
   {
     id: 'gbs',
-    tag: 'Chuyên đề 9',
+    tag: 'Chuyên đề 12',
     title: 'Móng trọng lực: ổn định và biến dạng',
     body: `
 <h4>Độ lệch tâm và diện tích hữu hiệu</h4>
@@ -613,7 +767,7 @@ Trường hợp chi phối là 6.1. Khi nhập dòng chảy 0,6 và 0,4 m/s, 6.1
   },
   {
     id: 'noi',
-    tag: 'Chuyên đề 10',
+    tag: 'Chuyên đề 13',
     title: 'Móng nổi: ổn định và chu kỳ riêng',
     body: `
 <h4>Ổn định tĩnh của spar</h4>
@@ -644,7 +798,7 @@ Nhún 18,8 s còn khá gần dải sóng dài. Cách xử lý là thêm tấm gi
   },
   {
     id: 'moi',
-    tag: 'Chuyên đề 11',
+    tag: 'Chuyên đề 14',
     title: 'Mỏi: đường cong S–N và cộng dồn Miner',
     body: `
 <h4>Đường cong S–N loại D (DNV-RP-C203)</h4>
@@ -2159,6 +2313,168 @@ const TERMS = [
   "Búa thủy lực",
   "Đóng monopile.",
   "tc"
+ ],
+ [
+  "Actuator disk",
+  "Đĩa lấy năng lượng (lý thuyết động lượng)",
+  "Coi rotor như đĩa mỏng làm chậm dòng gió.",
+  "tai"
+ ],
+ [
+  "Axial induction factor",
+  "Hệ số cảm ứng dọc trục a",
+  "a = (V₀ − V_d)/V₀.",
+  "tai"
+ ],
+ [
+  "Betz limit",
+  "Giới hạn Betz",
+  "C_P tối đa 16/27 = 0,593 tại a = 1/3.",
+  "tai"
+ ],
+ [
+  "Thrust coefficient",
+  "Hệ số lực đẩy C_T",
+  "C_T = 4a(1 − a).",
+  "tai"
+ ],
+ [
+  "Power coefficient",
+  "Hệ số công suất C_P",
+  "C_P = 4a(1 − a)².",
+  "tai"
+ ],
+ [
+  "Blade element momentum (BEM)",
+  "Lý thuyết phần tử cánh – động lượng",
+  "Giải lặp ghép lực cánh với bảo toàn động lượng.",
+  "tai"
+ ],
+ [
+  "Prandtl tip loss factor",
+  "Hệ số tổn thất đầu cánh Prandtl",
+  "Hiệu chỉnh F cho dòng quanh đầu cánh.",
+  "tai"
+ ],
+ [
+  "Cut-in wind speed",
+  "Tốc độ gió bắt đầu phát điện",
+  "Dưới mức này tuabin không phát.",
+  "tai"
+ ],
+ [
+  "Rated wind speed",
+  "Tốc độ gió định mức",
+  "Đạt công suất tối đa.",
+  "tai"
+ ],
+ [
+  "Cut-out wind speed",
+  "Tốc độ gió ngừng máy",
+  "Trên mức này tuabin dừng.",
+  "tai"
+ ],
+ [
+  "Tilt",
+  "Độ nghiêng trục",
+  "Góc ngửa trục rotor.",
+  "tai"
+ ],
+ [
+  "Yaw",
+  "Xoay hướng nacelle",
+  "Xoay nacelle đón gió.",
+  "tai"
+ ],
+ [
+  "Pitch",
+  "Xoay cánh",
+  "Xoay cánh quanh trục dọc để điều chỉnh tải.",
+  "tai"
+ ],
+ [
+  "1P load",
+  "Tải 1P",
+  "Một lần mỗi vòng quay, do mất cân bằng.",
+  "tai"
+ ],
+ [
+  "3P load",
+  "Tải 3P",
+  "Ba lần mỗi vòng, do hiệu ứng che chắn của tháp.",
+  "tai"
+ ],
+ [
+  "Tower shadow",
+  "Hiệu ứng che chắn của tháp",
+  "Cánh đi qua thân tháp làm tải gió đổi nhịp.",
+  "tai"
+ ],
+ [
+  "Keulegan–Carpenter number",
+  "Số Keulegan–Carpenter",
+  "Tỷ lệ quãng đường hạt nước với cỡ trụ.",
+  "tai"
+ ],
+ [
+  "Reynolds number",
+  "Số Reynolds",
+  "Tỷ lệ lực quán tính với lực nhớt.",
+  "tai"
+ ],
+ [
+  "Wave–current interaction",
+  "Tương tác sóng và dòng chảy",
+  "Dòng chảy làm đổi bước sóng và chu kỳ biểu kiến.",
+  "tai"
+ ],
+ [
+  "Stokes wave",
+  "Sóng Stokes",
+  "Lý thuyết sóng phi tuyến theo chuỗi.",
+  "tai"
+ ],
+ [
+  "Cnoidal wave",
+  "Sóng cnoidal",
+  "Sóng dài ở nước nông.",
+  "tai"
+ ],
+ [
+  "Solitary wave",
+  "Sóng đơn",
+  "Một ngọn sóng đơn độc ở nước rất nông.",
+  "tai"
+ ],
+ [
+  "Stream function wave",
+  "Sóng hàm dòng",
+  "Lý thuyết số cho sóng phi tuyến cao.",
+  "tai"
+ ],
+ [
+  "Simultaneous load set",
+  "Bộ tải đồng thời",
+  "Các thành phần lực tại cùng một thời điểm.",
+  "tai"
+ ],
+ [
+  "Mudline moment arm",
+  "Cánh tay mô men tại đáy biển",
+  "Khoảng cách từ điểm đặt lực đến mudline.",
+  "tai"
+ ],
+ [
+  "Working stress design (WSD)",
+  "Thiết kế theo ứng suất cho phép",
+  "f ≤ F_allowable.",
+  "tai"
+ ],
+ [
+  "Serviceability levels S1–S3",
+  "Mức tải dịch vụ S1 đến S3",
+  "Đặc trưng, thường xuyên, thường trực.",
+  "tai"
  ]
 ];
 const QUIZ = [
@@ -3201,6 +3517,201 @@ const QUIZ = [
   "w": "Cọc, TP, tháp, nacelle, cánh, rồi cáp.",
   "c": "moi",
   "l": 2
+ },
+ {
+  "q": "Giới hạn Betz cho biết điều gì?",
+  "o": [
+   "Rotor lấy tối đa 59,3% năng lượng gió",
+   "Rotor lấy được 100%",
+   "Tốc độ gió tối đa",
+   "Số cánh tối ưu"
+  ],
+  "a": 0,
+  "w": "C_P,max = 16/27 tại a = 1/3.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "Với a = 0,2 thì gió phía sau rotor còn bao nhiêu so với V₀?",
+  "o": [
+   "0,80",
+   "0,60",
+   "0,20",
+   "0,40"
+  ],
+  "a": 1,
+  "w": "V_w = V₀(1 − 2a) = 0,6 V₀.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Tại giới hạn Betz, C_T bằng?",
+  "o": [
+   "4/9",
+   "16/27",
+   "8/9",
+   "1,0"
+  ],
+  "a": 2,
+  "w": "C_T = 4a(1 − a) = 8/9 khi a = 1/3.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Vì sao BEM phải giải lặp?",
+  "o": [
+   "Vì gió không ổn định",
+   "Vì cánh quay quá nhanh",
+   "Do số cánh",
+   "a và a′ phụ thuộc góc tới, ngược lại"
+  ],
+  "a": 3,
+  "w": "a, a′ → φ → C_n, C_t → a, a′ mới.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "Tải 3P do nguyên nhân nào?",
+  "o": [
+   "Hiệu ứng che chắn của tháp",
+   "Mất cân bằng khối lượng",
+   "Sóng",
+   "Dòng chảy"
+  ],
+  "a": 0,
+  "w": "Cánh đi qua trước tháp, ba lần mỗi vòng.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "Tải 1P do nguyên nhân nào?",
+  "o": [
+   "Hiệu ứng che tháp",
+   "Mất cân bằng khối lượng hoặc khí động",
+   "Dòng chảy",
+   "Động đất"
+  ],
+  "a": 1,
+  "w": "Một lần mỗi vòng quay.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "Sóng nước sâu khi h/L lớn hơn?",
+  "o": [
+   "0,05",
+   "0,14",
+   "0,5",
+   "1,0"
+  ],
+  "a": 2,
+  "w": "Nước sâu h/L > 0,5; nông < 0,05.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "Khi 0,2 ≤ D/L ≤ 1 nên dùng?",
+  "o": [
+   "Morison",
+   "Bỏ qua",
+   "Sóng đơn",
+   "Lý thuyết nhiễu xạ"
+  ],
+  "a": 3,
+  "w": "D/L < 0,2 mới dùng Morison.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Hệ số quán tính C_I liên hệ với C_m như thế nào?",
+  "o": [
+   "C_I = 1 + C_m",
+   "C_I = C_m",
+   "C_I = 2C_m",
+   "C_I = C_m − 1"
+  ],
+  "a": 0,
+  "w": "Thêm khối lượng nước bị chiếm chỗ.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Dòng chảy cùng chiều sóng làm bước sóng?",
+  "o": [
+   "Ngắn đi",
+   "Dài ra",
+   "Không đổi",
+   "Bằng 0"
+  ],
+  "a": 1,
+  "w": "Dòng ngược chiều thì nén sóng lại.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Trong ví dụ trụ D = 8 m, pha η = 0 có lực lớn vì sao?",
+  "o": [
+   "Cản chi phối",
+   "Dòng chảy lớn",
+   "Quán tính chi phối",
+   "Gió lớn"
+  ],
+  "a": 2,
+  "w": "F ≈ 1248 kN so với 115 kN ở đỉnh sóng.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Vì sao phải dùng bộ tải đồng thời?",
+  "o": [
+   "Cho dễ tính",
+   "Giảm hệ số",
+   "Tiết kiệm thời gian",
+   "Các cực trị riêng không xảy ra cùng lúc"
+  ],
+  "a": 3,
+  "w": "Ghép các cực trị riêng là quá an toàn và sai thực tế.",
+  "c": "tai",
+  "l": 1
+ },
+ {
+  "q": "SLS dùng hệ số tải γ_f bằng?",
+  "o": [
+   "1,0",
+   "1,35",
+   "1,1",
+   "1,5"
+  ],
+  "a": 0,
+  "w": "SLS không nhân hệ số tải.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "DLC nào dùng cho FLS?",
+  "o": [
+   "1.3 và 6.1",
+   "1.2 và 6.4",
+   "1.5",
+   "3.1"
+  ],
+  "a": 1,
+  "w": "FLS gồm 1.2, 4.1, 6.4, 7.2, 8.3, 8.4.",
+  "c": "tai",
+  "l": 2
+ },
+ {
+  "q": "Phương pháp phổ tuyến tính hóa số hạng cản bằng?",
+  "o": [
+   "v²",
+   "2v",
+   "√(8/π)·σ_v·v",
+   "0"
+  ],
+  "a": 2,
+  "w": "|v|v ≈ √(8/π) σ_v v.",
+  "c": "tai",
+  "l": 2
  }
 ];
 
@@ -3381,4 +3892,48 @@ const CONCEPTS = [
   { g: 'nm', t: 'Vùng văng bắn và chống ăn mòn',
     d: 'Vùng văng bắn là vùng sóng đập vào, lúc ướt lúc khô, nên ăn mòn nhanh nhất. Chống ăn mòn bị động là sơn phủ cách ly. Chống chủ động là bảo vệ catốt: dùng anốt hy sinh (nhôm, kẽm bị ăn thay thép) hoặc dòng điện cưỡng bức.',
     e: 'Chiếc xe đạp để ngoài mưa nắng và bị bắn nước mặn ở biển sẽ gỉ nhanh hơn xe cất trong nhà.' }
+  ,{ g: 'gs', t: 'Lý thuyết động lượng và hệ số cảm ứng a',
+    d: 'Coi rotor như một cái đĩa lấy bớt tốc độ của gió. Gió đi qua đĩa chậm lại một phần a so với tốc độ ban đầu, phía sau còn chậm hơn nữa (1 − 2a). Từ đó tính được lực đẩy lên rotor và công suất.',
+    e: 'Đưa bàn tay ra cửa sổ xe đang chạy: gió bị tay cản lại và tay bị đẩy ra sau. Tay càng cản nhiều thì gió phía sau càng yếu.',
+    a: 'a = 0,20 thì gió qua rotor còn 0,80 V₀ và phía sau còn 0,60 V₀.' },
+  { g: 'gs', t: 'Giới hạn Betz',
+    d: 'Rotor không thể lấy hết năng lượng gió vì gió sau rotor vẫn phải thoát đi. Tối đa chỉ lấy được 16/27 khoảng 59,3% năng lượng, ứng với a = 1/3.',
+    e: 'Như đập chắn dòng sông: chắn kín hoàn toàn thì nước không chảy qua nữa, đập chẳng tạo được dòng nào để lấy năng lượng.',
+    a: 'Tại Betz, hệ số lực đẩy C<sub>T</sub> = 8/9 khoảng 0,89.' },
+  { g: 'gs', t: 'Lý thuyết BEM',
+    d: 'Chia cánh thành nhiều đoạn nhỏ. Mỗi đoạn vừa phải khớp với lực nâng và lực cản của mặt cắt cánh, vừa phải khớp với bảo toàn động lượng. Hai bên phụ thuộc lẫn nhau nên phải tính lặp cho đến khi kết quả ổn định.',
+    e: 'Như cân bằng sổ chi tiêu: sửa một khoản làm khoản khác đổi, phải chỉnh qua chỉnh lại đến khi hai bên khớp.',
+    a: 'Ứng dụng dùng C<sub>T</sub> cho trước, không chạy BEM.' },
+  { g: 'gs', t: 'Cut-in, định mức và cut-out',
+    d: 'Cut-in là tốc độ gió tuabin bắt đầu phát điện. Định mức là tốc độ gió đạt công suất tối đa, trên mức này tuabin xoay cánh để giữ công suất. Cut-out là tốc độ gió quá lớn, tuabin dừng và đỗ.',
+    e: 'Như quạt máy có ba nấc: gió nhẹ chưa quay, gió vừa quay hết cỡ, gió bão thì tắt để khỏi hỏng.',
+    a: 'Lực đẩy lớn nhất thường xảy ra gần tốc độ định mức.' },
+  { g: 'gs', t: 'Nghiêng trục, xoay hướng và xoay cánh',
+    d: 'Nghiêng trục (tilt) là độ ngửa của trục rotor để cánh không chạm tháp. Xoay hướng (yaw) là xoay cả nacelle đón gió. Xoay cánh (pitch) là xoay từng cánh quanh trục dọc cánh để tăng giảm lực gió.',
+    e: 'Như cánh quạt thuyền buồm: xoay buồm để đón hay né gió.',
+    a: 'Khi đỗ bão, cánh xoay về vị trí feather để giảm tải.' },
+  { g: 'dd', t: 'Tải 1P và 3P',
+    d: 'Tải 1P lặp lại mỗi vòng quay của rotor do mất cân bằng khối lượng hoặc khí động. Tải 3P lặp lại ba lần mỗi vòng do mỗi cánh đi qua trước tháp thì gió lên tháp giảm một nhịp. Cần tránh tần số riêng của tháp trùng 1P hoặc 3P.',
+    e: 'Đẩy xích đu đúng nhịp thì xích đu lắc rất mạnh. Tải lặp theo nhịp trùng tần số riêng cũng làm cấu kiện rung mạnh.',
+    a: 'Rotor 11 rpm có 1P = 0,183 Hz và 3P = 0,55 Hz.' },
+  { g: 'gs', t: 'Số Keulegan–Carpenter (KC)',
+    d: 'KC cho biết nước chuyển động bao xa so với cỡ của trụ trong một nhịp sóng. KC nhỏ thì nước gần như chỉ lắc quanh trụ, lực quán tính chi phối. KC lớn thì nước tạo xoáy sau trụ, lực cản chi phối. Hệ số C<sub>D</sub> và C<sub>m</sub> thay đổi theo KC.',
+    e: 'Đứng giữa dòng người: nếu người chỉ đẩy nhẹ qua lại thì bạn chủ yếu bị xô, nếu dòng người lao hẳn qua thì bạn bị cuốn đi.',
+    a: 'Trụ D = 8 m, sóng 2,5 m nên KC nhỏ, quán tính lớn gấp hơn 10 lần cản.' },
+  { g: 'gs', t: 'Sóng tương tác với dòng chảy',
+    d: 'Dòng chảy cùng chiều làm sóng dài ra, dòng ngược chiều làm sóng ngắn lại và dốc hơn. Vận tốc nước tổng là vận tốc sóng cộng vận tốc dòng, rồi mới đưa vào số hạng cản.',
+    e: 'Chèo thuyền xuôi dòng thì mỗi nhịp chèo đi được xa hơn, ngược dòng thì ngắn lại.',
+    a: 'Dòng 0,5 m/s cộng với vận tốc sóng 1,02 m/s thành 1,52 m/s tại mặt nước.' },
+  { g: 'tai', t: 'Bộ tải đồng thời',
+    d: 'Kiểm tra móng phải dùng đủ các thành phần lực (N, V<sub>x</sub>, V<sub>y</sub>, M<sub>x</sub>, M<sub>y</sub>, T) xảy ra tại cùng một thời điểm trong mô phỏng. Không được lấy giá trị lớn nhất của từng thành phần từ các thời điểm khác nhau rồi ghép lại.',
+    e: 'Chụp ảnh nhóm phải chụp một lần cho cả nhóm, không ghép mặt đẹp nhất của từng người vào một tấm.',
+    a: 'Tổ hợp V<sub>d</sub> = √(V<sub>x</sub>² + V<sub>y</sub>²), M<sub>b,d</sub> = √(M<sub>x</sub>² + M<sub>y</sub>²), UR = 0,84.' },
+  { g: 'tai', t: 'Mức tải dịch vụ S1, S2, S3',
+    d: 'Với trạng thái sử dụng SLS, hệ số tải γ<sub>f</sub> = 1,0 và đánh giá theo ba mức: S1 là tải đặc trưng thấy ở vận hành, S2 là tải thường xuyên rất hiếm vượt, S3 là tải gần như thường trực. Mỗi mức đi với giới hạn chuyển vị, độ nghiêng, gia tốc tương ứng.',
+    e: 'Như sàn nhà: người đi bình thường, bữa tiệc đông người, và đồ nội thất đặt cố định là ba mức tải khác nhau để kiểm tra độ võng.',
+    a: 'Độ nghiêng móng θ ≤ θ<sub>allow</sub>, gia tốc a<sub>rms</sub> ≤ a<sub>allow</sub>.' },
+  { g: 'tai', t: 'Cánh tay mô men tại đáy biển',
+    d: 'Mô men tại mudline bằng lực nhân khoảng cách từ điểm đặt lực đến mudline. Lực gió đặt trên cao nên phải cộng thêm độ sâu nước vào cánh tay đòn.',
+    e: 'Tay cầm cờ lê càng dài thì mở bu lông càng dễ. Cùng một lực nhưng đặt càng cao thì mô men tại gốc càng lớn.',
+    a: 'Lực đẩy 1,60 MN tại 110 + 30 = 140 m cho khoảng 224 MN·m.' }
 ];

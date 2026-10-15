@@ -328,6 +328,48 @@ const MODS = [
     formulas: `<p>Phổ API: <span class="eq">S_A/a_g = 1</span> khi T ≤ 0,05 s; <span class="eq">20·T</span> đến 2,5 tại T = 0,125 s; giữ 2,5 trên đoạn phẳng; sau đó giảm theo <span class="eq">1,8/T</span> (đất A), <span class="eq">1,2/T</span> (đất B), <span class="eq">0,8/T</span> (đất C).</p>
 <p>Dạng dao động thứ nhất lấy từ độ võng tĩnh: lực quán tính <span class="eq">F_j = Γ·m_j·u_j·S_A</span>, hệ số tham gia <span class="eq">Γ = Σ m·u / Σ m·u²</span>. Lực cắt đáy là tổng F_j, mô men đáy là tổng F_j nhân độ cao so với đáy biển.</p>`,
   },
+  {
+    id: 'vd4', nm: 'Ví dụ Ch.4',
+    intro: 'Tái hiện ba ví dụ của bài giảng Chương 4: tải sóng và dòng chảy lên monopile (Morison, sóng Airy), tải gió lên tuabin 8 MW và tổ hợp tải đồng thời DLC 6.1 theo vector. Dùng để đối chiếu cách tính. Số mặc định lấy theo slide, có thể thay.',
+    groups: [
+      { h: 'Sóng và dòng chảy lên monopile (slide 21–22)', f: [
+        fd('v4_H', 'Chiều cao sóng H', 'm', 2.5),
+        fd('v4_T', 'Chu kỳ sóng T', 's', 8),
+        fd('v4_h', 'Độ sâu nước h', 'm', 30),
+        fd('v4_D', 'Đường kính trụ D', 'm', 8),
+        fd('v4_CD', 'Hệ số cản C_D', '', 1.0, 'slide dùng 1,0'),
+        fd('v4_CM', 'Hệ số quán tính C_M', '', 2.0, 'slide dùng 2,0 (trụ trơn); trụ nhám dùng nhỏ hơn'),
+        fd('v4_Uc', 'Vận tốc dòng chảy ở mặt U_c0', 'm/s', 0.5, 'phân bố (z + h)/h mũ 1/7'),
+      ] },
+      { h: 'Tải gió lên tuabin 8 MW (slide 12)', f: [
+        fd('v4_DR', 'Đường kính rotor D_R', 'm', 170),
+        fd('v4_zh', 'Cao độ hub so với MSL', 'm', 110),
+        fd('v4_V', 'Vận tốc gió tại hub', 'm/s', 12),
+        fd('v4_al', 'Hệ số shear α', '', 0.1),
+        fd('v4_CT', 'Hệ số lực đẩy C_T', '', 0.8, 'thường 0,7 đến 0,9'),
+        fd('v4_CDn', 'C_D của nacelle', '', 1.2, 'thường 1,0 đến 1,2'),
+        fd('v4_AN', 'Diện tích chiếu nacelle A_N', 'm²', 65, 'giả định để khớp 6,9 kN của slide'),
+        fd('v4_Dtb', 'Đường kính đáy tháp', 'm', 6.5),
+        fd('v4_Dtt', 'Đường kính đỉnh tháp', 'm', 4.0),
+        fd('v4_Ht', 'Chiều cao tháp', 'm', 105),
+        fd('v4_CDt', 'C_D của tháp', '', 1.2, 'thường 1,0 đến 1,2'),
+      ] },
+      { h: 'Tổ hợp tải đồng thời DLC 6.1 (slide 5)', f: [
+        fd('v4_N', 'Lực dọc N_k tại mudline', 'MN', -60, 'âm là nén'),
+        fd('v4_Vx', 'Lực cắt V_x,k', 'MN', 8.0),
+        fd('v4_Vy', 'Lực cắt V_y,k', 'MN', 3.0),
+        fd('v4_Mx', 'Mô men M_x,k', 'MN·m', 260),
+        fd('v4_My', 'Mô men M_y,k', 'MN·m', 760),
+        fd('v4_Tq', 'Mô men xoắn T_k', 'MN·m', 15),
+        fd('v4_gf', 'Hệ số tải γ_f', '', 1.35),
+        fd('v4_MR', 'Sức kháng mô men R_d', 'MN·m', 1290, 'giả định, suy từ UR = 0,84 của slide'),
+      ] },
+    ],
+    formulas: `<p>Morison tại một pha, sóng Airy không kéo dãn (đúng như slide): <span class="eq">dF = ½·ρ·C_D·D·|u_r|·u_r·dz + ρ·C_M·(π·D²/4)·a_w·dz</span> với <span class="eq">u_r = u_w + U_c(z)</span>, <span class="eq">U_c(z) = U_c0·((z + h)/h)^(1/7)</span>. Pha đỉnh sóng đặt kx − ωt = 0 (gia tốc bằng 0, chỉ có cản). Pha mặt nước tại tim cọc bằng MSL: kx − ωt = π/2 (vận tốc sóng bằng 0, quán tính chi phối).</p>
+<p>Lực tổng và mô men tại mudline lấy bằng tích phân hình thang theo bảng cao độ cách nhau 5 m như slide. Ứng dụng đồng thời tích phân chi tiết để so sánh sai số cầu phương.</p>
+<p>Gió: <span class="eq">T = ½·ρ_a·A_R·C_T·V²</span>, <span class="eq">F_N = ½·ρ_a·C_D,n·A_N·V²</span>, tháp <span class="eq">p_T(z) = ½·ρ_a·C_D,T·D(z)·V(z)²</span>, <span class="eq">M = T·(z_hub + h) + F_N·(z_hub + h) + ∫p_T·(z + h)·dz</span>.</p>
+<p>Tổ hợp: <span class="eq">X_d = γ_f·X_k</span>, <span class="eq">V_d = √(V_x,d² + V_y,d²)</span>, <span class="eq">M_b,d = √(M_x,d² + M_y,d²)</span>, <span class="eq">UR = M_b,d/R_d</span>. Phải dùng bộ tải đồng thời tại cùng một thời điểm.</p>`,
+  },
 ];
 
 function V(id) {
@@ -1074,6 +1116,61 @@ const COMPUTE = {
       'Phản ứng đàn hồi theo dạng dao động thứ nhất, cản 5%, chưa chia cho hệ số ứng xử. Tính chất đàn hồi dẻo, tương tác đất–kết cấu và các dạng dao động cao hơn chưa kể.',
       'Tua bin gió có chu kỳ riêng dài (cỡ vài giây) nên gia tốc phổ nhỏ. Động đất thường không chi phối so với gió và sóng, nhưng cần kiểm tra thêm hóa lỏng nền và tải đồng thời với tua bin.',
       'Hồ sơ thật dùng phổ riêng của địa điểm theo ISO 19901-2 và đối chiếu TCVN 9386:2012.',
+    ];
+    return { sum, det, notes };
+  },
+
+  vd4() {
+    const H = V('v4_H'), T = V('v4_T'), h = V('v4_h'), D = V('v4_D'), CD = V('v4_CD'), CM = V('v4_CM'), Uc0 = V('v4_Uc');
+    if (!(H > 0 && T > 0 && h > 0 && D > 0)) return { err: 'H, T, h và D phải lớn hơn 0.' };
+    const p = { H, T, h, D, CD, CM, Uc0 };
+    const cr = CALC.morisonTable({ ...p, phase: 0 });
+    const m0 = CALC.morisonTable({ ...p, phase: Math.PI / 2 });
+    const w = CALC.windMonopile({ DR: V('v4_DR'), zhub: V('v4_zh'), V: V('v4_V'), alpha: V('v4_al'), CT: V('v4_CT'), CDn: V('v4_CDn'), AN: V('v4_AN'), Dtb: V('v4_Dtb'), Dtt: V('v4_Dtt'), Ht: V('v4_Ht'), CDt: V('v4_CDt'), h });
+    const vc = CALC.vecCombine({ N: V('v4_N'), Vx: V('v4_Vx'), Vy: V('v4_Vy'), Mx: V('v4_Mx'), My: V('v4_My'), Tq: V('v4_Tq'), gf: V('v4_gf'), MR: V('v4_MR') });
+    const tbl = (m, withI) => withI
+      ? { head: ['z (m)', 'a_w', 'U_c', 'f_D', 'f_I', 'f tổng'], rows: m.rows.map((r) => [nf(r.z, 0), nf(r.aw, 3), nf(r.uc, 3), nf(r.fD, 2), nf(r.fI, 2), nf(r.f, 2)]) }
+      : { head: ['z (m)', 'u_w', 'U_c', 'u_r', 'f_D (kN/m)'], rows: m.rows.map((r) => [nf(r.z, 0), nf(r.uw, 3), nf(r.uc, 3), nf(r.ur, 3), nf(r.fD, 2)]) };
+    const sum = [
+      R('F sóng + dòng, đỉnh sóng', nf(cr.F, 1), 'kN', '', 'M = ' + nf(cr.M, 2) + ' MN·m'),
+      R('F sóng + dòng, η = 0', nf(m0.F, 1), 'kN', '', 'M = ' + nf(m0.M, 1) + ' MN·m'),
+      R('UR tổ hợp ULS', nf(vc.UR, 2), '', vc.UR <= 1 ? 'ok' : 'bad', vc.UR <= 1 ? 'đạt' : 'không đạt'),
+    ];
+    const det = [
+      { h: 'Đỉnh sóng trùng tim cọc (kx − ωt = 0)', rows: [
+        R('Bước sóng L', nf(cr.L, 2), 'm', '', 'k = ' + nf(cr.k, 5) + ' 1/m'),
+        R('Lực tổng (hình thang, bảng 5 m)', nf(cr.F, 2), 'kN', '', 'slide: 115,38'),
+        R('Mô men tại mudline', nf(cr.M, 3), 'MN·m', '', 'slide: 2,34'),
+        R('Lực tổng (tích phân chi tiết)', nf(cr.Fc, 2), 'kN', '', nf(((cr.Fc - cr.F) / cr.F) * 100, 1) + '%'),
+      ] },
+      { h: 'Bảng đỉnh sóng', tbl: tbl(cr, false) },
+      { h: 'Mặt nước tại tim cọc bằng MSL (kx − ωt = π/2)', rows: [
+        R('Lực tổng (hình thang, bảng 5 m)', nf(m0.F, 2), 'kN', '', 'slide: 1 248,46'),
+        R('Mô men tại mudline', nf(m0.M, 2), 'MN·m', '', 'slide: 23,30'),
+        R('Thành phần cản F_D', nf(m0.FD, 2), 'kN'),
+        R('Thành phần quán tính F_I', nf(m0.FI, 2), 'kN', '', nf((m0.FI / m0.F) * 100, 1) + '% tổng'),
+        R('Lực tổng (tích phân chi tiết)', nf(m0.Fc, 2), 'kN', '', nf(((m0.Fc - m0.F) / m0.F) * 100, 1) + '%'),
+      ] },
+      { h: 'Bảng pha π/2', tbl: tbl(m0, true) },
+      { h: 'Tải gió lên tuabin', rows: [
+        R('Lực đẩy rotor T', nf(w.T / 1000, 2), 'MN', '', 'slide: 1,60'),
+        R('Lực lên nacelle F_N', nf(w.FN, 1), 'kN', '', 'slide: 6,9'),
+        R('Lực gió lên tháp F_T', nf(w.FT, 1), 'kN', '', 'tại ' + nf(w.zT, 1) + ' m; slide: 46'),
+        R('Tổng lực ngang F_wind', nf(w.F / 1000, 2), 'MN', '', 'slide: 1,65'),
+        R('Mô men tại mudline M_wind', nf(w.M, 1), 'MN·m', '', 'slide: 229'),
+      ] },
+      { h: 'Tổ hợp ULS', rows: [
+        R('N_d', nf(vc.d.N, 1), 'MN'), R('V_x,d', nf(vc.d.Vx, 2), 'MN'), R('V_y,d', nf(vc.d.Vy, 2), 'MN'),
+        R('M_x,d', nf(vc.d.Mx, 0), 'MN·m'), R('M_y,d', nf(vc.d.My, 0), 'MN·m'), R('T_d', nf(vc.d.T, 2), 'MN·m'),
+        R('Lực cắt tổng hợp V_d', nf(vc.Vd, 2), 'MN', '', 'slide: 11,53'),
+        R('Mô men uốn tổng hợp M_b,d', nf(vc.Mb, 0), 'MN·m', '', 'slide: 1 084'),
+        R('UR = M_b,d / R_d', nf(vc.UR, 2), '', vc.UR <= 1 ? 'ok' : 'bad', vc.UR <= 1 ? 'đạt' : 'không đạt'),
+      ] },
+    ];
+    const notes = [
+      'Hai ví dụ sóng dùng sóng nhỏ (H = 2,5 m) để minh họa cách tính. Khác với dự án bão cực hạn của các mô-đun khác (H_max = 10,31 m, C_M = 1,2).',
+      'Kết quả khớp slide: sai khác nhỏ do slide làm tròn các giá trị trung gian. Sai khác 0,8% giữa tích phân hình thang bảng 5 m và tích phân chi tiết là sai số cầu phương, không phải sai số của công thức.',
+      'Tải gió lấy tháp từ MSL đến 105 m. Diện tích nacelle 65 m² là giả định để khớp 6,9 kN của slide, sức kháng R_d = 1 290 MN·m suy từ UR = 0,84, bài giảng không cho trực tiếp. Số liệu DLC 6.1 của slide là số giả định minh họa.',
     ];
     return { sum, det, notes };
   },
